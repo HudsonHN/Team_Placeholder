@@ -13,6 +13,7 @@ public class Pickupable : MonoBehaviour
     // Update is called once per frame
     private void OnTriggerEnter(Collider other)
     {
+        Manager.Instance.CoinsInLevel--;
         Destroy(gameObject);
     }
 }
