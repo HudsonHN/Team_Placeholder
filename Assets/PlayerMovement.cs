@@ -1,7 +1,12 @@
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class PlayerMovement : MonoBehaviour
 {
+    //Pick_element
+    public Image uiPannel;  //to show the current element
+
     [Header("Movement")]
     public float moveSpeed;
 
@@ -35,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public bool hasLaunched;
     [SerializeField] private float _launchHoldTimer;
     [SerializeField] private float _launchHoldLimit = 3.0f;
+
 
     private GameObject _mainCamera;
     private Manager _manager;
@@ -157,5 +163,19 @@ public class PlayerMovement : MonoBehaviour
     private void ResetJump()
     {
         readyToJump = true;
+    }
+
+    //Function to change the color of UI pannel
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Pick_Fire"))
+        {
+            uiPannel.color = new Color(1, 0, 0);
+        }
+
+        if (other.gameObject.CompareTag("Pick_Ice"))
+        {
+            uiPannel.color = new Color(0, 0, 1);
+        }
     }
 }

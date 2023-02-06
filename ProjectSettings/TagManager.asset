@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - CinemachineTarget
+  - Pick_Fire
+  - Pick_Ice
   layers:
   - Default
   - TransparentFX

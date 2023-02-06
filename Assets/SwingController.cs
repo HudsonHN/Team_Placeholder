@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SwingController : MonoBehaviour
 {
@@ -82,6 +83,13 @@ public class SwingController : MonoBehaviour
     private void LateUpdate()
     {
         DrawRope();
+        ReloadGame();
+    }
+
+    void ReloadGame()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+            SceneManager.LoadScene(0);
     }
 
 }
