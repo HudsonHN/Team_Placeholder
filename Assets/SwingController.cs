@@ -18,6 +18,9 @@ public class SwingController : MonoBehaviour
     private PlayerMovement pm;
     Vector3 currentGrapplePosition;
 
+    // Current element
+    public string element = "None";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +32,16 @@ public class SwingController : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(cam.position, cam.forward, out hit, maxSwingDistance, whatIsGrappleable))
         {
+            // Add check for correct element
+            if (hit.collider.gameObject.tag.Contains("Fire"))
+            {
+                if (element != "Fire") { Debug.Log("Hit point, but wrong element."); return; }
+            }
+            else if (hit.collider.gameObject.tag.Contains("Ice"))
+            {
+                if (element != "Ice") { Debug.Log("Hit point, but wrong element."); return; }
+            }
+
             Debug.Log("Hit point. Starting to swing.");
             swingPoint = hit.point;
             joint = player.gameObject.AddComponent<SpringJoint>();

@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class PlayerMovement : MonoBehaviour
 {
     //Pick_element
     public Image uiPannel;  //to show the current element
+
+    [Header("Reference")]
+    SwingController swingController;
 
     [Header("Movement")]
     public float moveSpeed;
@@ -63,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
         hasLaunched = false;
         _launchHoldTimer = 0.0f;
         _manager = GameObject.Find("Game Manager").GetComponent<Manager>();
+        swingController = gameObject.GetComponent<SwingController>();
     }
 
     private void Update()
@@ -171,11 +174,13 @@ public class PlayerMovement : MonoBehaviour
         if (other.gameObject.CompareTag("Pick_Fire"))
         {
             uiPannel.color = new Color(1, 0, 0);
+            swingController.element = "Fire";
         }
 
         if (other.gameObject.CompareTag("Pick_Ice"))
         {
             uiPannel.color = new Color(0, 0, 1);
+            swingController.element = "Ice";
         }
     }
 }
