@@ -13,13 +13,18 @@ public class SwingController : MonoBehaviour
     private float maxSwingDistance = 25.0f;
     private Vector3 swingPoint;
     private SpringJoint joint;
+    private Rigidbody rb;
+
+    [SerializeField] private float grappleForce = 15.0f;
 
     private PlayerMovement pm;
+    private bool isSwinging;
     Vector3 currentGrapplePosition;
 
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         pm = GetComponent<PlayerMovement>();
     }
 
@@ -29,6 +34,7 @@ public class SwingController : MonoBehaviour
         if(Physics.Raycast(cam.position, cam.forward, out hit, maxSwingDistance, whatIsGrappleable))
         {
             Debug.Log("Hit point. Starting to swing.");
+            isSwinging = true;
             swingPoint = hit.point;
             joint = player.gameObject.AddComponent<SpringJoint>();
             joint.autoConfigureConnectedAnchor = false;
@@ -50,6 +56,7 @@ public class SwingController : MonoBehaviour
 
     void StopSwing()
     {
+        isSwinging = false;
         lr.positionCount = 0;
         Destroy(joint);
     }
@@ -66,7 +73,7 @@ public class SwingController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(pm.hasLaunched)
+        if(pm.hasLaunched && !Manager.Instance.isPaused)
         {
             if(Input.GetKeyDown(KeyCode.Mouse0))
             {
@@ -76,7 +83,26 @@ public class SwingController : MonoBehaviour
             {
                 StopSwing();
             }
+            if (Input.GetKeyUp(KeyCode.Mouse1) && !isSwinging)
+            {
+                if(Manager.Instance.grappleLaunchLeft > 0)
+                {
+                    GrappleLaunch();
+                }
+            }
         }
+    }
+
+    private void GrappleLaunch()
+    {
+/*        RaycastHit hit;
+        if (Physics.Raycast(cam.position, cam.forward, out hit, maxSwingDistance, whatIsGrappleable))
+        {*/
+            Vector3 launchForce = /*(hit.point - transform.position).normalized*/ cam.transform.forward * grappleForce;
+            rb.AddForce(launchForce, ForceMode.Impulse);
+            Manager.Instance.grappleLaunchLeft--;
+            Manager.Instance.UpdateLaunchText(Manager.Instance.grappleLaunchLeft);
+        //}
     }
 
     private void LateUpdate()

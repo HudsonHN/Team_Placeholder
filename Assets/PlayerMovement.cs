@@ -81,44 +81,48 @@ public class PlayerMovement : MonoBehaviour
 
     private void MyInput()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
-
-        if (!hasLaunched)
+        if(!Manager.Instance.isPaused)
         {
-            if (Input.GetKey(KeyCode.Mouse0))
+            horizontalInput = Input.GetAxisRaw("Horizontal");
+            verticalInput = Input.GetAxisRaw("Vertical");
+
+            if (!hasLaunched)
             {
-                _launchHoldTimer += Time.deltaTime;
-                _launchHoldTimer = Mathf.Clamp(_launchHoldTimer, 0.5f, _launchHoldLimit);
-                _manager.UpdateChargeText(_launchHoldTimer);
+                if (Input.GetKey(KeyCode.Mouse0))
+                {
+                    _launchHoldTimer += Time.deltaTime;
+                    _launchHoldTimer = Mathf.Clamp(_launchHoldTimer, 0.5f, _launchHoldLimit);
+                    _manager.UpdateChargeText(_launchHoldTimer);
+                }
+                if (Input.GetKeyUp(KeyCode.Mouse0))
+                {
+                    Vector3 launchForce = _mainCamera.transform.forward * _launchHoldTimer * 10.0f;
+                    Debug.Log("Launching: " + launchForce);
+                    rb.AddForce(launchForce, ForceMode.Impulse);
+                    hasLaunched = true;
+                    Manager.Instance.instructionText.text = "Left Click: Swing\r\nRight Click: Boost";
+                }
             }
-            if (Input.GetKeyUp(KeyCode.Mouse0))
+
+            /*if(hasLaunched)
             {
-                Vector3 launchForce = _mainCamera.transform.forward * _launchHoldTimer * 10.0f;
-                Debug.Log("Launching: " + launchForce);
-                rb.AddForce(launchForce, ForceMode.Impulse);
-                hasLaunched = true;
-            }
+                if (Input.GetKeyUp(KeyCode.Mouse1))
+                {
+                    Vector3 launchForce = _mainCamera.transform.forward * 5.0f;
+                    rb.AddForce(launchForce, ForceMode.Impulse);
+                }
+            }*/
+
+            // when to jump
+            /*if (Input.GetKey(jumpKey) && readyToJump && grounded)
+            {
+                readyToJump = false;
+
+                Jump();
+
+                Invoke(nameof(ResetJump), jumpCooldown);
+            }*/
         }
-
-        if(hasLaunched)
-        {
-            if (Input.GetKeyUp(KeyCode.Mouse1))
-            {
-                Vector3 launchForce = _mainCamera.transform.forward * 5.0f;
-                rb.AddForce(launchForce, ForceMode.Impulse);
-            }
-        }
-
-        // when to jump
-        /*if (Input.GetKey(jumpKey) && readyToJump && grounded)
-        {
-            readyToJump = false;
-
-            Jump();
-
-            Invoke(nameof(ResetJump), jumpCooldown);
-        }*/
     }
 
     private void MovePlayer()

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
@@ -22,14 +23,38 @@ public class PlayerCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
-        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
+        if(!Manager.Instance.isPaused)
+        {
+            if(Input.GetAxis("Mouse ScrollWheel") != 0.0f)
+            {
+                setCameraX(sensX + Input.GetAxis("Mouse ScrollWheel"));
+                setCameraY(sensY + Input.GetAxis("Mouse ScrollWheel"));
+            }
+            float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX * 1000.0f;
+            float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY * 1000.0f;
 
-        yRotation += mouseX;
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90.0f, 90.0f);
+            yRotation += mouseX;
+            xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90.0f, 90.0f);
 
-        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0.0f);
-        orientation.rotation = Quaternion.Euler(0.0f, yRotation, 0.0f);
+            transform.rotation = Quaternion.Euler(xRotation, yRotation, 0.0f);
+            orientation.rotation = Quaternion.Euler(0.0f, yRotation, 0.0f);
+        }
+    }
+
+    public void setCameraX(float newSens)
+    {
+        sensX = newSens;
+        sensX = Mathf.Clamp(sensX, 0.0f, 2.0f);
+        Manager.Instance.sensText.text = $"Mouse Sens: {sensX.ToString().Truncate(3)}";
+        Manager.Instance.sensXText.text = sensX.ToString();
+    }
+
+    public void setCameraY(float newSens)
+    {
+        sensY = newSens;
+        sensY = Mathf.Clamp(sensY, 0.0f, 2.0f);
+        Manager.Instance.sensText.text = $"Mouse Sens: {sensY.ToString().Truncate(3)}";
+        Manager.Instance.sensYText.text = sensY.ToString();
     }
 }
