@@ -15,7 +15,25 @@ public class Pickupable : MonoBehaviour
     // Update is called once per frame
     private void OnTriggerEnter(Collider other)
     {
-        Manager.Instance.coinsInLevel--;
+        Debug.Log($"Transform tag: {transform.tag}");
+        Debug.Log($"Other tag: {other.tag}");
+        if (transform.tag.Equals("BluePickup"))
+        {
+            Debug.Log("Setting to blue");
+            Manager.Instance.player.GetComponent<SwingController>().element = "BluePoint";
+            Manager.Instance.elementImage.color = new Color(0.0f, 0.0f, 1.0f, 0.65f);
+        }
+        else if (transform.tag.Equals("RedPickup"))
+        {
+            Debug.Log("Setting to red");
+            Manager.Instance.player.GetComponent<SwingController>().element = "RedPoint";
+            Manager.Instance.elementImage.color = new Color(1.0f, 0.0f, 0.0f, 0.65f);
+        }
+        else
+        {
+            Debug.Log("Grabbed coin");
+            Manager.Instance.coinsInLevel--;
+        }
         Destroy(gameObject);
     }
 

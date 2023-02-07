@@ -17,6 +17,7 @@ public class Manager : MonoBehaviour
     public TextMeshProUGUI sensYText;
     public Text sensText;
     public TextMeshProUGUI instructionText;
+    public Image elementImage;
 
     public int coinsInLevel;
     public int grappleLaunchLeft = 7;
@@ -51,6 +52,8 @@ public class Manager : MonoBehaviour
         sensText = UICanvas.transform.Find("Sensitivity Text").GetComponent<Text>();
         instructionText = UICanvas.transform.Find("Instruction Text").GetComponent<TextMeshProUGUI>();
         UpdateLaunchText(grappleLaunchLeft);
+        coinsInLevel = GameObject.Find("Level").transform.Find("Coins").childCount;
+        elementImage = UICanvas.transform.Find("Element Image").GetComponent<Image>();
     }
 
     // Update is called once per frame

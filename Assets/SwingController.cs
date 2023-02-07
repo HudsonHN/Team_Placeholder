@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class SwingController : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class SwingController : MonoBehaviour
     private PlayerMovement pm;
     private bool isSwinging;
     Vector3 currentGrapplePosition;
+    public string element;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +35,7 @@ public class SwingController : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(cam.position, cam.forward, out hit, maxSwingDistance, whatIsGrappleable))
         {
+            if (!hit.collider.tag.Equals("NeutralPoint") && !hit.collider.tag.Equals(element)) return;
             Debug.Log("Hit point. Starting to swing.");
             isSwinging = true;
             swingPoint = hit.point;

@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - CinemachineTarget
+  - RedPoint
+  - BluePoint
+  - NeutralPoint
+  - BluePickup
+  - RedPickup
   layers:
   - Default
   - TransparentFX
