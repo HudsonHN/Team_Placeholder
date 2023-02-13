@@ -22,21 +22,64 @@ public class SwingController : MonoBehaviour
     private bool isSwinging;
     Vector3 currentGrapplePosition;
     public string element;
+    private bool canGrapple;
+    private bool canBoost;
+    RaycastHit hit;
+
+    [Header("Prediction")]
+    public RaycastHit predictionHit;
+    public float predictionSphereCastRadius;
+    public Transform predictionPoint;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         pm = GetComponent<PlayerMovement>();
+        canBoost = true;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Physics.Raycast(cam.position, cam.forward, out hit, maxSwingDistance, whatIsGrappleable)
+            && (hit.collider.tag.Equals("NeutralPoint") || hit.collider.tag.Equals(element)))
+        {
+            canGrapple = true;
+            Manager.Instance.crosshair.color = Color.red;
+        }
+        else if (Physics.SphereCast(cam.position, predictionSphereCastRadius, cam.forward, out hit, maxSwingDistance, whatIsGrappleable) 
+            && (hit.collider.tag.Equals("NeutralPoint") || hit.collider.tag.Equals(element))) 
+        {
+            canGrapple = true;
+            Manager.Instance.crosshair.color = Color.red;
+        }
+        else
+        {
+            canGrapple = false;
+            Manager.Instance.crosshair.color = Color.white;
+        }
+        if (pm.hasLaunched && !Manager.Instance.isPaused)
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                StartSwing();
+            }
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+            {
+                StopSwing();
+            }
+            if (Input.GetKeyUp(KeyCode.Mouse1) && !isSwinging)
+            {
+                GrappleLaunch();
+            }
+        }
     }
 
     void StartSwing()
     {
-        RaycastHit hit;
-        if(Physics.Raycast(cam.position, cam.forward, out hit, maxSwingDistance, whatIsGrappleable))
+        if(canGrapple)
         {
-            if (!hit.collider.tag.Equals("NeutralPoint") && !hit.collider.tag.Equals(element)) return;
-            Debug.Log("Hit point. Starting to swing.");
             isSwinging = true;
             swingPoint = hit.point;
             joint = player.gameObject.AddComponent<SpringJoint>();
@@ -73,39 +116,21 @@ public class SwingController : MonoBehaviour
         lr.SetPosition(1, swingPoint);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void GrappleLaunch()
     {
-        if(pm.hasLaunched && !Manager.Instance.isPaused)
+        if(canBoost)
         {
-            if(Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                StartSwing();
-            }
-            if(Input.GetKeyUp(KeyCode.Mouse0))
-            {
-                StopSwing();
-            }
-            if (Input.GetKeyUp(KeyCode.Mouse1) && !isSwinging)
-            {
-                if(Manager.Instance.grappleLaunchLeft > 0)
-                {
-                    GrappleLaunch();
-                }
-            }
+            Vector3 launchForce = /*(hit.point - transform.position).normalized*/ cam.transform.forward * grappleForce;
+            rb.AddForce(launchForce, ForceMode.Impulse);
+            canBoost = false;
+            StartCoroutine(BoostTimer());
         }
     }
 
-    private void GrappleLaunch()
+    private IEnumerator BoostTimer()
     {
-/*        RaycastHit hit;
-        if (Physics.Raycast(cam.position, cam.forward, out hit, maxSwingDistance, whatIsGrappleable))
-        {*/
-            Vector3 launchForce = /*(hit.point - transform.position).normalized*/ cam.transform.forward * grappleForce;
-            rb.AddForce(launchForce, ForceMode.Impulse);
-            Manager.Instance.grappleLaunchLeft--;
-            Manager.Instance.UpdateLaunchText(Manager.Instance.grappleLaunchLeft);
-        //}
+        yield return new WaitForSeconds(0.5f);
+        canBoost = true;
     }
 
     private void LateUpdate()

@@ -18,9 +18,9 @@ public class Manager : MonoBehaviour
     public Text sensText;
     public TextMeshProUGUI instructionText;
     public Image elementImage;
+    public Image crosshair;
 
     public int coinsInLevel;
-    public int grappleLaunchLeft = 7;
 
     public bool isPaused = false;
 
@@ -51,9 +51,9 @@ public class Manager : MonoBehaviour
         sensYText = pauseCanvas.transform.Find("Camera Sensitivity Y").Find("Sens Text").GetComponent<TextMeshProUGUI>();
         sensText = UICanvas.transform.Find("Sensitivity Text").GetComponent<Text>();
         instructionText = UICanvas.transform.Find("Instruction Text").GetComponent<TextMeshProUGUI>();
-        UpdateLaunchText(grappleLaunchLeft);
         coinsInLevel = GameObject.Find("Level").transform.Find("Coins").childCount;
         elementImage = UICanvas.transform.Find("Element Image").GetComponent<Image>();
+        crosshair = UICanvas.transform.Find("Outline Crosshair").Find("Inner Crosshair").GetComponent<Image>();
     }
 
     // Update is called once per frame
