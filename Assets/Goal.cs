@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Goal : MonoBehaviour
 {
+    public string nextScene = "";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,10 +27,21 @@ public class Goal : MonoBehaviour
             Manager.Instance.chargeText.gameObject.SetActive(false);
             Manager.Instance.grappleText.gameObject.SetActive(false);
             Manager.Instance.UICanvas.transform.Find("Crosshair").gameObject.SetActive(false);
+
+            if (nextScene.Length > 0)
+            {
+                StartCoroutine(LoadSceneDelayed());
+            }
         }
         else
         {
             Debug.Log("Not finished yet...");
         }
+    }
+
+    IEnumerator LoadSceneDelayed()
+    {
+        yield return new WaitForSeconds(2f);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(nextScene);
     }
 }
