@@ -56,6 +56,13 @@ public class Manager : MonoBehaviour
         elementImage = UICanvas.transform.Find("Element Image").GetComponent<Image>();
     }
 
+    public void RespawnPlayer()
+    {
+        player.transform.SetPositionAndRotation(spawnPoint.transform.position, Quaternion.identity);
+        player.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        player.GetComponent<PlayerMovement>().hasLaunched = false;
+    }
+
     // Update is called once per frame
     void Update()
     {
