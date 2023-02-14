@@ -32,9 +32,9 @@ public class PlayerMovement : MonoBehaviour
 
     Rigidbody rb;
 
-    [SerializeField] public bool hasLaunched;
-    [SerializeField] private float _launchHoldTimer;
-    [SerializeField] private float _launchHoldLimit = 3.0f;
+    public bool hasLaunched;
+    public float launchHoldTimer;
+    public float launchHoldLimit = 2.0f;
 
     private GameObject _mainCamera;
     private Manager _manager;
@@ -55,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
 
         readyToJump = true;
         hasLaunched = false;
-        _launchHoldTimer = 0.0f;
+        launchHoldTimer = 0.0f;
         _manager = GameObject.Find("Game Manager").GetComponent<Manager>();
     }
 
@@ -81,22 +81,21 @@ public class PlayerMovement : MonoBehaviour
 
     private void MyInput()
     {
-        if(!Manager.Instance.isPaused)
+        if(!Manager.Instance.isPaused && Manager.Instance.canStart)
         {
             horizontalInput = Input.GetAxisRaw("Horizontal");
             verticalInput = Input.GetAxisRaw("Vertical");
-
             if (!hasLaunched)
             {
                 if (Input.GetKey(KeyCode.Space))
                 {
-                    _launchHoldTimer += Time.deltaTime;
-                    _launchHoldTimer = Mathf.Clamp(_launchHoldTimer, 0.0f, _launchHoldLimit);
-                    _manager.UpdateChargeText(_launchHoldTimer);
+                    launchHoldTimer += Time.deltaTime;
+                    launchHoldTimer = Mathf.Clamp(launchHoldTimer, 0.0f, launchHoldLimit);
+                    _manager.UpdateChargeText(launchHoldTimer);
                 }
                 if (Input.GetKeyUp(KeyCode.Space))
                 {
-                    Vector3 launchForce = _mainCamera.transform.forward * _launchHoldTimer * 10.0f;
+                    Vector3 launchForce = _mainCamera.transform.forward * launchHoldTimer * 10.0f;
                     Debug.Log("Launching: " + launchForce);
                     rb.AddForce(launchForce, ForceMode.Impulse);
                     SwingController swingController = GetComponent<SwingController>();
@@ -156,15 +155,4 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Jump()
-    {
-        // reset y velocity
-        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
-        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-    }
-    private void ResetJump()
-    {
-        readyToJump = true;
-    }
 }

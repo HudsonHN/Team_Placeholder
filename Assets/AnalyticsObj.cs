@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class AnalyticsObj : MonoBehaviour
 {
-    public int replayNumber;
-    public long levelTimeLine;
+    public int deathCount;
+    public long timeToFinish;
+    public string sceneName;
 
     public AnalyticsObj(){
-        replayNumber = Manager.Instance.deathCount;
-        levelTimeLine = Goal.timeLine;
+        deathCount = Manager.Instance.deathCount;
+        timeToFinish = Goal.timeLine;
+        sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
     }
 }

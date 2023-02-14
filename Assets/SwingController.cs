@@ -49,13 +49,13 @@ public class SwingController : MonoBehaviour
             && (hit.collider.tag.Equals("NeutralPoint") || hit.collider.tag.Equals(element)))
         {
             canGrapple = true;
-            Manager.Instance.crosshair.color = Color.red;
+            Manager.Instance.crosshair.color = Color.green;
         }
         else if (Physics.SphereCast(cam.position, predictionSphereCastRadius, cam.forward, out hit, maxSwingDistance, whatIsGrappleable) 
             && (hit.collider.tag.Equals("NeutralPoint") || hit.collider.tag.Equals(element))) 
         {
             canGrapple = true;
-            Manager.Instance.crosshair.color = Color.red;
+            Manager.Instance.crosshair.color = Color.green;
         }
         else
         {
@@ -72,7 +72,7 @@ public class SwingController : MonoBehaviour
             {
                 StopSwing();
             }
-            if (Input.GetKeyUp(KeyCode.Mouse1) && !isSwinging)
+            if (Input.GetKeyDown(KeyCode.Mouse1) && !isSwinging)
             {
                 GrappleLaunch();
             }
@@ -86,7 +86,7 @@ public class SwingController : MonoBehaviour
             if(justLaunched)
             {
                 justLaunched = false;
-                rb.AddForce(-launchVelocity, ForceMode.Impulse);
+                //rb.AddForce(-launchVelocity, ForceMode.Impulse);
             }
             isSwinging = true;
             swingPoint = hit.point;
@@ -99,9 +99,19 @@ public class SwingController : MonoBehaviour
             joint.maxDistance = distanceFromPoint * 0.5f;
             joint.minDistance = distanceFromPoint * 0.25f;
 
-            joint.spring = 4.5f;
-            joint.damper = 7.0f;
-            joint.massScale = 4.5f;
+            if(!Manager.Instance.firstSwing)
+            {
+                joint.spring = 0.0f;
+                joint.damper = 7.0f;
+                joint.massScale = 500.5f;
+                Manager.Instance.firstSwing = true;
+            }
+            else
+            {
+                joint.spring = 4.5f;
+                joint.damper = 7.0f;
+                joint.massScale = 4.5f;
+            }
 
             lr.positionCount = 2;
             currentGrapplePosition = gunTip.position;
@@ -131,6 +141,7 @@ public class SwingController : MonoBehaviour
             Vector3 launchForce = /*(hit.point - transform.position).normalized*/ cam.transform.forward * grappleForce;
             rb.AddForce(launchForce, ForceMode.Impulse);
             canBoost = false;
+            Manager.Instance.grappleText.text = "Launch COOLDOWN";
             StartCoroutine(BoostTimer());
         }
     }
@@ -139,6 +150,7 @@ public class SwingController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         canBoost = true;
+        Manager.Instance.grappleText.text = "Launch READY";
     }
 
     private void LateUpdate()

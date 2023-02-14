@@ -13,25 +13,28 @@ public class PlayerCamera : MonoBehaviour
     float xRotation;
     float yRotation;
 
+    public bool canLook = true;
+
     // Start is called before the first frame update
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        canLook = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!Manager.Instance.isPaused)
+        if(!Manager.Instance.isPaused && Manager.Instance.canStart && canLook)
         {
             if(Input.GetAxis("Mouse ScrollWheel") != 0.0f)
             {
                 setCameraX(sensX + Input.GetAxis("Mouse ScrollWheel"));
                 setCameraY(sensY + Input.GetAxis("Mouse ScrollWheel"));
             }
-            float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX * 1000.0f;
-            float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY * 1000.0f;
+            float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime * sensX * 1000.0f;
+            float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * sensY * 1000.0f;
 
             yRotation += mouseX;
             xRotation -= mouseY;
