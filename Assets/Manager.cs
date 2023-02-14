@@ -18,9 +18,9 @@ public class Manager : MonoBehaviour
     public Text sensText;
     public TextMeshProUGUI instructionText;
     public Image elementImage;
-
+    public Image crosshair;
+    public Quaternion initialOrientation;
     public int coinsInLevel;
-    public int grappleLaunchLeft = 7;
 
     public bool isPaused = false;
 
@@ -51,9 +51,10 @@ public class Manager : MonoBehaviour
         sensYText = pauseCanvas.transform.Find("Camera Sensitivity Y").Find("Sens Text").GetComponent<TextMeshProUGUI>();
         sensText = UICanvas.transform.Find("Sensitivity Text").GetComponent<Text>();
         instructionText = UICanvas.transform.Find("Instruction Text").GetComponent<TextMeshProUGUI>();
-        UpdateLaunchText(grappleLaunchLeft);
         coinsInLevel = GameObject.Find("Level").transform.Find("Coins").childCount;
         elementImage = UICanvas.transform.Find("Element Image").GetComponent<Image>();
+        crosshair = UICanvas.transform.Find("Outline Crosshair").Find("Inner Crosshair").GetComponent<Image>();
+        initialOrientation = player.transform.rotation;
     }
 
     // Update is called once per frame
@@ -61,9 +62,11 @@ public class Manager : MonoBehaviour
     {
         if(player.transform.position.y < 0.0f)
         {
-            player.transform.SetPositionAndRotation(spawnPoint.transform.position, Quaternion.identity);
+            player.transform.SetPositionAndRotation(spawnPoint.transform.position, initialOrientation);
             player.GetComponent<Rigidbody>().velocity = Vector3.zero;
             player.GetComponent<PlayerMovement>().hasLaunched = false;
+            player.GetComponent<SwingController>().launchVelocity = Vector3.zero;
+            UpdateChargeText(0.0f);
         }
         /*if(Input.GetKeyDown(KeyCode.Escape))
         {

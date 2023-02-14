@@ -470,7 +470,7 @@ GameObject:
   - component: {fileID: 239973518}
   - component: {fileID: 239973517}
   m_Layer: 5
-  m_Name: Crosshair
+  m_Name: Outline Crosshair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4465,7 +4465,7 @@ GameObject:
   - component: {fileID: 1731102654}
   - component: {fileID: 1731102653}
   m_Layer: 5
-  m_Name: Crosshair (1)
+  m_Name: Inner Crosshair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6425,6 +6425,11 @@ PrefabInstance:
         type: 3}
       propertyPath: whatIsGrappleable.m_Bits
       value: 2048
+      objectReference: {fileID: 0}
+    - target: {fileID: 135756641613574987, guid: c5efc39a8aaf6e64ea40e9ad573e9b47,
+        type: 3}
+      propertyPath: predictionSphereCastRadius
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8616685848737228372, guid: c5efc39a8aaf6e64ea40e9ad573e9b47,
         type: 3}
