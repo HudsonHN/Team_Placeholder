@@ -5,6 +5,8 @@ using UnityEngine;
 public class Goal : MonoBehaviour
 {
     public static long timeLine;
+    public string nextScene = "";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +34,13 @@ public class Goal : MonoBehaviour
             UnityEngine.Debug.Log("HEllo stopwatch - "+ Manager.timerParse.Elapsed.ToString("mm\\:ss"));
             UnityEngine.Debug.Log("HEllo stopwatch - "+ timeLine.ToString());
             PostToDatabase();
+            Manager.Instance.UICanvas.transform.Find("Outline Crosshair").gameObject.SetActive(false);
+            Manager.Instance.UICanvas.transform.Find("Outline Crosshair").Find("Inner Crosshair").gameObject.SetActive(false);
+
+            if (nextScene.Length > 0)
+            {
+                StartCoroutine(LoadSceneDelayed());
+            }
         }
         else
         {
@@ -41,5 +50,10 @@ public class Goal : MonoBehaviour
     private void PostToDatabase(){
         AnalyticsObj dbObj = new AnalyticsObj();
         Proyecto26.RestClient.Post("https://placeholders-ee91c-default-rtdb.firebaseio.com/.json",dbObj);
+    }
+    IEnumerator LoadSceneDelayed()
+    {
+        yield return new WaitForSeconds(2f);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(nextScene);
     }
 }

@@ -76,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //MovePlayer();
+        MovePlayer();
     }
 
     private void MyInput()
@@ -88,17 +88,20 @@ public class PlayerMovement : MonoBehaviour
 
             if (!hasLaunched)
             {
-                if (Input.GetKey(KeyCode.Mouse0))
+                if (Input.GetKey(KeyCode.Space))
                 {
                     _launchHoldTimer += Time.deltaTime;
-                    _launchHoldTimer = Mathf.Clamp(_launchHoldTimer, 0.5f, _launchHoldLimit);
+                    _launchHoldTimer = Mathf.Clamp(_launchHoldTimer, 0.0f, _launchHoldLimit);
                     _manager.UpdateChargeText(_launchHoldTimer);
                 }
-                if (Input.GetKeyUp(KeyCode.Mouse0))
+                if (Input.GetKeyUp(KeyCode.Space))
                 {
                     Vector3 launchForce = _mainCamera.transform.forward * _launchHoldTimer * 10.0f;
                     Debug.Log("Launching: " + launchForce);
                     rb.AddForce(launchForce, ForceMode.Impulse);
+                    SwingController swingController = GetComponent<SwingController>();
+                    swingController.justLaunched = true;
+                    swingController.launchVelocity = launchForce;
                     hasLaunched = true;
                     Manager.Instance.instructionText.text = "Left Click: Swing\r\nRight Click: Boost";
                 }
@@ -132,11 +135,13 @@ public class PlayerMovement : MonoBehaviour
 
         // on ground
         if (grounded)
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * moveSpeed * 0.5f, ForceMode.Force);
 
         // in air
         else if (!grounded)
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+        {
+            rb.AddForce(moveDirection.normalized * moveSpeed * 1.5f * airMultiplier, ForceMode.Force);
+        }
     }
 
     private void SpeedControl()
