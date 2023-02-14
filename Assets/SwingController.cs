@@ -31,6 +31,9 @@ public class SwingController : MonoBehaviour
     public float predictionSphereCastRadius;
     public Transform predictionPoint;
 
+    public bool justLaunched;
+    public Vector3 launchVelocity;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -80,6 +83,11 @@ public class SwingController : MonoBehaviour
     {
         if(canGrapple)
         {
+            if(justLaunched)
+            {
+                justLaunched = false;
+                rb.AddForce(-launchVelocity, ForceMode.Impulse);
+            }
             isSwinging = true;
             swingPoint = hit.point;
             joint = player.gameObject.AddComponent<SpringJoint>();
