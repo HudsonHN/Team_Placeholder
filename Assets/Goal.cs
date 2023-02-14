@@ -26,7 +26,8 @@ public class Goal : MonoBehaviour
             Manager.Instance.levelCompleteText.gameObject.SetActive(true);
             Manager.Instance.chargeText.gameObject.SetActive(false);
             Manager.Instance.grappleText.gameObject.SetActive(false);
-            Manager.Instance.UICanvas.transform.Find("Crosshair").gameObject.SetActive(false);
+            Manager.Instance.UICanvas.transform.Find("Outline Crosshair").gameObject.SetActive(false);
+            Manager.Instance.UICanvas.transform.Find("Outline Crosshair").Find("Inner Crosshair").gameObject.SetActive(false);
 
             if (nextScene.Length > 0)
             {
