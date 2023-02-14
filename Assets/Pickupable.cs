@@ -22,12 +22,14 @@ public class Pickupable : MonoBehaviour
             Debug.Log("Setting to blue");
             Manager.Instance.player.GetComponent<SwingController>().element = "BluePoint";
             Manager.Instance.elementImage.color = new Color(0.0f, 0.0f, 1.0f, 0.65f);
+            Manager.Instance.coinsInLevel--;
         }
         else if (transform.tag.Equals("RedPickup"))
         {
             Debug.Log("Setting to red");
             Manager.Instance.player.GetComponent<SwingController>().element = "RedPoint";
             Manager.Instance.elementImage.color = new Color(1.0f, 0.0f, 0.0f, 0.65f);
+            Manager.Instance.coinsInLevel--;
         }
         else
         {
