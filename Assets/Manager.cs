@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using System.Diagnostics;
 
 public class Manager : MonoBehaviour
 {
@@ -21,8 +22,15 @@ public class Manager : MonoBehaviour
 
     public int coinsInLevel;
     public int grappleLaunchLeft = 7;
+    public int deathCount;
+    public float attemptTimer;
+    public bool levelCompleted = false;
 
     public bool isPaused = false;
+
+    private System.Diagnostics.Stopwatch Stopwatch = new System.Diagnostics.Stopwatch();
+    public static System.Diagnostics.Stopwatch timerParse;
+
 
 
     private void Awake()
@@ -54,16 +62,32 @@ public class Manager : MonoBehaviour
         UpdateLaunchText(grappleLaunchLeft);
         coinsInLevel = GameObject.Find("Level").transform.Find("Coins").childCount;
         elementImage = UICanvas.transform.Find("Element Image").GetComponent<Image>();
+        levelCompleted = false;
+        timerParse = Stopwatch.StartNew();
+
+        
+    }
+
+    void ResetScene()
+    {
+        attemptTimer = 0.0f;
+        deathCount = 0;
+        levelCompleted = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(!levelCompleted)
+        {
+            attemptTimer += Time.deltaTime;
+        }
         if(player.transform.position.y < 0.0f)
         {
             player.transform.SetPositionAndRotation(spawnPoint.transform.position, Quaternion.identity);
             player.GetComponent<Rigidbody>().velocity = Vector3.zero;
             player.GetComponent<PlayerMovement>().hasLaunched = false;
+            deathCount++;
         }
         /*if(Input.GetKeyDown(KeyCode.Escape))
         {
