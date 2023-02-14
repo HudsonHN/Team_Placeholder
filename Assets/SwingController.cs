@@ -28,7 +28,7 @@ public class SwingController : MonoBehaviour
 
     [Header("Prediction")]
     public RaycastHit predictionHit;
-    public float predictionSphereCastRadius;
+    public float predictionSphereCastRadius = 2.0f;
     public Transform predictionPoint;
 
     public bool justLaunched;
