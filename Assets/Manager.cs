@@ -57,6 +57,13 @@ public class Manager : MonoBehaviour
         initialOrientation = player.transform.rotation;
     }
 
+    public void RespawnPlayer()
+    {
+        player.transform.SetPositionAndRotation(spawnPoint.transform.position, Quaternion.identity);
+        player.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        player.GetComponent<PlayerMovement>().hasLaunched = false;
+    }
+
     // Update is called once per frame
     void Update()
     {
