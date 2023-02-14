@@ -38,8 +38,8 @@ public class Goal : MonoBehaviour
             Debug.Log("Not finished yet...");
         }
     }
-    private void postToDatabase(){
+    private void PostToDatabase(){
         AnalyticsObj dbObj = new AnalyticsObj();
-        RestClient.Post("https://placeholders-ee91c-default-rtdb.firebaseio.com/.json",dbObj);
-        }
+        Proyecto26.RestClient.Post("https://placeholders-ee91c-default-rtdb.firebaseio.com/.json",dbObj);
+    }
 }

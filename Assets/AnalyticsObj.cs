@@ -8,7 +8,7 @@ public class AnalyticsObj : MonoBehaviour
     public long levelTimeLine;
 
     public AnalyticsObj(){
-        replayNumber = Manager.deathCount;
+        replayNumber = Manager.Instance.deathCount;
         levelTimeLine = Goal.timeLine;
     }
 }
