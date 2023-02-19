@@ -26,6 +26,9 @@ public class SwingController : MonoBehaviour
     private bool canBoost;
     RaycastHit hit;
 
+    // public accessor
+    public bool IsSwinging { get { return isSwinging; } }
+
     [Header("Prediction")]
     public RaycastHit predictionHit;
     public float predictionSphereCastRadius = 2.0f;
@@ -115,7 +118,15 @@ public class SwingController : MonoBehaviour
 
             lr.positionCount = 2;
             currentGrapplePosition = gunTip.position;
+
+            BreakTimer timer = hit.collider.gameObject.GetComponent<BreakTimer>();
+            if (timer != null) timer.StartTicking(this);
         }
+    }
+
+    public void BreakRope()
+    {
+        StopSwing();
     }
 
     void StopSwing()
