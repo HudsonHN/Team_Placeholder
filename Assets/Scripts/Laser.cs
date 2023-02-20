@@ -6,8 +6,11 @@ public class Laser : MonoBehaviour
 {
     public GameObject start;
     public GameObject end;
+    public float onTime = 2.0f;
+    public float offTime = 2.0f;
 
-    public bool isOn = true;
+    private bool isOn;
+    private float timer = 0.0f;
     
     private LineRenderer mLine;
 
@@ -18,21 +21,41 @@ public class Laser : MonoBehaviour
         mLine.SetPosition(0, start.transform.position);
         mLine.SetPosition(1, end.transform.position);
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    void FixedUpdate()
     {
-        RaycastHit hit;
-        var dir = end.transform.position - start.transform.position;
-        dir.Normalize();
-        if (Physics.Raycast(start.transform.position, dir, out hit))
+        if (isOn)
         {
-            if (hit.collider)
+            RaycastHit hit;
+            var dir = end.transform.position - start.transform.position;
+            dir.Normalize();
+            if (Physics.Raycast(start.transform.position, dir, out hit))
             {
-                if (hit.collider.gameObject.transform.parent.CompareTag("Player"))
+                if (hit.collider)
                 {
-                    Manager.Instance.RespawnPlayer();
+                    if (hit.collider.gameObject.transform.parent.CompareTag("Player"))
+                    {
+                        Manager.Instance.RespawnPlayer();
+                    }
                 }
+            }
+
+            timer += Time.deltaTime;
+            if (timer >= onTime)
+            {
+                mLine.enabled = false;
+                isOn = false;
+                timer = 0.0f;
+            }
+        }
+        else // off
+        {
+            timer += Time.deltaTime;
+            if (timer >= offTime)
+            {
+                mLine.enabled = true;
+                isOn = true;
+                timer = 0.0f;
             }
         }
     }
