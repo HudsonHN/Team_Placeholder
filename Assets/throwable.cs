@@ -4,13 +4,24 @@ using UnityEngine;
 
 public class throwable : MonoBehaviour
 {
+    public GameObject newspherePrefab;
     public GameObject spherePrefab;
-    public float spawnDistance = 5f;
+    public float spawnDistance = 10f;
     public float despawnTime = 5.0f;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
+    {
+        // Spawn the sphere 10 units away from the mouse pointer
+        Vector3 spawnPos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + Camera.main.transform.forward * 10f;
+        GameObject newSphere = Instantiate(newspherePrefab, spawnPos, Quaternion.identity);
+        
+        // Keep updating the sphere's position to follow the mouse pointer
+        StartCoroutine(FollowMouse(newSphere));
+    }
+
+        if (Input.GetKeyUp(KeyCode.E))
         {
             // Get the camera's position and forward direction
             Vector3 cameraPos = Camera.main.transform.position;
@@ -23,5 +34,19 @@ public class throwable : MonoBehaviour
             GameObject newSphere= Instantiate(spherePrefab, spawnPos, Quaternion.identity);
             Destroy(newSphere, despawnTime);
         }
+    }
+    IEnumerator FollowMouse(GameObject sphere)
+    {
+        while (Input.GetKey(KeyCode.E))
+        {
+            // Update the sphere's position to follow the mouse pointer
+            Vector3 newPos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + Camera.main.transform.forward * 10f;
+            sphere.transform.position = newPos;
+        
+            yield return null;
+        }
+    
+        // Destroy the sphere when the E key is released
+        Destroy(sphere);
     }
 }

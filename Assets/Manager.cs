@@ -31,7 +31,6 @@ public class Manager : MonoBehaviour
     public PlayerCamera playerCamera;
 
     public bool isPaused = false;
-
     public GameObject goalObject;
 
     public TextMeshProUGUI coinsLeftText;
@@ -113,6 +112,8 @@ public class Manager : MonoBehaviour
         deathCount++;
         player.GetComponent<SwingController>().launchVelocity = Vector3.zero;
         UpdateChargeText(0.0f);
+        
+        
     }
 
     // Update is called once per frame
