@@ -128,7 +128,7 @@ public class Manager : MonoBehaviour
             {
                 RespawnPlayer();
             }
-            /*if(Input.GetKeyDown(KeyCode.Escape))
+            if(Input.GetKeyDown(KeyCode.Escape))
             {
                 if(!isPaused)
                 {
@@ -138,7 +138,7 @@ public class Manager : MonoBehaviour
                 {
                     UnPause();
                 }
-            }*/
+            }
         }
     }
 
