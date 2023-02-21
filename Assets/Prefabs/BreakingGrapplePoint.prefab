@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 5549920765329677204}
   - component: {fileID: 5549920765329677205}
   - component: {fileID: 1478336676}
-  - component: {fileID: 2069154606}
+  - component: {fileID: 2162269650213713008}
   m_Layer: 11
-  m_Name: GrapplePoint
+  m_Name: BreakingGrapplePoint
   m_TagString: NeutralPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 5549920765329677207}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -10.61, y: -1.2600021, z: 33.760002}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalScale: {x: 1.6276, y: 1.6276, z: 1.6276}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6527670528093515950, guid: 7e0223e1d3e1733499accfa5ebffb67e, type: 3}
+  - {fileID: 2100000, guid: 74fa44eee9c042d4cbf171eb5c757a5e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockbackForce: 3
---- !u!114 &2069154606
+--- !u!114 &2162269650213713008
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,11 +121,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5549920765329677207}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dc133edc0819e04eadae24319c9bdd6, type: 3}
+  m_Script: {fileID: 11500000, guid: 201c4feac020360458671fba2dbff488, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAround: 0
-  isHorizontal: 0
-  isVertical: 0
-  maxMoveRange: 3
-  speed: 1
+  timer: 0
+  timeToBreak: 5
+  warningTime: 5
+  isTicking: 0

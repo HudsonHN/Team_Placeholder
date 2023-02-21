@@ -28,14 +28,21 @@ public class PlayerCamera : MonoBehaviour
     {
         if(!Manager.Instance.isPaused && Manager.Instance.canStart && canLook)
         {
-            if(Input.GetAxis("Mouse ScrollWheel") != 0.0f)
+            /*if(Input.GetAxis("Mouse ScrollWheel") != 0.0f)
             {
                 setCameraX(sensX + Input.GetAxis("Mouse ScrollWheel"));
                 setCameraY(sensY + Input.GetAxis("Mouse ScrollWheel"));
-            }
-            float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime * sensX * 1000.0f;
-            float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * sensY * 1000.0f;
-
+            }*/
+#if UNITY_EDITOR
+            float mouseX = Input.GetAxisRaw("Mouse X") * Time.unscaledDeltaTime * sensX * 1000.0f;
+            float mouseY = Input.GetAxisRaw("Mouse Y") * Time.unscaledDeltaTime * sensY * 1000.0f;
+#elif UNITY_WEBGL
+            float mouseX = Input.GetAxisRaw("Mouse X") * Time.unscaledDeltaTime * sensX * 10.0f;
+            float mouseY = Input.GetAxisRaw("Mouse Y") * Time.unscaledDeltaTime * sensY * 10.0f;
+#else
+            float mouseX = Input.GetAxisRaw("Mouse X") * Time.unscaledDeltaTime * sensX * 1000.0f;
+            float mouseY = Input.GetAxisRaw("Mouse Y") * Time.unscaledDeltaTime * sensY * 1000.0f;
+#endif
             yRotation += mouseX;
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -90.0f, 90.0f);
