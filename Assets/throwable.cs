@@ -6,7 +6,7 @@ public class throwable : MonoBehaviour
 {
     public GameObject newspherePrefab;
     public GameObject spherePrefab;
-    public float spawnDistance = 10f;
+    public float spawnDistance = 10.0f;
     public float despawnTime = 5.0f;
 
     void Update()
