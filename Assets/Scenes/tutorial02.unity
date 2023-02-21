@@ -1133,7 +1133,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 8573255648369228536}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2065346763}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 877652a55659fc1459a9b1bf53c380e1, type: 3}
@@ -5494,30 +5494,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
---- !u!1 &2065346763 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8573255648176933722, guid: c9d7b93a7eb2747408086c8bfaca782f,
-    type: 3}
-  m_PrefabInstance: {fileID: 8573255648369228536}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2065346765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2065346763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c64832ad70c61e4289f949a18996a9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  newspherePrefab: {fileID: 5549920765329677207, guid: 865e47a0bd68d184783fe87f59d8477f,
-    type: 3}
-  spherePrefab: {fileID: 5549920765329677207, guid: 761158c71ca3d2b4d90f8a8d5d0f5ec7,
-    type: 3}
-  spawnDistance: 20
-  despawnTime: 5
 --- !u!1 &2094566860
 GameObject:
   m_ObjectHideFlags: 0
