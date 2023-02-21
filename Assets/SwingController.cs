@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Stopwatch = System.Diagnostics.Stopwatch;
 
 public class SwingController : MonoBehaviour
 {
@@ -36,6 +37,15 @@ public class SwingController : MonoBehaviour
 
     public bool justLaunched;
     public Vector3 launchVelocity;
+    public bool isMovingGrapple;
+    public Transform movingGrappleTransform;
+
+    
+    private Stopwatch firstSwingStopwatch;
+    public static long timeTakenForFirstSwing;
+    private bool firstSwingComplete = false;
+
+    public static long giveanyname;
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +53,7 @@ public class SwingController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         pm = GetComponent<PlayerMovement>();
         canBoost = true;
+        firstSwingStopwatch = Stopwatch.StartNew();
     }
 
     // Update is called once per frame
@@ -74,11 +85,27 @@ public class SwingController : MonoBehaviour
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
                 StopSwing();
+                isMovingGrapple = false;
             }
-            if (Input.GetKeyDown(KeyCode.Mouse1) && !isSwinging)
+            if (Input.GetKeyDown(KeyCode.Space) && !isSwinging)
             {
                 GrappleLaunch();
             }
+            if(isMovingGrapple)
+            {
+                joint.connectedAnchor = movingGrappleTransform.position;
+            }
+        }
+        if (isSwinging && !firstSwingComplete)
+        {
+            firstSwingComplete = true;
+            firstSwingStopwatch.Stop();
+            Manager.FirstSwingtimerParse.Stop();
+            timeTakenForFirstSwing = Manager.FirstSwingtimerParse.ElapsedTicks / 10000000;
+            UnityEngine.Debug.Log("HEllo stopwatch - " + Manager.FirstSwingtimerParse.Elapsed.ToString("mm\\:ss"));
+            UnityEngine.Debug.Log("HEllo stopwatch - " + timeTakenForFirstSwing.ToString());
+            // firstSwingTimeTaken = firstSwingStopwatch.ElapsedMilliseconds;
+            Debug.Log("Time taken for first swing: " + timeTakenForFirstSwing + "ms");
         }
     }
 
@@ -96,6 +123,16 @@ public class SwingController : MonoBehaviour
             joint = player.gameObject.AddComponent<SpringJoint>();
             joint.autoConfigureConnectedAnchor = false;
             joint.connectedAnchor = swingPoint;
+            
+            if(hit.transform.GetComponent<MovingObstacle>() != null)
+            {
+                isMovingGrapple = true;
+                movingGrappleTransform = hit.transform;
+            }
+            else
+            {
+                isMovingGrapple = false;
+            }
 
             float distanceFromPoint = Vector3.Distance(player.position, swingPoint);
 
@@ -121,6 +158,15 @@ public class SwingController : MonoBehaviour
 
             BreakTimer timer = hit.collider.gameObject.GetComponent<BreakTimer>();
             if (timer != null) timer.StartTicking(this);
+        if (!firstSwingComplete)
+        {
+            firstSwingStopwatch.Stop();
+            firstSwingComplete = true;
+            Manager.FirstSwingtimerParse.Stop();
+            timeTakenForFirstSwing = Manager.FirstSwingtimerParse.ElapsedTicks / 10000000;
+            Debug.Log("1Time taken for first swing: " + firstSwingStopwatch.ElapsedMilliseconds + "ms");
+            Debug.Log("2Time taken for first swing: " + timeTakenForFirstSwing + "ms");
+        }
         }
     }
 
@@ -142,7 +188,7 @@ public class SwingController : MonoBehaviour
         currentGrapplePosition = Vector3.Lerp(currentGrapplePosition, swingPoint, Time.deltaTime * 8.0f);
 
         lr.SetPosition(0, gunTip.position);
-        lr.SetPosition(1, swingPoint);
+        lr.SetPosition(1, joint.connectedAnchor);
     }
 
     private void GrappleLaunch()

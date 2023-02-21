@@ -6,20 +6,20 @@ public class throwable : MonoBehaviour
 {
     public GameObject newspherePrefab;
     public GameObject spherePrefab;
-    public float spawnDistance = 10.0f;
+    public float spawnDistance = 20f;
     public float despawnTime = 5.0f;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
-    {
-        // Spawn the sphere 10 units away from the mouse pointer
-        Vector3 spawnPos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + Camera.main.transform.forward * 10f;
-        GameObject newSphere = Instantiate(newspherePrefab, spawnPos, Quaternion.identity);
+        {
+            // Spawn the sphere 10 units away from the mouse pointer
+            Vector3 spawnPos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + Camera.main.transform.forward * spawnDistance;
+            GameObject newSphere = Instantiate(newspherePrefab, spawnPos, Quaternion.identity);
         
-        // Keep updating the sphere's position to follow the mouse pointer
-        StartCoroutine(FollowMouse(newSphere));
-    }
+            // Keep updating the sphere's position to follow the mouse pointer
+            StartCoroutine(FollowMouse(newSphere));
+        }
 
         if (Input.GetKeyUp(KeyCode.E))
         {
@@ -40,7 +40,7 @@ public class throwable : MonoBehaviour
         while (Input.GetKey(KeyCode.E))
         {
             // Update the sphere's position to follow the mouse pointer
-            Vector3 newPos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + Camera.main.transform.forward * 10f;
+            Vector3 newPos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + Camera.main.transform.forward * spawnDistance;
             sphere.transform.position = newPos;
         
             yield return null;

@@ -16,8 +16,11 @@ public class BreakTimer : MonoBehaviour
     private bool showWarning = false;
     private SwingController controller;
 
+    private const float timeToReset = 5f;
+
     // Utility
     private MeshRenderer renderer;
+    private Collider collider;
     private Color c_Opaque = new Color(1, 1, 1, 1);
     private Color c_Transp = new Color(1, 1, 1, .3f);
 
@@ -50,6 +53,10 @@ public class BreakTimer : MonoBehaviour
         {
             Debug.LogError(gameObject.name + " has no MeshRenderer Component.");
         }
+        if (!TryGetComponent<Collider>(out collider))
+        {
+            Debug.LogError(gameObject.name + " has no Collider Component.");
+        }
     }
 
     private void Update()
@@ -76,7 +83,8 @@ public class BreakTimer : MonoBehaviour
         {
             // Destroy parent gameobj and signal swing controller to let go
             controller?.BreakRope();
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            StartCoroutine(DelayedReset());
         }
     }
 
@@ -88,5 +96,14 @@ public class BreakTimer : MonoBehaviour
                (renderer.material.color.a == 1) ? c_Transp : c_Opaque;
             yield return new WaitForSeconds(.5f);
         }
+    }
+
+    IEnumerator DelayedReset()
+    {
+        renderer.enabled = false;
+        collider.enabled = false;
+        yield return new WaitForSeconds(timeToReset);
+        renderer.enabled = true;
+        collider.enabled = true;
     }
 }

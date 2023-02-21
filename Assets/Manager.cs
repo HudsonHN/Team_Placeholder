@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.Diagnostics;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Manager : MonoBehaviour
 {
@@ -38,9 +39,13 @@ public class Manager : MonoBehaviour
     private System.Diagnostics.Stopwatch Stopwatch = new System.Diagnostics.Stopwatch();
     public static System.Diagnostics.Stopwatch timerParse;
 
+    public static System.Diagnostics.Stopwatch FirstSwingtimerParse;
+
     Coroutine cameraCoroutine;
 
     public bool firstSwing = false;
+
+    public Dictionary<string, float> checkpointTimes = new Dictionary<string, float>();
 
 
     private void Awake()
@@ -73,6 +78,7 @@ public class Manager : MonoBehaviour
         elementImage = UICanvas.transform.Find("Element Image").GetComponent<Image>();
         levelCompleted = false;
         timerParse = Stopwatch.StartNew();
+        FirstSwingtimerParse = Stopwatch.StartNew();
         crosshair = UICanvas.transform.Find("Outline Crosshair").Find("Inner Crosshair").GetComponent<Image>();
         goalObject = GameObject.Find("Level").transform.Find("EndPoint").gameObject;
         playerCamera = GameObject.Find("CameraHolder").transform.Find("MainCamera").GetComponent<PlayerCamera>();

@@ -6,10 +6,28 @@ public class Pickupable : MonoBehaviour
 {
 
     [SerializeField] private float spinRate = 250.0f;
+    [SerializeField] private bool shouldReset = false;
+    private const float timeToReset = 5f;
+
+    // Utility
+    private Renderer renderer;
+    private Collider collider;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (!TryGetComponent<Renderer>(out renderer))
+        {
+            renderer = GetComponentInChildren<Renderer>();
+            if (renderer == null)
+            {
+                Debug.LogError(gameObject.name + " has no Renderer Component.");
+            }
+        }
+        if (!TryGetComponent<Collider>(out collider))
+        {
+            Debug.LogError(gameObject.name + " has no Collider Component.");
+        }
     }
 
     // Update is called once per frame
@@ -36,7 +54,15 @@ public class Pickupable : MonoBehaviour
             Debug.Log("Grabbed coin");
             Manager.Instance.UpdateCoin();
         }
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        if (shouldReset)
+        {
+            StartCoroutine(DelayedReset());
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Update()
@@ -44,4 +70,12 @@ public class Pickupable : MonoBehaviour
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y + (spinRate * Time.deltaTime), transform.eulerAngles.z);
     }
 
+    IEnumerator DelayedReset()
+    {
+        renderer.enabled = false;
+        collider.enabled = false;
+        yield return new WaitForSeconds(timeToReset);
+        renderer.enabled = true;
+        collider.enabled = true;
+    }
 }

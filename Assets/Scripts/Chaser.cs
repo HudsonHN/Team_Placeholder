@@ -26,7 +26,7 @@ public class Chaser : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.transform.parent.CompareTag("Player"))
         {
             Debug.Log("collide player! ");
             transform.position = initialPos;
