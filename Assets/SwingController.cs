@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Stopwatch = System.Diagnostics.Stopwatch;
 
 public class SwingController : MonoBehaviour
 {
@@ -39,12 +40,20 @@ public class SwingController : MonoBehaviour
     public bool isMovingGrapple;
     public Transform movingGrappleTransform;
 
+    
+    private Stopwatch firstSwingStopwatch;
+    public static long timeTakenForFirstSwing;
+    private bool firstSwingComplete = false;
+
+    public static long giveanyname;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         pm = GetComponent<PlayerMovement>();
         canBoost = true;
+        firstSwingStopwatch = Stopwatch.StartNew();
     }
 
     // Update is called once per frame
@@ -86,6 +95,17 @@ public class SwingController : MonoBehaviour
             {
                 joint.connectedAnchor = movingGrappleTransform.position;
             }
+        }
+        if (isSwinging && !firstSwingComplete)
+        {
+            firstSwingComplete = true;
+            firstSwingStopwatch.Stop();
+            Manager.FirstSwingtimerParse.Stop();
+            timeTakenForFirstSwing = Manager.FirstSwingtimerParse.ElapsedTicks / 10000000;
+            UnityEngine.Debug.Log("HEllo stopwatch - " + Manager.FirstSwingtimerParse.Elapsed.ToString("mm\\:ss"));
+            UnityEngine.Debug.Log("HEllo stopwatch - " + timeTakenForFirstSwing.ToString());
+            // firstSwingTimeTaken = firstSwingStopwatch.ElapsedMilliseconds;
+            Debug.Log("Time taken for first swing: " + timeTakenForFirstSwing + "ms");
         }
     }
 
@@ -138,6 +158,15 @@ public class SwingController : MonoBehaviour
 
             BreakTimer timer = hit.collider.gameObject.GetComponent<BreakTimer>();
             if (timer != null) timer.StartTicking(this);
+        if (!firstSwingComplete)
+        {
+            firstSwingStopwatch.Stop();
+            firstSwingComplete = true;
+            Manager.FirstSwingtimerParse.Stop();
+            timeTakenForFirstSwing = Manager.FirstSwingtimerParse.ElapsedTicks / 10000000;
+            Debug.Log("1Time taken for first swing: " + firstSwingStopwatch.ElapsedMilliseconds + "ms");
+            Debug.Log("2Time taken for first swing: " + timeTakenForFirstSwing + "ms");
+        }
         }
     }
 
