@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5549920765329677205}
   - component: {fileID: 1478336676}
   m_Layer: 11
-  m_Name: transparent
+  m_Name: TransparentGrapple
   m_TagString: NeutralPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 5549920765329677207}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -10.61, y: -1.2600021, z: 33.760002}
-  m_LocalScale: {x: 1.6276, y: 1.6276, z: 1.6276}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

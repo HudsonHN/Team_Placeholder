@@ -36,6 +36,8 @@ public class SwingController : MonoBehaviour
 
     public bool justLaunched;
     public Vector3 launchVelocity;
+    public bool isMovingGrapple;
+    public Transform movingGrappleTransform;
 
     // Start is called before the first frame update
     void Start()
@@ -74,10 +76,15 @@ public class SwingController : MonoBehaviour
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
                 StopSwing();
+                isMovingGrapple = false;
             }
-            if (Input.GetKeyDown(KeyCode.Mouse1) && !isSwinging)
+            if (Input.GetKeyDown(KeyCode.Space) && !isSwinging)
             {
                 GrappleLaunch();
+            }
+            if(isMovingGrapple)
+            {
+                joint.connectedAnchor = movingGrappleTransform.position;
             }
         }
     }
@@ -96,6 +103,16 @@ public class SwingController : MonoBehaviour
             joint = player.gameObject.AddComponent<SpringJoint>();
             joint.autoConfigureConnectedAnchor = false;
             joint.connectedAnchor = swingPoint;
+            
+            if(hit.transform.GetComponent<MovingObstacle>() != null)
+            {
+                isMovingGrapple = true;
+                movingGrappleTransform = hit.transform;
+            }
+            else
+            {
+                isMovingGrapple = false;
+            }
 
             float distanceFromPoint = Vector3.Distance(player.position, swingPoint);
 
@@ -142,7 +159,7 @@ public class SwingController : MonoBehaviour
         currentGrapplePosition = Vector3.Lerp(currentGrapplePosition, swingPoint, Time.deltaTime * 8.0f);
 
         lr.SetPosition(0, gunTip.position);
-        lr.SetPosition(1, swingPoint);
+        lr.SetPosition(1, joint.connectedAnchor);
     }
 
     private void GrappleLaunch()
