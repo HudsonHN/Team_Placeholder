@@ -37,8 +37,8 @@ public class PlayerCamera : MonoBehaviour
             float mouseX = Input.GetAxisRaw("Mouse X") * Time.unscaledDeltaTime * sensX * 1000.0f;
             float mouseY = Input.GetAxisRaw("Mouse Y") * Time.unscaledDeltaTime * sensY * 1000.0f;
 #elif UNITY_WEBGL
-            float mouseX = Input.GetAxisRaw("Mouse X") * Time.unscaledDeltaTime * sensX * 10.0f;
-            float mouseY = Input.GetAxisRaw("Mouse Y") * Time.unscaledDeltaTime * sensY * 10.0f;
+            float mouseX = Input.GetAxisRaw("Mouse X") * Time.unscaledDeltaTime * sensX * 65.0f;
+            float mouseY = Input.GetAxisRaw("Mouse Y") * Time.unscaledDeltaTime * sensY * 65.0f;
 #else
             float mouseX = Input.GetAxisRaw("Mouse X") * Time.unscaledDeltaTime * sensX * 1000.0f;
             float mouseY = Input.GetAxisRaw("Mouse Y") * Time.unscaledDeltaTime * sensY * 1000.0f;

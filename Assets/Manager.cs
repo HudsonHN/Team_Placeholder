@@ -116,9 +116,10 @@ public class Manager : MonoBehaviour
         }
         cameraCoroutine = StartCoroutine(StopCamera());
         deathCount++;
-        player.GetComponent<SwingController>().launchVelocity = Vector3.zero;
+        SwingController sc = player.GetComponent<SwingController>();
+        sc.launchVelocity = Vector3.zero;
         UpdateChargeText(0.0f);
-        
+        sc.BreakRope();
         
     }
 

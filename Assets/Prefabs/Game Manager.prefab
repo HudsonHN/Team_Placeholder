@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8573255648176933724}
   - component: {fileID: 8573255648176933723}
+  - component: {fileID: 2065346765}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -24,7 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8573255648176933722}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -51,5 +52,39 @@ MonoBehaviour:
   player: {fileID: 0}
   spawnPoint: {fileID: 0}
   pauseCanvas: {fileID: 0}
+  sensXText: {fileID: 0}
+  sensYText: {fileID: 0}
+  sensText: {fileID: 0}
+  instructionText: {fileID: 0}
+  elementImage: {fileID: 0}
+  crosshair: {fileID: 0}
+  initialOrientation: {x: 0, y: 0, z: 0, w: 0}
   coinsInLevel: 4
   grappleLaunchLeft: 7
+  deathCount: 0
+  attemptTimer: 0
+  levelCompleted: 0
+  canStart: 1
+  playerCamera: {fileID: 0}
+  isPaused: 0
+  goalObject: {fileID: 0}
+  coinsLeftText: {fileID: 0}
+  firstSwing: 0
+--- !u!114 &2065346765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8573255648176933722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c64832ad70c61e4289f949a18996a9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  newspherePrefab: {fileID: 5549920765329677207, guid: d3ae6cc152b32c646b8a7f4f1e663a5b,
+    type: 3}
+  spherePrefab: {fileID: 5549920765329677207, guid: 761158c71ca3d2b4d90f8a8d5d0f5ec7,
+    type: 3}
+  spawnDistance: 20
+  despawnTime: 5
