@@ -59,7 +59,7 @@ public class Manager : MonoBehaviour
 
     public void RespawnPlayer()
     {
-        player.transform.SetPositionAndRotation(spawnPoint.transform.position, Quaternion.identity);
+        player.transform.SetPositionAndRotation(spawnPoint.transform.position, initialOrientation);
         player.GetComponent<Rigidbody>().velocity = Vector3.zero;
         player.GetComponent<PlayerMovement>().hasLaunched = false;
     }
