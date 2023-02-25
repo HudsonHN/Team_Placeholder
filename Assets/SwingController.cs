@@ -129,9 +129,8 @@ public class SwingController : MonoBehaviour
                 isPulling = true;
                 pullPointTransform = pull.transform;
                 lr.positionCount = 2;
-                lrSwingColor = lr.startColor;
-                lr.startColor = Color.yellow;
-                lr.endColor = Color.yellow;
+                lrSwingColor = lr.material.color;
+                lr.material.color = Color.yellow;
                 pull.StartPulling(this);
                 return;
             }
@@ -199,8 +198,7 @@ public class SwingController : MonoBehaviour
         {
             isPulling = false;
             lr.positionCount = 0;
-            lr.startColor = lrSwingColor;
-            lr.endColor = lrSwingColor;
+            lr.material.color = lrSwingColor;
             return;
         }
         isSwinging = false;
