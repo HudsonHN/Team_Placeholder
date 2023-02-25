@@ -44,6 +44,7 @@ public class SwingController : MonoBehaviour
     private Stopwatch firstSwingStopwatch;
     public static long timeTakenForFirstSwing;
     private bool firstSwingComplete = false;
+    private GrapplePoint selectedGrapple;
 
     public static long giveanyname;
 
@@ -64,17 +65,37 @@ public class SwingController : MonoBehaviour
         {
             canGrapple = true;
             Manager.Instance.crosshair.color = Color.green;
+            Manager.Instance.leftClickPrompt.SetActive(true);
+            if(selectedGrapple != null) 
+            {
+                selectedGrapple.UnhoveredGrapple();
+            }
+            selectedGrapple = hit.transform.GetComponent<GrapplePoint>();
+            selectedGrapple.HoveredGrapple();
         }
         else if (Physics.SphereCast(cam.position, predictionSphereCastRadius, cam.forward, out hit, maxSwingDistance, whatIsGrappleable) 
             && (hit.collider.tag.Equals("NeutralPoint") || hit.collider.tag.Equals(element))) 
         {
             canGrapple = true;
             Manager.Instance.crosshair.color = Color.green;
+            Manager.Instance.leftClickPrompt.SetActive(true);
+            if (selectedGrapple != null)
+            {
+                selectedGrapple.UnhoveredGrapple();
+            }
+            selectedGrapple = hit.transform.GetComponent<GrapplePoint>();
+            selectedGrapple.HoveredGrapple();
         }
         else
         {
             canGrapple = false;
             Manager.Instance.crosshair.color = Color.white;
+            Manager.Instance.leftClickPrompt.SetActive(false);
+            if (selectedGrapple != null)
+            {
+                selectedGrapple.UnhoveredGrapple();
+                selectedGrapple = null;
+            }
         }
         if (pm.hasLaunched && !Manager.Instance.isPaused)
         {
@@ -173,6 +194,7 @@ public class SwingController : MonoBehaviour
     public void BreakRope()
     {
         StopSwing();
+        isMovingGrapple = false;
     }
 
     void StopSwing()

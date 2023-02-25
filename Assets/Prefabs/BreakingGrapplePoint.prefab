@@ -112,6 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockbackForce: 3
+  outlineMat: {fileID: 2100000, guid: 582b087421b2fd14dbf82d20733c9f91, type: 2}
 --- !u!114 &2162269650213713008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,7 +125,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 201c4feac020360458671fba2dbff488, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 0
   timeToBreak: 5
   warningTime: 5
-  isTicking: 0
