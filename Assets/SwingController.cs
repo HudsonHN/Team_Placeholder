@@ -25,6 +25,8 @@ public class SwingController : MonoBehaviour
     public string element;
     private bool canGrapple;
     private bool canBoost;
+    [HideInInspector]
+    public bool isPulling = false;
     RaycastHit hit;
 
     // public accessor
@@ -39,8 +41,9 @@ public class SwingController : MonoBehaviour
     public Vector3 launchVelocity;
     public bool isMovingGrapple;
     public Transform movingGrappleTransform;
+    private Transform pullPointTransform;
+    private Color lrSwingColor;
 
-    
     private Stopwatch firstSwingStopwatch;
     public static long timeTakenForFirstSwing;
     private bool firstSwingComplete = false;
@@ -91,7 +94,7 @@ public class SwingController : MonoBehaviour
             {
                 GrappleLaunch();
             }
-            if(isMovingGrapple)
+            if(isMovingGrapple && joint && movingGrappleTransform) // temporary fix for null reference errors
             {
                 joint.connectedAnchor = movingGrappleTransform.position;
             }
@@ -111,13 +114,27 @@ public class SwingController : MonoBehaviour
 
     void StartSwing()
     {
-        if(canGrapple)
+        if(canGrapple && !isPulling)
         {
             if(justLaunched)
             {
                 justLaunched = false;
                 //rb.AddForce(-launchVelocity, ForceMode.Impulse);
             }
+
+            // Check for pull point (same input, different behavior)
+            PullPoint pull;
+            if (hit.collider.gameObject.TryGetComponent<PullPoint>(out pull))
+            {
+                isPulling = true;
+                pullPointTransform = pull.transform;
+                lr.positionCount = 2;
+                lrSwingColor = lr.material.color;
+                lr.material.color = Color.yellow;
+                pull.StartPulling(this);
+                return;
+            }
+
             isSwinging = true;
             swingPoint = hit.point;
             joint = player.gameObject.AddComponent<SpringJoint>();
@@ -177,6 +194,13 @@ public class SwingController : MonoBehaviour
 
     void StopSwing()
     {
+        if (isPulling)
+        {
+            isPulling = false;
+            lr.positionCount = 0;
+            lr.material.color = lrSwingColor;
+            return;
+        }
         isSwinging = false;
         lr.positionCount = 0;
         Destroy(joint);
@@ -189,6 +213,13 @@ public class SwingController : MonoBehaviour
 
         lr.SetPosition(0, gunTip.position);
         lr.SetPosition(1, joint.connectedAnchor);
+    }
+    void DrawPullLine()
+    {
+        if (!isPulling) return;
+
+        lr.SetPosition(0, gunTip.position);
+        lr.SetPosition(1, pullPointTransform.position);
     }
 
     private void GrappleLaunch()
@@ -213,6 +244,7 @@ public class SwingController : MonoBehaviour
     private void LateUpdate()
     {
         DrawRope();
+        DrawPullLine();
     }
 
 }
