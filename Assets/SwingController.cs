@@ -94,7 +94,7 @@ public class SwingController : MonoBehaviour
             {
                 GrappleLaunch();
             }
-            if(isMovingGrapple && joint)
+            if(isMovingGrapple && joint && movingGrappleTransform) // temporary fix for null reference errors
             {
                 joint.connectedAnchor = movingGrappleTransform.position;
             }
