@@ -19,6 +19,8 @@ public class Manager : MonoBehaviour
     public TextMeshProUGUI sensXText;
     public TextMeshProUGUI sensYText;
     public Text sensText;
+    public Text hint1;
+    public Text hint2;
     public TextMeshProUGUI instructionText;
     public Image elementImage;
     public Image crosshair;
@@ -73,6 +75,8 @@ public class Manager : MonoBehaviour
         sensXText = pauseCanvas.transform.Find("Camera Sensitivity X").Find("Sens Text").GetComponent<TextMeshProUGUI>();
         sensYText = pauseCanvas.transform.Find("Camera Sensitivity Y").Find("Sens Text").GetComponent<TextMeshProUGUI>();
         sensText = UICanvas.transform.Find("Sensitivity Text").GetComponent<Text>();
+        hint1 = UICanvas.transform.Find("hint1").GetComponent<Text>();
+        hint2 = UICanvas.transform.Find("hint2").GetComponent<Text>();
         instructionText = UICanvas.transform.Find("Instruction Text").GetComponent<TextMeshProUGUI>();
         coinsInLevel = GameObject.Find("Level").transform.Find("Coins").childCount;
         elementImage = UICanvas.transform.Find("Element Image").GetComponent<Image>();
@@ -85,6 +89,9 @@ public class Manager : MonoBehaviour
         coinsLeftText = UICanvas.transform.Find("Coins Left Text").GetComponent<TextMeshProUGUI>();
         coinsLeftText.text = $"Gold Coins Left: {coinsInLevel}";
         firstSwing = false;
+        hint1.enabled = false;
+        hint2.enabled = false;
+        
     }
 
     void ResetScene()
@@ -147,7 +154,30 @@ public class Manager : MonoBehaviour
                     UnPause();
                 }
             }
+        if (Input.GetKeyDown(KeyCode.H) && Checkpoint.checkname == "Checkpoint1")
+        {
+            if ((hint1.enabled) == false)
+            {
+                hint1.enabled = true;
+            }
+            else
+            {
+                hint1.enabled = false;
+            }
         }
+        if (Input.GetKeyDown(KeyCode.H) && Checkpoint.checkname == "Checkpoint2")
+        {
+            if ((hint2.enabled) == false)
+            {
+                hint2.enabled = true;
+            }
+            else
+            {
+                hint2.enabled = false;
+            }
+        }        
+        }
+        
     }
 
     public void Pause()
