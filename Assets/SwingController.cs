@@ -80,6 +80,12 @@ public class SwingController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
+                UnityEngine.Debug.Log("point grappled: " + hit.collider.name);
+                Manager.Instance.grapplePointsAndCounts[hit.collider.name] += 1;
+                Manager.Instance.hasGrappledAPoint = true;
+                Manager.Instance.grapplePointNames = "";
+                Manager.Instance.grapplePointValues = "";
+                
                 StartSwing();
             }
             if (Input.GetKeyUp(KeyCode.Mouse0))

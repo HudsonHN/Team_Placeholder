@@ -51,6 +51,10 @@ public class Pickupable : MonoBehaviour
         }
         else
         {
+            Manager.Instance.allCoins[transform.name] = Manager.Instance.attemptTimer;
+            Manager.Instance.hasGrabbedCoin = true;
+            Manager.Instance.coinNames = "";
+            Manager.Instance.coinValues = "";
             Debug.Log("Grabbed coin");
             Manager.Instance.UpdateCoin();
         }

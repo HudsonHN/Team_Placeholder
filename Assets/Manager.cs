@@ -47,6 +47,19 @@ public class Manager : MonoBehaviour
 
     public Dictionary<string, float> checkpointTimes = new Dictionary<string, float>();
 
+    public Dictionary<string, int> grapplePointsAndCounts;
+    public Dictionary<string, float> allCoins;
+
+    public string grapplePointNames;
+    public string grapplePointValues;
+
+    public string coinNames;
+    public string coinValues;
+
+    public bool hasGrappledAPoint = false;
+    public bool hasGrabbedCoin = false;
+
+
 
     private void Awake()
     {
@@ -57,6 +70,37 @@ public class Manager : MonoBehaviour
         else
         {
             Instance = this;
+        }
+
+        GameObject[] allNormalGrapplePoints = GameObject.FindGameObjectsWithTag("NeutralPoint");
+        GameObject[] allRedGrapplePoints = GameObject.FindGameObjectsWithTag("RedPoint");
+        GameObject[] allBlueGrapplePoints = GameObject.FindGameObjectsWithTag("BluePoint");
+
+        Object[] allPickupables = Object.FindObjectsOfType(typeof(Pickupable));
+
+
+        grapplePointsAndCounts = new Dictionary<string, int>();
+        allCoins = new Dictionary<string, float>();
+
+        for (int i = 0; i < allNormalGrapplePoints.Length; i++)
+        {
+            grapplePointsAndCounts.Add(allNormalGrapplePoints[i].name, 0);
+        }
+
+        for (int i = 0; i < allRedGrapplePoints.Length; i++)
+        {
+            grapplePointsAndCounts.Add(allRedGrapplePoints[i].name, 0);
+        }
+
+        for (int i = 0; i < allBlueGrapplePoints.Length; i++)
+        {
+            grapplePointsAndCounts.Add(allBlueGrapplePoints[i].name, 0);
+        }
+
+        for (int i = 0; i < allPickupables.Length; i++)
+        {
+            if (allPickupables[i].name.Contains("Coin"))
+                allCoins.Add(allPickupables[i].name, 0);
         }
     }
 
@@ -146,6 +190,33 @@ public class Manager : MonoBehaviour
                 {
                     UnPause();
                 }
+            }
+            if (hasGrappledAPoint)
+            {
+                foreach (KeyValuePair<string, int> grapplePointData in grapplePointsAndCounts)
+                {
+                    grapplePointNames = grapplePointNames + grapplePointData.Key + " ";
+                    grapplePointValues = grapplePointValues + grapplePointData.Value + " ";
+                }
+
+                UnityEngine.Debug.Log("grapple point names: " + grapplePointNames);
+                UnityEngine.Debug.Log("grapple point values: " + grapplePointValues);
+
+                hasGrappledAPoint = false;
+            }
+
+            if (hasGrabbedCoin)
+            {
+                foreach (KeyValuePair<string, float> coinData in allCoins)
+                {
+                    coinNames = coinNames + coinData.Key + " ";
+                    coinValues = coinValues + coinData.Value + " ";
+                }
+
+                UnityEngine.Debug.Log("coin names: " + coinNames);
+                UnityEngine.Debug.Log("coin values: " + coinValues);
+
+                hasGrabbedCoin = false;
             }
         }
     }
