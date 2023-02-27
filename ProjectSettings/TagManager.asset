@@ -10,6 +10,7 @@ TagManager:
   - NeutralPoint
   - BluePickup
   - RedPickup
+  - hintt
   layers:
   - Default
   - TransparentFX

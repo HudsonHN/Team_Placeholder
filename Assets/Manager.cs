@@ -2,6 +2,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using System.Diagnostics;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Manager : MonoBehaviour
 {
@@ -16,13 +19,35 @@ public class Manager : MonoBehaviour
     public TextMeshProUGUI sensXText;
     public TextMeshProUGUI sensYText;
     public Text sensText;
+    public Text hint1;
+    public Text hint2;
     public TextMeshProUGUI instructionText;
     public Image elementImage;
     public Image crosshair;
     public Quaternion initialOrientation;
     public int coinsInLevel;
+    public int grappleLaunchLeft = 7;
+    public int deathCount;
+    public float attemptTimer;
+    public bool levelCompleted = false;
+    public bool canStart = true;
+    public PlayerCamera playerCamera;
 
     public bool isPaused = false;
+    public GameObject goalObject;
+
+    public TextMeshProUGUI coinsLeftText;
+
+    private System.Diagnostics.Stopwatch Stopwatch = new System.Diagnostics.Stopwatch();
+    public static System.Diagnostics.Stopwatch timerParse;
+
+    public static System.Diagnostics.Stopwatch FirstSwingtimerParse;
+
+    Coroutine cameraCoroutine;
+
+    public bool firstSwing = false;
+
+    public Dictionary<string, float> checkpointTimes = new Dictionary<string, float>();
 
 
     private void Awake()
@@ -50,11 +75,40 @@ public class Manager : MonoBehaviour
         sensXText = pauseCanvas.transform.Find("Camera Sensitivity X").Find("Sens Text").GetComponent<TextMeshProUGUI>();
         sensYText = pauseCanvas.transform.Find("Camera Sensitivity Y").Find("Sens Text").GetComponent<TextMeshProUGUI>();
         sensText = UICanvas.transform.Find("Sensitivity Text").GetComponent<Text>();
+        hint1 = UICanvas.transform.Find("hint1").GetComponent<Text>();
+        hint2 = UICanvas.transform.Find("hint2").GetComponent<Text>();
         instructionText = UICanvas.transform.Find("Instruction Text").GetComponent<TextMeshProUGUI>();
         coinsInLevel = GameObject.Find("Level").transform.Find("Coins").childCount;
         elementImage = UICanvas.transform.Find("Element Image").GetComponent<Image>();
+        levelCompleted = false;
+        timerParse = Stopwatch.StartNew();
+        FirstSwingtimerParse = Stopwatch.StartNew();
+        crosshair = UICanvas.transform.Find("Outline Crosshair").Find("Inner Crosshair").GetComponent<Image>();
+        goalObject = GameObject.Find("Level").transform.Find("EndPoint").gameObject;
+        playerCamera = GameObject.Find("CameraHolder").transform.Find("MainCamera").GetComponent<PlayerCamera>();
+        coinsLeftText = UICanvas.transform.Find("Coins Left Text").GetComponent<TextMeshProUGUI>();
+        coinsLeftText.text = $"Gold Coins Left: {coinsInLevel}";
+        firstSwing = false;
+        hint1.enabled = false;
+        hint2.enabled = false;
+        
+    }
+
+    void ResetScene()
+    {
+        attemptTimer = 0.0f;
+        deathCount = 0;
+        levelCompleted = false;
         crosshair = UICanvas.transform.Find("Outline Crosshair").Find("Inner Crosshair").GetComponent<Image>();
         initialOrientation = player.transform.rotation;
+    }
+
+    public IEnumerator StopCamera()
+    {
+        playerCamera.canLook = false;
+        playerCamera.transform.localRotation = Quaternion.identity;
+        yield return new WaitForSeconds(0.5f);
+        playerCamera.canLook = true;
     }
 
     public void RespawnPlayer()
@@ -62,30 +116,68 @@ public class Manager : MonoBehaviour
         player.transform.SetPositionAndRotation(spawnPoint.transform.position, initialOrientation);
         player.GetComponent<Rigidbody>().velocity = Vector3.zero;
         player.GetComponent<PlayerMovement>().hasLaunched = false;
+        player.GetComponent<PlayerMovement>().launchHoldTimer = 0.0f;
+        if(cameraCoroutine != null)
+        {
+            StopCoroutine(cameraCoroutine);
+        }
+        cameraCoroutine = StartCoroutine(StopCamera());
+        deathCount++;
+        SwingController sc = player.GetComponent<SwingController>();
+        sc.launchVelocity = Vector3.zero;
+        UpdateChargeText(0.0f);
+        sc.BreakRope();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(player.transform.position.y < 0.0f)
+        if (canStart)
         {
-            player.transform.SetPositionAndRotation(spawnPoint.transform.position, initialOrientation);
-            player.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            player.GetComponent<PlayerMovement>().hasLaunched = false;
-            player.GetComponent<SwingController>().launchVelocity = Vector3.zero;
-            UpdateChargeText(0.0f);
-        }
-        /*if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            if(!isPaused)
+            if (!levelCompleted)
             {
-                Pause();
+                attemptTimer += Time.deltaTime;
+            }
+            if (player.transform.position.y < 0.0f)
+            {
+                RespawnPlayer();
+            }
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                if(!isPaused)
+                {
+                    Pause();
+                }
+                else
+                {
+                    UnPause();
+                }
+            }
+        if (Input.GetKeyDown(KeyCode.H) && Checkpoint.checkname == "Checkpoint1")
+        {
+            if ((hint1.enabled) == false)
+            {
+                hint1.enabled = true;
             }
             else
             {
-                UnPause();
+                hint1.enabled = false;
             }
-        }*/
+        }
+        if (Input.GetKeyDown(KeyCode.H) && Checkpoint.checkname == "Checkpoint2")
+        {
+            if ((hint2.enabled) == false)
+            {
+                hint2.enabled = true;
+            }
+            else
+            {
+                hint2.enabled = false;
+            }
+        }        
+        }
+        
     }
 
     public void Pause()
@@ -105,6 +197,18 @@ public class Manager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
+
+    public void UpdateCoin()
+    {
+        coinsInLevel--;
+        coinsLeftText.text = $"Gold Coins Left: {coinsInLevel}";
+        if(coinsInLevel <= 0)
+        {
+            goalObject.SetActive(true);
+            coinsLeftText.text = "Exit ready!";
+        }
+    }
+
 
     public void UpdateChargeText(float chargeAmt)
     {
