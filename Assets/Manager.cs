@@ -21,8 +21,10 @@ public class Manager : MonoBehaviour
     public GameObject pauseCanvas;
     public TextMeshProUGUI sensXText;
     public TextMeshProUGUI sensYText;
+    public GameObject leftClickPrompt;
     public Text sensText;
     public TextMeshProUGUI instructionText;
+    public TextMeshProUGUI placeablePointsLeft;
     public Image elementImage;
     public Image crosshair;
     public Quaternion initialOrientation;
@@ -83,6 +85,15 @@ public class Manager : MonoBehaviour
         timerParse = Stopwatch.StartNew();
         FirstSwingtimerParse = Stopwatch.StartNew();
         crosshair = UICanvas.transform.Find("Outline Crosshair").Find("Inner Crosshair").GetComponent<Image>();
+        leftClickPrompt = UICanvas.transform.Find("Outline Crosshair").Find("Left_Click").gameObject;
+        
+        if(UICanvas.transform.Find("Grapples Left Text") != null)
+        {
+            placeablePointsLeft = UICanvas.transform.Find("Grapples Left Text").GetComponent<TextMeshProUGUI>();
+            placeablePointsLeft.text = $"Placeable Points Left: {GetComponent<Throwable>().placeablePointLimit}";
+        }
+
+
         goalObject = GameObject.Find("Level").transform.Find("EndPoint").gameObject;
         playerCamera = GameObject.Find("CameraHolder").transform.Find("MainCamera").GetComponent<PlayerCamera>();
         coinsLeftText = UICanvas.transform.Find("Coins Left Text").GetComponent<TextMeshProUGUI>();
@@ -113,7 +124,6 @@ public class Manager : MonoBehaviour
     {
         player.transform.SetPositionAndRotation(spawnPoint.transform.position, initialOrientation);
         player.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        player.GetComponent<PlayerMovement>().hasLaunched = false;
         player.GetComponent<PlayerMovement>().launchHoldTimer = 0.0f;
         if(cameraCoroutine != null)
         {
