@@ -12,6 +12,9 @@ public class AnalyticsObj : MonoBehaviour
     public string checkpointname;
     public string checkpointTimer;
 
+    public string coinNames;
+    public string swingCount;
+
     public AnalyticsObj(){
         deathCount = Manager.Instance.deathCount;
         timeToFinish = Goal.timeLine;
@@ -19,12 +22,19 @@ public class AnalyticsObj : MonoBehaviour
         checkpointTimer = Checkpoint.checkpointTimer;
         FirstSwingTimeTaken = SwingController.timeTakenForFirstSwing;
 
+        coinNames = Pickupable.coinName;
+        
+        swingCount = Pickupable.swingCount;
+
         sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         
         Debug.Log("Analytics TIme taken for first swing : "+FirstSwingTimeTaken);
         // Debug.Log("Analytics TIme taken for first swing : "+checkpointTimes);
         // Debug.Log("Analytics TIme taken for first swing : "+Manager.Instance.checkpointTimes);
-        Debug.Log("2 TIme taken for first swing : "+Checkpoint.checkpointname);
+        Debug.Log("Analytics checkpoint names : "+Checkpoint.checkpointname);
         Debug.Log("3 TIme taken for first swing : "+Checkpoint.checkpointTimer);
+
+        Debug.Log("Analytics coin names : "+Pickupable.coinName);
+        Debug.Log("Analytics swing count : "+Pickupable.swingCount);
     }
 }

@@ -13,6 +13,10 @@ public class Pickupable : MonoBehaviour
     private Renderer renderer;
     private Collider collider;
 
+    public static string coinName;
+
+    public static string swingCount;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +56,9 @@ public class Pickupable : MonoBehaviour
         else
         {
             Debug.Log("Grabbed coin");
+            Debug.Log("Coin Name" + gameObject.name + "Total swing count: " + SwingController.numSwings);
+            coinName = coinName + "," + gameObject.name;
+            swingCount = swingCount + "," + SwingController.numSwings;
             Manager.Instance.UpdateCoin();
         }
         //Destroy(gameObject);
