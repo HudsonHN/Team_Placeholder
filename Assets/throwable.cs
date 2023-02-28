@@ -54,7 +54,7 @@ public class Throwable : MonoBehaviour
         var sc = GetComponent<SwingController>();
         if(sc.IsSwinging && gameObject == sc.selectedGrapple)
         {
-            Manager.Instance.player.GetComponent<SwingController>().BreakRope();
+            sc.BreakRope();
         }
         Destroy(gameObject);
     }

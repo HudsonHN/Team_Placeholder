@@ -17,7 +17,6 @@ public class AnalyticsObj : MonoBehaviour
 
     public string coinNames;
     public string coinValues;
-    public string coinNames;
     public string swingCount;
 
     public AnalyticsObj(){

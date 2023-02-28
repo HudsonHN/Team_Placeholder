@@ -86,17 +86,26 @@ public class Manager : MonoBehaviour
 
         for (int i = 0; i < allNormalGrapplePoints.Length; i++)
         {
-            grapplePointsAndCounts.Add(allNormalGrapplePoints[i].name, 0);
+            if (!grapplePointsAndCounts.ContainsKey(allNormalGrapplePoints[i].name))
+            {
+                grapplePointsAndCounts.Add(allNormalGrapplePoints[i].name, 0);
+            }
         }
 
         for (int i = 0; i < allRedGrapplePoints.Length; i++)
         {
-            grapplePointsAndCounts.Add(allRedGrapplePoints[i].name, 0);
+            if (!grapplePointsAndCounts.ContainsKey(allRedGrapplePoints[i].name))
+            {
+                grapplePointsAndCounts.Add(allRedGrapplePoints[i].name, 0);
+            }
         }
 
         for (int i = 0; i < allBlueGrapplePoints.Length; i++)
         {
-            grapplePointsAndCounts.Add(allBlueGrapplePoints[i].name, 0);
+            if (!grapplePointsAndCounts.ContainsKey(allBlueGrapplePoints[i].name))
+            {
+                grapplePointsAndCounts.Add(allBlueGrapplePoints[i].name, 0);
+            }
         }
 
         for (int i = 0; i < allPickupables.Length; i++)

@@ -108,16 +108,7 @@ public class SwingController : MonoBehaviour
         if (!Manager.Instance.isPaused)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                UnityEngine.Debug.Log("point grappled: " + hit.collider.name);
-                if (Manager.Instance.grapplePointsAndCounts.ContainsKey(hit.collider.name))
-                {
-                    Manager.Instance.grapplePointsAndCounts[hit.collider.name] += 1;
-                    Manager.Instance.hasGrappledAPoint = true;
-                    Manager.Instance.grapplePointNames = "";
-                    Manager.Instance.grapplePointValues = "";
-                }
-                
+            {   
                 StartSwing();
             }
             if (Input.GetKeyUp(KeyCode.Mouse0))
@@ -155,6 +146,15 @@ public class SwingController : MonoBehaviour
             {
                 justLaunched = false;
                 //rb.AddForce(-launchVelocity, ForceMode.Impulse);
+            }
+
+            UnityEngine.Debug.Log("point grappled: " + hit.collider.name);
+            if (Manager.Instance.grapplePointsAndCounts.ContainsKey(hit.collider.name))
+            {
+                Manager.Instance.grapplePointsAndCounts[hit.collider.name] += 1;
+                Manager.Instance.hasGrappledAPoint = true;
+                Manager.Instance.grapplePointNames = "";
+                Manager.Instance.grapplePointValues = "";
             }
 
             // Check for pull point (same input, different behavior)
