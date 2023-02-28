@@ -173,6 +173,7 @@ GameObject:
   - component: {fileID: 135756641613574986}
   - component: {fileID: 135756641613574981}
   - component: {fileID: 135756641613574987}
+  - component: {fileID: 268106543062708638}
   m_Layer: 8
   m_Name: PlayerCapsule
   m_TagString: Player
@@ -327,7 +328,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 7
   groundDrag: 5
-  jumpForce: 12
+  jumpForce: 6
   jumpCooldown: 0.25
   airMultiplier: 0.4
   walkSpeed: 0
@@ -362,9 +363,32 @@ MonoBehaviour:
     m_Bits: 0
   grappleForce: 15
   element: 
+  isPulling: 0
   predictionSphereCastRadius: 2
   predictionPoint: {fileID: 0}
   justLaunched: 0
   launchVelocity: {x: 0, y: 0, z: 0}
   isMovingGrapple: 0
   movingGrappleTransform: {fileID: 0}
+  selectedGrapple: {fileID: 0}
+  boostTimer: 0.75
+--- !u!114 &268106543062708638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8616685848737228372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c64832ad70c61e4289f949a18996a9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  newspherePrefab: {fileID: 5549920765329677207, guid: d3ae6cc152b32c646b8a7f4f1e663a5b,
+    type: 3}
+  spherePrefab: {fileID: 5549920765329677207, guid: 761158c71ca3d2b4d90f8a8d5d0f5ec7,
+    type: 3}
+  spawnDistance: 20
+  despawnTime: 5
+  placeablePointLimit: 5
+  placingPoint: 0

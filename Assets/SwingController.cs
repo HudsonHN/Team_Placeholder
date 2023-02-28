@@ -48,9 +48,11 @@ public class SwingController : MonoBehaviour
     public static long timeTakenForFirstSwing;
     private bool firstSwingComplete = false;
     private GrapplePoint hoveredGrapple;
-    private GrapplePoint selectedGrapple;
+    public GrapplePoint selectedGrapple;
 
     public static long giveanyname;
+
+    public float boostTimer = 0.75f;
 
     // Start is called before the first frame update
     void Start()
@@ -228,8 +230,10 @@ public class SwingController : MonoBehaviour
         }
         isSwinging = false;
         lr.positionCount = 0;
+        selectedGrapple = null;
         Destroy(joint);
     }
+
     void DrawRope()
     {
         if (!joint) return;
@@ -261,7 +265,7 @@ public class SwingController : MonoBehaviour
 
     private IEnumerator BoostTimer()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(boostTimer);
         canBoost = true;
         Manager.Instance.grappleText.text = "Launch READY";
     }

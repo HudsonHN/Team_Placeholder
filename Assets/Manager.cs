@@ -13,17 +13,13 @@ public class Manager : MonoBehaviour
 {
     public static Manager Instance { get; private set; }
     public GameObject UICanvas;
-    public Text chargeText;
     public Text grappleText;
     public Text levelCompleteText;
     public GameObject player;
     public GameObject spawnPoint;
     public GameObject pauseCanvas;
-    public TextMeshProUGUI sensXText;
-    public TextMeshProUGUI sensYText;
+    public TextMeshProUGUI sensValue;
     public GameObject leftClickPrompt;
-    public Text sensText;
-    public TextMeshProUGUI instructionText;
     public TextMeshProUGUI placeablePointsLeft;
     public Image elementImage;
     public Image crosshair;
@@ -35,6 +31,7 @@ public class Manager : MonoBehaviour
     public bool levelCompleted = false;
     public bool canStart = true;
     public PlayerCamera playerCamera;
+    public float playerSens = 1.0f;
 
     public bool isPaused = false;
     public GameObject goalObject;
@@ -69,16 +66,12 @@ public class Manager : MonoBehaviour
     void Start()
     {
         UICanvas = GameObject.Find("UI");
-        chargeText = UICanvas.transform.Find("Charge Text").GetComponent<Text>();
         grappleText = UICanvas.transform.Find("Grapple Text").GetComponent<Text>();
         levelCompleteText = UICanvas.transform.Find("Level Complete Text").GetComponent<Text>();
         player = GameObject.Find("PlayerCapsule");
         spawnPoint = GameObject.Find("SpawnPoint");
         pauseCanvas = UICanvas.transform.Find("Pause Menu").gameObject;
-        sensXText = pauseCanvas.transform.Find("Camera Sensitivity X").Find("Sens Text").GetComponent<TextMeshProUGUI>();
-        sensYText = pauseCanvas.transform.Find("Camera Sensitivity Y").Find("Sens Text").GetComponent<TextMeshProUGUI>();
-        sensText = UICanvas.transform.Find("Sensitivity Text").GetComponent<Text>();
-        instructionText = UICanvas.transform.Find("Instruction Text").GetComponent<TextMeshProUGUI>();
+        sensValue = pauseCanvas.transform.Find("Camera Sensitivity").Find("Sens Value").GetComponent<TextMeshProUGUI>();
         coinsInLevel = GameObject.Find("Level").transform.Find("Coins").childCount;
         elementImage = UICanvas.transform.Find("Element Image").GetComponent<Image>();
         levelCompleted = false;
@@ -90,7 +83,7 @@ public class Manager : MonoBehaviour
         if(UICanvas.transform.Find("Grapples Left Text") != null)
         {
             placeablePointsLeft = UICanvas.transform.Find("Grapples Left Text").GetComponent<TextMeshProUGUI>();
-            placeablePointsLeft.text = $"Placeable Points Left: {GetComponent<Throwable>().placeablePointLimit}";
+            placeablePointsLeft.text = $"Placeable Points Left: {player.GetComponent<Throwable>().placeablePointLimit}";
         }
 
 
@@ -99,7 +92,6 @@ public class Manager : MonoBehaviour
         coinsLeftText = UICanvas.transform.Find("Coins Left Text").GetComponent<TextMeshProUGUI>();
         coinsLeftText.text = $"Gold Coins Left: {coinsInLevel}";
         firstSwing = false;
-        
         
     }
 
@@ -133,9 +125,7 @@ public class Manager : MonoBehaviour
         deathCount++;
         SwingController sc = player.GetComponent<SwingController>();
         sc.launchVelocity = Vector3.zero;
-        UpdateChargeText(0.0f);
         sc.BreakRope();
-        
     }
 
     // Update is called once per frame
@@ -194,12 +184,6 @@ public class Manager : MonoBehaviour
             goalObject.SetActive(true);
             coinsLeftText.text = "Exit ready!";
         }
-    }
-
-
-    public void UpdateChargeText(float chargeAmt)
-    {
-        chargeText.text = $"Charge: {chargeAmt}";
     }
 
     public void UpdateLaunchText(int launchAmt)

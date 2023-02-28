@@ -18,10 +18,11 @@ public class Throwable : MonoBehaviour
 
     void Update()
     {
-        if (!placingPoint && placeablePointLimit > 0 && Input.GetKeyDown(KeyCode.E))
+        if (!placingPoint && placeablePointLimit > 0 && Input.GetKeyDown(KeyCode.R))
         {
+            Debug.Log($"PlaceablePointLimit: {placeablePointLimit}");
             placingPoint = true;
-            // Spawn the sphere 10 units away from the mouse pointer
+            // Spawn the sphere spawnDistance units away from the mouse pointer
             Vector3 spawnPos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + Camera.main.transform.forward * spawnDistance;
             GameObject newSphere = Instantiate(newspherePrefab, spawnPos, Quaternion.identity);
 
@@ -50,7 +51,11 @@ public class Throwable : MonoBehaviour
     IEnumerator Despawn(GameObject gameObject, float timer)
     {
         yield return new WaitForSeconds(timer);
-        Manager.Instance.player.GetComponent<SwingController>().BreakRope();
+        var sc = GetComponent<SwingController>();
+        if(sc.IsSwinging && gameObject == sc.selectedGrapple)
+        {
+            Manager.Instance.player.GetComponent<SwingController>().BreakRope();
+        }
         Destroy(gameObject);
     }
 
@@ -62,7 +67,7 @@ public class Throwable : MonoBehaviour
 
     IEnumerator FollowMouse(GameObject sphere)
     {
-        while (Input.GetKey(KeyCode.E))
+        while (Input.GetKey(KeyCode.R))
         {
             // Update the sphere's position to follow the mouse pointer
             Vector3 newPos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + Camera.main.transform.forward * spawnDistance;
@@ -71,7 +76,7 @@ public class Throwable : MonoBehaviour
             yield return null;
         }
     
-        // Destroy the sphere when the E key is released
+        // Destroy the sphere when the R key is released
         Destroy(sphere);
     }
 }
