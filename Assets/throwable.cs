@@ -31,7 +31,7 @@ public class Throwable : MonoBehaviour
             StartCoroutine(FollowMouse(newSphere));
         }
 
-        if (placingPoint && Input.GetKeyUp(KeyCode.E))
+        if (placingPoint && Input.GetKeyUp(KeyCode.R))
         {
             placingPoint = false;
             // Get the camera's position and forward direction
