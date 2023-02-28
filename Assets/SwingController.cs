@@ -54,6 +54,8 @@ public class SwingController : MonoBehaviour
 
     public float boostTimer = 0.75f;
 
+    public static int numSwings = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -218,6 +220,11 @@ public class SwingController : MonoBehaviour
                 timeTakenForFirstSwing = Manager.FirstSwingtimerParse.ElapsedTicks / 10000000;
                 Debug.Log("1Time taken for first swing: " + firstSwingStopwatch.ElapsedMilliseconds + "ms");
                 Debug.Log("2Time taken for first swing: " + timeTakenForFirstSwing + "ms");
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                numSwings++;
+                Debug.Log("Swing " + numSwings);
             }
         }
     }
