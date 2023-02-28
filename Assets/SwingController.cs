@@ -97,7 +97,7 @@ public class SwingController : MonoBehaviour
                 selectedGrapple = null;
             }
         }
-        if (pm.hasLaunched && !Manager.Instance.isPaused)
+        if (!Manager.Instance.isPaused)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
@@ -108,7 +108,7 @@ public class SwingController : MonoBehaviour
                 StopSwing();
                 isMovingGrapple = false;
             }
-            if (Input.GetKeyDown(KeyCode.Space) && !isSwinging)
+            if (Input.GetKeyDown(KeyCode.Space) && !isSwinging && !pm.grounded)
             {
                 GrappleLaunch();
             }
@@ -134,11 +134,6 @@ public class SwingController : MonoBehaviour
     {
         if(canGrapple)
         {
-            if(justLaunched)
-            {
-                justLaunched = false;
-                //rb.AddForce(-launchVelocity, ForceMode.Impulse);
-            }
             isSwinging = true;
             swingPoint = hit.point;
             joint = player.gameObject.AddComponent<SpringJoint>();
@@ -179,15 +174,15 @@ public class SwingController : MonoBehaviour
 
             BreakTimer timer = hit.collider.gameObject.GetComponent<BreakTimer>();
             if (timer != null) timer.StartTicking(this);
-        if (!firstSwingComplete)
-        {
-            firstSwingStopwatch.Stop();
-            firstSwingComplete = true;
-            Manager.FirstSwingtimerParse.Stop();
-            timeTakenForFirstSwing = Manager.FirstSwingtimerParse.ElapsedTicks / 10000000;
-            Debug.Log("1Time taken for first swing: " + firstSwingStopwatch.ElapsedMilliseconds + "ms");
-            Debug.Log("2Time taken for first swing: " + timeTakenForFirstSwing + "ms");
-        }
+            if (!firstSwingComplete)
+            {
+                firstSwingStopwatch.Stop();
+                firstSwingComplete = true;
+                Manager.FirstSwingtimerParse.Stop();
+                timeTakenForFirstSwing = Manager.FirstSwingtimerParse.ElapsedTicks / 10000000;
+                Debug.Log("1Time taken for first swing: " + firstSwingStopwatch.ElapsedMilliseconds + "ms");
+                Debug.Log("2Time taken for first swing: " + timeTakenForFirstSwing + "ms");
+            }
         }
     }
 
