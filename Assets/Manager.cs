@@ -84,9 +84,12 @@ public class Manager : MonoBehaviour
         crosshair = UICanvas.transform.Find("Outline Crosshair").Find("Inner Crosshair").GetComponent<Image>();
         leftClickPrompt = UICanvas.transform.Find("Outline Crosshair").Find("Left_Click").gameObject;
         
-        placeablePointsLeft = UICanvas.transform.Find("Grapples Left Text").GetComponent<TextMeshProUGUI>();
+        if(UICanvas.transform.Find("Grapples Left Text") != null)
+        {
+            placeablePointsLeft = UICanvas.transform.Find("Grapples Left Text").GetComponent<TextMeshProUGUI>();
+            placeablePointsLeft.text = $"Placeable Points Left: {GetComponent<Throwable>().placeablePointLimit}";
+        }
 
-        placeablePointsLeft.text = $"Placeable Points Left: {GetComponent<Throwable>().placeablePointLimit}";
 
         goalObject = GameObject.Find("Level").transform.Find("EndPoint").gameObject;
         playerCamera = GameObject.Find("CameraHolder").transform.Find("MainCamera").GetComponent<PlayerCamera>();

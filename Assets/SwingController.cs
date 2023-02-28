@@ -44,6 +44,7 @@ public class SwingController : MonoBehaviour
     private Stopwatch firstSwingStopwatch;
     public static long timeTakenForFirstSwing;
     private bool firstSwingComplete = false;
+    private GrapplePoint hoveredGrapple;
     private GrapplePoint selectedGrapple;
 
     public static long giveanyname;
@@ -66,12 +67,12 @@ public class SwingController : MonoBehaviour
             canGrapple = true;
             Manager.Instance.crosshair.color = Color.green;
             Manager.Instance.leftClickPrompt.SetActive(true);
-            if(selectedGrapple != null) 
+            if(hoveredGrapple != null) 
             {
-                selectedGrapple.UnhoveredGrapple();
+                hoveredGrapple.UnhoveredGrapple();
             }
-            selectedGrapple = hit.transform.GetComponent<GrapplePoint>();
-            selectedGrapple.HoveredGrapple();
+            hoveredGrapple = hit.transform.GetComponent<GrapplePoint>();
+            hoveredGrapple.HoveredGrapple();
         }
         else if (Physics.SphereCast(cam.position, predictionSphereCastRadius, cam.forward, out hit, maxSwingDistance, whatIsGrappleable) 
             && (hit.collider.tag.Equals("NeutralPoint") || hit.collider.tag.Equals(element))) 
@@ -79,22 +80,22 @@ public class SwingController : MonoBehaviour
             canGrapple = true;
             Manager.Instance.crosshair.color = Color.green;
             Manager.Instance.leftClickPrompt.SetActive(true);
-            if (selectedGrapple != null)
+            if (hoveredGrapple != null)
             {
-                selectedGrapple.UnhoveredGrapple();
+                hoveredGrapple.UnhoveredGrapple();
             }
-            selectedGrapple = hit.transform.GetComponent<GrapplePoint>();
-            selectedGrapple.HoveredGrapple();
+            hoveredGrapple = hit.transform.GetComponent<GrapplePoint>();
+            hoveredGrapple.HoveredGrapple();
         }
         else
         {
             canGrapple = false;
             Manager.Instance.crosshair.color = Color.white;
             Manager.Instance.leftClickPrompt.SetActive(false);
-            if (selectedGrapple != null)
+            if (hoveredGrapple != null)
             {
-                selectedGrapple.UnhoveredGrapple();
-                selectedGrapple = null;
+                hoveredGrapple.UnhoveredGrapple();
+                hoveredGrapple = null;
             }
         }
         if (!Manager.Instance.isPaused)
@@ -139,8 +140,10 @@ public class SwingController : MonoBehaviour
             joint = player.gameObject.AddComponent<SpringJoint>();
             joint.autoConfigureConnectedAnchor = false;
             joint.connectedAnchor = swingPoint;
-            
-            if(hit.transform.GetComponent<MovingObstacle>() != null)
+
+            selectedGrapple = hit.transform.GetComponent<GrapplePoint>();
+
+            if (hit.transform.GetComponent<MovingObstacle>() != null)
             {
                 isMovingGrapple = true;
                 movingGrappleTransform = hit.transform;

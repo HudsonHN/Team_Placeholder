@@ -153,7 +153,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5393215578589016642}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: d7852cb91c211614b959d009ec24ef3f, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
@@ -337,10 +337,10 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 1
+  grounded: 0
   orientation: {fileID: 2138285616}
-  hasLaunched: 0
-  _launchHoldTimer: 0
-  _launchHoldLimit: 3
+  launchHoldTimer: 0
+  launchHoldLimit: 2
 --- !u!114 &135756641613574987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,3 +360,11 @@ MonoBehaviour:
   whatIsGrappleable:
     serializedVersion: 2
     m_Bits: 0
+  grappleForce: 15
+  element: 
+  predictionSphereCastRadius: 2
+  predictionPoint: {fileID: 0}
+  justLaunched: 0
+  launchVelocity: {x: 0, y: 0, z: 0}
+  isMovingGrapple: 0
+  movingGrappleTransform: {fileID: 0}
