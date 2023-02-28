@@ -37,8 +37,8 @@ public class PlayerCamera : MonoBehaviour
             float mouseX = Input.GetAxisRaw("Mouse X") * Time.unscaledDeltaTime * sensX * 1000.0f;
             float mouseY = Input.GetAxisRaw("Mouse Y") * Time.unscaledDeltaTime * sensY * 1000.0f;
 #elif UNITY_WEBGL
-            float mouseX = Input.GetAxisRaw("Mouse X") * Time.unscaledDeltaTime * sensX * 10.0f;
-            float mouseY = Input.GetAxisRaw("Mouse Y") * Time.unscaledDeltaTime * sensY * 10.0f;
+            float mouseX = Input.GetAxisRaw("Mouse X") * Time.unscaledDeltaTime * sensX * 65.0f;
+            float mouseY = Input.GetAxisRaw("Mouse Y") * Time.unscaledDeltaTime * sensY * 65.0f;
 #else
             float mouseX = Input.GetAxisRaw("Mouse X") * Time.unscaledDeltaTime * sensX * 1000.0f;
             float mouseY = Input.GetAxisRaw("Mouse Y") * Time.unscaledDeltaTime * sensY * 1000.0f;
@@ -52,19 +52,12 @@ public class PlayerCamera : MonoBehaviour
         }
     }
 
-    public void setCameraX(float newSens)
+    public void setCamera(float newSens)
     {
         sensX = newSens;
         sensX = Mathf.Clamp(sensX, 0.0f, 2.0f);
-        Manager.Instance.sensText.text = $"Mouse Sens: {sensX.ToString().Truncate(3)}";
-        Manager.Instance.sensXText.text = sensX.ToString();
-    }
-
-    public void setCameraY(float newSens)
-    {
-        sensY = newSens;
-        sensY = Mathf.Clamp(sensY, 0.0f, 2.0f);
-        Manager.Instance.sensText.text = $"Mouse Sens: {sensY.ToString().Truncate(3)}";
-        Manager.Instance.sensYText.text = sensY.ToString();
+        sensY = sensX;
+        Manager.Instance.playerSens = sensX;
+        Manager.Instance.sensValue.text = $"{sensX.ToString().Truncate(2)}";
     }
 }

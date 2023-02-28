@@ -5,21 +5,22 @@ using UnityEngine.UI;
 using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+using static UnityEngine.Debug;
+
 
 public class Manager : MonoBehaviour
 {
     public static Manager Instance { get; private set; }
     public GameObject UICanvas;
-    public Text chargeText;
     public Text grappleText;
     public Text levelCompleteText;
     public GameObject player;
     public GameObject spawnPoint;
     public GameObject pauseCanvas;
-    public TextMeshProUGUI sensXText;
-    public TextMeshProUGUI sensYText;
-    public Text sensText;
-    public TextMeshProUGUI instructionText;
+    public TextMeshProUGUI sensValue;
+    public GameObject leftClickPrompt;
+    public TextMeshProUGUI placeablePointsLeft;
     public Image elementImage;
     public Image crosshair;
     public Quaternion initialOrientation;
@@ -30,6 +31,7 @@ public class Manager : MonoBehaviour
     public bool levelCompleted = false;
     public bool canStart = true;
     public PlayerCamera playerCamera;
+    public float playerSens = 1.0f;
 
     public bool isPaused = false;
     public GameObject goalObject;
@@ -64,27 +66,33 @@ public class Manager : MonoBehaviour
     void Start()
     {
         UICanvas = GameObject.Find("UI");
-        chargeText = UICanvas.transform.Find("Charge Text").GetComponent<Text>();
         grappleText = UICanvas.transform.Find("Grapple Text").GetComponent<Text>();
         levelCompleteText = UICanvas.transform.Find("Level Complete Text").GetComponent<Text>();
         player = GameObject.Find("PlayerCapsule");
         spawnPoint = GameObject.Find("SpawnPoint");
         pauseCanvas = UICanvas.transform.Find("Pause Menu").gameObject;
-        sensXText = pauseCanvas.transform.Find("Camera Sensitivity X").Find("Sens Text").GetComponent<TextMeshProUGUI>();
-        sensYText = pauseCanvas.transform.Find("Camera Sensitivity Y").Find("Sens Text").GetComponent<TextMeshProUGUI>();
-        sensText = UICanvas.transform.Find("Sensitivity Text").GetComponent<Text>();
-        instructionText = UICanvas.transform.Find("Instruction Text").GetComponent<TextMeshProUGUI>();
+        sensValue = pauseCanvas.transform.Find("Camera Sensitivity").Find("Sens Value").GetComponent<TextMeshProUGUI>();
         coinsInLevel = GameObject.Find("Level").transform.Find("Coins").childCount;
         elementImage = UICanvas.transform.Find("Element Image").GetComponent<Image>();
         levelCompleted = false;
         timerParse = Stopwatch.StartNew();
         FirstSwingtimerParse = Stopwatch.StartNew();
         crosshair = UICanvas.transform.Find("Outline Crosshair").Find("Inner Crosshair").GetComponent<Image>();
+        leftClickPrompt = UICanvas.transform.Find("Outline Crosshair").Find("Left_Click").gameObject;
+        
+        if(UICanvas.transform.Find("Grapples Left Text") != null)
+        {
+            placeablePointsLeft = UICanvas.transform.Find("Grapples Left Text").GetComponent<TextMeshProUGUI>();
+            placeablePointsLeft.text = $"Placeable Points Left: {player.GetComponent<Throwable>().placeablePointLimit}";
+        }
+
+
         goalObject = GameObject.Find("Level").transform.Find("EndPoint").gameObject;
         playerCamera = GameObject.Find("CameraHolder").transform.Find("MainCamera").GetComponent<PlayerCamera>();
         coinsLeftText = UICanvas.transform.Find("Coins Left Text").GetComponent<TextMeshProUGUI>();
         coinsLeftText.text = $"Gold Coins Left: {coinsInLevel}";
         firstSwing = false;
+        
     }
 
     void ResetScene()
@@ -108,7 +116,6 @@ public class Manager : MonoBehaviour
     {
         player.transform.SetPositionAndRotation(spawnPoint.transform.position, initialOrientation);
         player.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        player.GetComponent<PlayerMovement>().hasLaunched = false;
         player.GetComponent<PlayerMovement>().launchHoldTimer = 0.0f;
         if(cameraCoroutine != null)
         {
@@ -116,10 +123,9 @@ public class Manager : MonoBehaviour
         }
         cameraCoroutine = StartCoroutine(StopCamera());
         deathCount++;
-        player.GetComponent<SwingController>().launchVelocity = Vector3.zero;
-        UpdateChargeText(0.0f);
-        
-        
+        SwingController sc = player.GetComponent<SwingController>();
+        sc.launchVelocity = Vector3.zero;
+        sc.BreakRope();
     }
 
     // Update is called once per frame
@@ -146,7 +152,9 @@ public class Manager : MonoBehaviour
                     UnPause();
                 }
             }
+       
         }
+        
     }
 
     public void Pause()
@@ -176,12 +184,6 @@ public class Manager : MonoBehaviour
             goalObject.SetActive(true);
             coinsLeftText.text = "Exit ready!";
         }
-    }
-
-
-    public void UpdateChargeText(float chargeAmt)
-    {
-        chargeText.text = $"Charge: {chargeAmt}";
     }
 
     public void UpdateLaunchText(int launchAmt)
