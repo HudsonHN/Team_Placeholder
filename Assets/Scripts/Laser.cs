@@ -13,6 +13,7 @@ public class Laser : MonoBehaviour
     private float timer = 0.0f;
     
     private LineRenderer mLine;
+    private AudioSource audio;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,8 @@ public class Laser : MonoBehaviour
         mLine = GetComponent<LineRenderer>();
         mLine.SetPosition(0, start.transform.position);
         mLine.SetPosition(1, end.transform.position);
+
+        audio = GetComponent<AudioSource>();
     }
     
     void FixedUpdate()
@@ -35,6 +38,7 @@ public class Laser : MonoBehaviour
                 {
                     if (hit.collider.gameObject.transform.parent.CompareTag("Player"))
                     {
+                        audio.Play();
                         Manager.Instance.RespawnPlayer();
                     }
                 }
