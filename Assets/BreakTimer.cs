@@ -103,6 +103,7 @@ public class BreakTimer : MonoBehaviour
         renderer.enabled = false;
         collider.enabled = false;
         yield return new WaitForSeconds(timeToReset);
+        renderer.material.color = c_Opaque;
         renderer.enabled = true;
         collider.enabled = true;
     }
