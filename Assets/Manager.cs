@@ -108,7 +108,7 @@ public class Manager : MonoBehaviour
     {
         player.transform.SetPositionAndRotation(spawnPoint.transform.position, initialOrientation);
         player.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        player.GetComponent<PlayerMovement>().hasLaunched = false;
+        //player.GetComponent<PlayerMovement>().hasLaunched = false;
         player.GetComponent<PlayerMovement>().launchHoldTimer = 0.0f;
         if(cameraCoroutine != null)
         {
