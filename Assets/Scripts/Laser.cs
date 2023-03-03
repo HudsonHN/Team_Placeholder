@@ -35,6 +35,8 @@ public class Laser : MonoBehaviour
                 {
                     if (hit.collider.gameObject.transform.parent.CompareTag("Player"))
                     {
+                        UnityEngine.Debug.Log("laser hit: " + mLine.gameObject.transform.parent.gameObject.name);
+                        Manager.Instance.allLasers[mLine.gameObject.transform.parent.gameObject.name] += 1;
                         Manager.Instance.RespawnPlayer();
                     }
                 }

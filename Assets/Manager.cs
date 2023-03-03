@@ -49,17 +49,20 @@ public class Manager : MonoBehaviour
 
     public Dictionary<string, int> grapplePointsAndCounts;
     public Dictionary<string, float> allCoins;
+    public Dictionary<string, int> allLasers;
 
+    public Transform lasers;
     public string grapplePointNames;
     public string grapplePointValues;
 
     public string coinNames;
     public string coinValues;
 
+    public string laserNames;
+    public string laserValues;
+
     public bool hasGrappledAPoint = false;
     public bool hasGrabbedCoin = false;
-
-
 
     private void Awake()
     {
@@ -77,14 +80,23 @@ public class Manager : MonoBehaviour
         GameObject[] allBlueGrapplePoints = GameObject.FindGameObjectsWithTag("BluePoint");
 
         Object[] allPickupables = Object.FindObjectsOfType(typeof(Pickupable));
+        GameObject[] allUntaggedObjects = GameObject.FindGameObjectsWithTag("Untagged");
 
+        UnityEngine.Debug.Log("length of all untagged objects array: " + allUntaggedObjects.Length);
+
+        /*for (int i = 0; i < allUntaggedObjects.Length; i++)
+        {
+            Debug.Log("")
+        }*/
 
         grapplePointsAndCounts = new Dictionary<string, int>();
         allCoins = new Dictionary<string, float>();
+        allLasers = new Dictionary<string, int>();
 
         for (int i = 0; i < allNormalGrapplePoints.Length; i++)
         {
-            grapplePointsAndCounts.Add(allNormalGrapplePoints[i].name, 0);
+            if (!grapplePointsAndCounts.ContainsKey(allNormalGrapplePoints[i].name))
+                grapplePointsAndCounts.Add(allNormalGrapplePoints[i].name, 0);
         }
 
         for (int i = 0; i < allRedGrapplePoints.Length; i++)
@@ -96,11 +108,20 @@ public class Manager : MonoBehaviour
         {
             grapplePointsAndCounts.Add(allBlueGrapplePoints[i].name, 0);
         }
-
         for (int i = 0; i < allPickupables.Length; i++)
         {
             if (allPickupables[i].name.Contains("Coin"))
                 allCoins.Add(allPickupables[i].name, 0);
+        }
+        
+        if (GameObject.Find("Level").transform.Find("Lasers"))
+        {
+            lasers = GameObject.Find("Level").transform.Find("Lasers").transform;
+            foreach(Transform laser in lasers)
+            {
+                laserNames += laser.name + " ";
+                allLasers[laser.name] = 0;
+            }
         }
     }
 
@@ -129,6 +150,15 @@ public class Manager : MonoBehaviour
         coinsLeftText = UICanvas.transform.Find("Coins Left Text").GetComponent<TextMeshProUGUI>();
         coinsLeftText.text = $"Gold Coins Left: {coinsInLevel}";
         firstSwing = false;
+
+        /*lasers = GameObject.Find("Level").transform.Find("Lasers").transform;
+        int i = 0;
+        foreach(Transform laser in Manager.Instance.lasers)
+        {
+            laserNames += laser.name + " ";
+            string test = "wtf is happening";
+            allLasers[test] = 0;
+        }*/
     }
 
     void ResetScene()
@@ -164,7 +194,14 @@ public class Manager : MonoBehaviour
         sc.launchVelocity = Vector3.zero;
         UpdateChargeText(0.0f);
         sc.BreakRope();
-        
+
+        laserValues = "";
+        foreach (KeyValuePair<string, int> laserData in allLasers)
+        {
+            laserValues += laserData.Value + " ";
+        }
+
+        UnityEngine.Debug.Log("laser values: " + laserValues);
     }
 
     // Update is called once per frame
