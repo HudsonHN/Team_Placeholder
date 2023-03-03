@@ -18,6 +18,11 @@ public class AnalyticsObj : MonoBehaviour
     public string coinNames;
     public string coinValues;
 
+    public string laserNames;
+    public string laserValues;
+
+    public int numSpawnGrapples;
+
     public AnalyticsObj(){
         deathCount = Manager.Instance.deathCount;
         timeToFinish = Goal.timeLine;
@@ -32,6 +37,11 @@ public class AnalyticsObj : MonoBehaviour
 
         coinNames = Manager.Instance.coinNames;
         coinValues = Manager.Instance.coinValues;
+
+        laserNames = Manager.Instance.laserNames;
+        laserValues = Manager.Instance.laserValues;
+
+        numSpawnGrapples = Manager.Instance.spawnedGrapplePoints;
         
         Debug.Log("Analytics TIme taken for first swing : "+FirstSwingTimeTaken);
         // Debug.Log("Analytics TIme taken for first swing : "+checkpointTimes);

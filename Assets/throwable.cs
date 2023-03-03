@@ -16,6 +16,9 @@ public class throwable : MonoBehaviour
             // Spawn the sphere 10 units away from the mouse pointer
             Vector3 spawnPos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + Camera.main.transform.forward * spawnDistance;
             GameObject newSphere = Instantiate(newspherePrefab, spawnPos, Quaternion.identity);
+
+            Manager.Instance.spawnedGrapplePoints++;
+            UnityEngine.Debug.Log("number of grapple points: " + Manager.Instance.spawnedGrapplePoints);
         
             // Keep updating the sphere's position to follow the mouse pointer
             StartCoroutine(FollowMouse(newSphere));
