@@ -10,6 +10,7 @@ public class Checkpoint : MonoBehaviour
     public bool Activated { get { return activated; } }
     public GameObject spawnPoint;
     private MeshRenderer renderer;
+    private Transform flagTransform;
     private float startTime;
     public static string checkpointname;
     public static string checkname = "initial";
@@ -20,6 +21,16 @@ public class Checkpoint : MonoBehaviour
     void Start()
     { 
         startTime = Time.time;
+
+        {
+            Transform flagParent = transform.Find("Flag");
+            if (flagParent)
+            {
+                Vector3 parentScale = transform.localScale;
+                flagParent.localScale = new Vector3(8f / parentScale.x, 1f, 8f / parentScale.z);
+                flagTransform = flagParent.Find("Flag");
+            }
+        }
     }
 
     public void ActivateCheckpoint()
@@ -36,6 +47,8 @@ public class Checkpoint : MonoBehaviour
         {
             renderer.material.color = c_activated;
         }
+
+        StartCoroutine(RaiseFlag(5.8f, .3f, 0.02f));
 
         // Get the name of the checkpoint
         string tempcheckpointName = gameObject.name;
@@ -54,5 +67,21 @@ public class Checkpoint : MonoBehaviour
     {
 
             ActivateCheckpoint();
+    }
+
+    IEnumerator RaiseFlag(float targetY, float time, float frame)
+    {
+        if (flagTransform)
+        {
+            float timer = 0f;
+            float currY = flagTransform.localPosition.y;
+            float currX = flagTransform.localPosition.x;
+            while (timer < time)
+            {
+                timer = Mathf.Min(timer + frame, time);
+                flagTransform.localPosition = new Vector3(currX, Mathf.Lerp(currY, targetY, timer / time), 0f);
+                yield return new WaitForSeconds(frame);
+            }
+        }
     }
 }
