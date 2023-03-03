@@ -92,8 +92,14 @@ public class BreakTimer : MonoBehaviour
     {
         while (showWarning)
         {
-            renderer.material.color =
-               (renderer.material.color.a == 1) ? c_Transp : c_Opaque;
+            if(renderer.material.GetColor("_BaseColor") != null)
+            {
+                renderer.material.SetColor("_BaseColor", (renderer.material.GetColor("_BaseColor").a == 1.0f) ? c_Transp : c_Opaque);
+            }
+            else if(renderer.material.GetColor("_Color") != null)
+            {
+                renderer.material.SetColor("_Color", (renderer.material.GetColor("_Color").a == 1.0f) ? c_Transp : c_Opaque);
+            }
             yield return new WaitForSeconds(.5f);
         }
     }

@@ -112,6 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockbackForce: 3
+  outlineMat: {fileID: 2100000, guid: 582b087421b2fd14dbf82d20733c9f91, type: 2}
 --- !u!114 &2069154606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,5 +128,6 @@ MonoBehaviour:
   isAround: 0
   isHorizontal: 0
   isVertical: 0
+  isFake: 0
   maxMoveRange: 3
   speed: 1

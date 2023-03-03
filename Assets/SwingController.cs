@@ -47,8 +47,14 @@ public class SwingController : MonoBehaviour
     private Stopwatch firstSwingStopwatch;
     public static long timeTakenForFirstSwing;
     private bool firstSwingComplete = false;
+    private GrapplePoint hoveredGrapple;
+    public GrapplePoint selectedGrapple;
 
     public static long giveanyname;
+
+    public float boostTimer = 0.75f;
+
+    public static int numSwings = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -67,22 +73,42 @@ public class SwingController : MonoBehaviour
         {
             canGrapple = true;
             Manager.Instance.crosshair.color = Color.green;
+            Manager.Instance.leftClickPrompt.SetActive(true);
+            if(hoveredGrapple != null) 
+            {
+                hoveredGrapple.UnhoveredGrapple();
+            }
+            hoveredGrapple = hit.transform.GetComponent<GrapplePoint>();
+            hoveredGrapple.HoveredGrapple();
         }
         else if (Physics.SphereCast(cam.position, predictionSphereCastRadius, cam.forward, out hit, maxSwingDistance, whatIsGrappleable) 
             && (hit.collider.tag.Equals("NeutralPoint") || hit.collider.tag.Equals(element))) 
         {
             canGrapple = true;
             Manager.Instance.crosshair.color = Color.green;
+            Manager.Instance.leftClickPrompt.SetActive(true);
+            if (hoveredGrapple != null)
+            {
+                hoveredGrapple.UnhoveredGrapple();
+            }
+            hoveredGrapple = hit.transform.GetComponent<GrapplePoint>();
+            hoveredGrapple.HoveredGrapple();
         }
         else
         {
             canGrapple = false;
             Manager.Instance.crosshair.color = Color.white;
+            Manager.Instance.leftClickPrompt.SetActive(false);
+            if (hoveredGrapple != null)
+            {
+                hoveredGrapple.UnhoveredGrapple();
+                hoveredGrapple = null;
+            }
         }
-        if (pm.hasLaunched && !Manager.Instance.isPaused)
+        if (!Manager.Instance.isPaused)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
-            {
+            {   
                 StartSwing();
             }
             if (Input.GetKeyUp(KeyCode.Mouse0))
@@ -90,7 +116,7 @@ public class SwingController : MonoBehaviour
                 StopSwing();
                 isMovingGrapple = false;
             }
-            if (Input.GetKeyDown(KeyCode.Space) && !isSwinging)
+            if (Input.GetKeyDown(KeyCode.Space) && !isSwinging && !pm.grounded)
             {
                 GrappleLaunch();
             }
@@ -122,6 +148,15 @@ public class SwingController : MonoBehaviour
                 //rb.AddForce(-launchVelocity, ForceMode.Impulse);
             }
 
+            UnityEngine.Debug.Log("point grappled: " + hit.collider.name);
+            if (Manager.Instance.grapplePointsAndCounts.ContainsKey(hit.collider.name))
+            {
+                Manager.Instance.grapplePointsAndCounts[hit.collider.name] += 1;
+                Manager.Instance.hasGrappledAPoint = true;
+                Manager.Instance.grapplePointNames = "";
+                Manager.Instance.grapplePointValues = "";
+            }
+
             // Check for pull point (same input, different behavior)
             PullPoint pull;
             if (hit.collider.gameObject.TryGetComponent<PullPoint>(out pull))
@@ -140,8 +175,10 @@ public class SwingController : MonoBehaviour
             joint = player.gameObject.AddComponent<SpringJoint>();
             joint.autoConfigureConnectedAnchor = false;
             joint.connectedAnchor = swingPoint;
-            
-            if(hit.transform.GetComponent<MovingObstacle>() != null)
+
+            selectedGrapple = hit.transform.GetComponent<GrapplePoint>();
+
+            if (hit.transform.GetComponent<MovingObstacle>() != null)
             {
                 isMovingGrapple = true;
                 movingGrappleTransform = hit.transform;
@@ -175,21 +212,27 @@ public class SwingController : MonoBehaviour
 
             BreakTimer timer = hit.collider.gameObject.GetComponent<BreakTimer>();
             if (timer != null) timer.StartTicking(this);
-        if (!firstSwingComplete)
-        {
-            firstSwingStopwatch.Stop();
-            firstSwingComplete = true;
-            Manager.FirstSwingtimerParse.Stop();
-            timeTakenForFirstSwing = Manager.FirstSwingtimerParse.ElapsedTicks / 10000000;
-            Debug.Log("1Time taken for first swing: " + firstSwingStopwatch.ElapsedMilliseconds + "ms");
-            Debug.Log("2Time taken for first swing: " + timeTakenForFirstSwing + "ms");
-        }
+            if (!firstSwingComplete)
+            {
+                firstSwingStopwatch.Stop();
+                firstSwingComplete = true;
+                Manager.FirstSwingtimerParse.Stop();
+                timeTakenForFirstSwing = Manager.FirstSwingtimerParse.ElapsedTicks / 10000000;
+                Debug.Log("1Time taken for first swing: " + firstSwingStopwatch.ElapsedMilliseconds + "ms");
+                Debug.Log("2Time taken for first swing: " + timeTakenForFirstSwing + "ms");
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                numSwings++;
+                Debug.Log("Swing " + numSwings);
+            }
         }
     }
 
     public void BreakRope()
     {
         StopSwing();
+        isMovingGrapple = false;
     }
 
     void StopSwing()
@@ -203,8 +246,10 @@ public class SwingController : MonoBehaviour
         }
         isSwinging = false;
         lr.positionCount = 0;
+        selectedGrapple = null;
         Destroy(joint);
     }
+
     void DrawRope()
     {
         if (!joint) return;
@@ -236,7 +281,7 @@ public class SwingController : MonoBehaviour
 
     private IEnumerator BoostTimer()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(boostTimer);
         canBoost = true;
         Manager.Instance.grappleText.text = "Launch READY";
     }
