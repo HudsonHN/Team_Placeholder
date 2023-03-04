@@ -356,12 +356,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lr: {fileID: 135756641613574986}
-  gunTip: {fileID: 0}
+  gunTip: {fileID: 4135013735270702856}
   cam: {fileID: 0}
   player: {fileID: 8997996947095583982}
   whatIsGrappleable:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   grappleForce: 15
   element: 
   isPulling: 0

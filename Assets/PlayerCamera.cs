@@ -9,6 +9,7 @@ public class PlayerCamera : MonoBehaviour
     public float sensY;
 
     public Transform orientation;
+    public Transform cameraFollowTarget;
 
     float xRotation;
     float yRotation;
@@ -21,6 +22,7 @@ public class PlayerCamera : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         canLook = true;
+        cameraFollowTarget = GameObject.Find("PlayerCapsule").transform.Find("PlayerCameraRoot");
     }
 
     // Update is called once per frame
@@ -47,6 +49,7 @@ public class PlayerCamera : MonoBehaviour
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -90.0f, 90.0f);
 
+            cameraFollowTarget.rotation = Quaternion.Euler(xRotation, yRotation, 0.0f);
             transform.rotation = Quaternion.Euler(xRotation, yRotation, 0.0f);
             orientation.rotation = Quaternion.Euler(0.0f, yRotation, 0.0f);
         }

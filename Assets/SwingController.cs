@@ -61,6 +61,11 @@ public class SwingController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         pm = GetComponent<PlayerMovement>();
+        if(!cam)
+        {
+            Debug.Log("Camera not manually assigned, auto-assigning...");
+            cam = GameObject.Find("CameraHolder").transform.Find("MainCamera");
+        }
         canBoost = true;
         firstSwingStopwatch = Stopwatch.StartNew();
     }
