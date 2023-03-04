@@ -5,7 +5,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement")]
     public float moveSpeed; //please keep this as public, it is using on 
 
-    public bool movePlayer = false; // prevent user from using keyboard during tutorials
+    public bool movePlayer; // prevent user from using keyboard during tutorials
 
     public float groundDrag;
 
