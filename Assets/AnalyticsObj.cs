@@ -17,6 +17,7 @@ public class AnalyticsObj : MonoBehaviour
 
     public string coinNames;
     public string coinValues;
+    public string swingCount;
 
     public string laserNames;
     public string laserValues;
@@ -29,6 +30,10 @@ public class AnalyticsObj : MonoBehaviour
         checkpointname = Checkpoint.checkpointname;
         checkpointTimer = Checkpoint.checkpointTimer;
         FirstSwingTimeTaken = SwingController.timeTakenForFirstSwing;
+
+        coinNames = Pickupable.coinName;
+        
+        swingCount = Pickupable.swingCount;
 
         sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
 
@@ -46,7 +51,10 @@ public class AnalyticsObj : MonoBehaviour
         Debug.Log("Analytics TIme taken for first swing : "+FirstSwingTimeTaken);
         // Debug.Log("Analytics TIme taken for first swing : "+checkpointTimes);
         // Debug.Log("Analytics TIme taken for first swing : "+Manager.Instance.checkpointTimes);
-        Debug.Log("2 TIme taken for first swing : "+Checkpoint.checkpointname);
+        Debug.Log("Analytics checkpoint names : "+Checkpoint.checkpointname);
         Debug.Log("3 TIme taken for first swing : "+Checkpoint.checkpointTimer);
+
+        Debug.Log("Analytics coin names : "+Pickupable.coinName);
+        Debug.Log("Analytics swing count : "+Pickupable.swingCount);
     }
 }

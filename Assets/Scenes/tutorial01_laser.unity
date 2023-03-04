@@ -3519,6 +3519,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: LaserMine
       objectReference: {fileID: 0}
+    - target: {fileID: 7002024220046429380, guid: 8156ba46da7f35c4db18a2c160802c74,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002024220046429380, guid: 8156ba46da7f35c4db18a2c160802c74,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 7002024220046429380, guid: 8156ba46da7f35c4db18a2c160802c74,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002024220046429380, guid: 8156ba46da7f35c4db18a2c160802c74,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.103220955
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8156ba46da7f35c4db18a2c160802c74, type: 3}
 --- !u!1 &1940159374

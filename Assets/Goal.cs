@@ -27,7 +27,6 @@ public class Goal : MonoBehaviour
             Debug.Log("Level Complete!");
             hasFinished = true;
             Manager.Instance.levelCompleteText.gameObject.SetActive(true);
-            Manager.Instance.chargeText.gameObject.SetActive(false);
             Manager.Instance.grappleText.gameObject.SetActive(false);
             Manager.Instance.UICanvas.transform.Find("Outline Crosshair").gameObject.SetActive(false);
             Manager.Instance.UICanvas.transform.Find("Outline Crosshair").Find("Inner Crosshair").gameObject.SetActive(false);
@@ -57,6 +56,7 @@ public class Goal : MonoBehaviour
     private void PostToDatabase(){
         AnalyticsObj dbObj = new AnalyticsObj();
         Proyecto26.RestClient.Post("https://teamplaceholder7-71de2-default-rtdb.firebaseio.com/.json",dbObj);
+        //Proyecto26.RestClient.Post("https://placeholders-ee91c-default-rtdb.firebaseio.com/.json",dbObj);
     }
     IEnumerator LoadSceneDelayed()
     {
