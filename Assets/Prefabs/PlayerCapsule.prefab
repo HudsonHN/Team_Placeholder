@@ -342,6 +342,7 @@ MonoBehaviour:
   orientation: {fileID: 2138285616}
   launchHoldTimer: 0
   launchHoldLimit: 2
+  _collider: {fileID: 5393215578589016640}
 --- !u!114 &135756641613574987
 MonoBehaviour:
   m_ObjectHideFlags: 0

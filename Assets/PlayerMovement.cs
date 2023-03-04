@@ -38,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
     public float launchHoldTimer;
     public float launchHoldLimit = 2.0f;
 
+    [SerializeField] private Collider _collider;
     private GameObject _mainCamera;
     private Manager _manager;
 
@@ -64,6 +65,15 @@ public class PlayerMovement : MonoBehaviour
     {
         // ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
+
+        if(!grounded)
+        {
+            _collider.material.dynamicFriction = 10.0f;
+        }
+        else
+        {
+            _collider.material.dynamicFriction = 0.1f;
+        }
 
         MyInput();
         SpeedControl();
