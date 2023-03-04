@@ -30,6 +30,7 @@ public class TutorialPoint : MonoBehaviour
         "Welcome to Swinging Game!",
         "Let's learn how to move!",
         "Use WASD to move",
+        "Try yourself!",
     };
 
     //Mouse move checker
@@ -39,14 +40,12 @@ public class TutorialPoint : MonoBehaviour
 
     //jump checker
     private bool jumpCheckDone = true;
-    private GameObject luanchBar;
-    Slider slider;
     private int jumpIndex = 0;
     string[] jumpMsgs =
     {
         "Let's learn how to LAUNCH",
         "Look where you want to jump",
-        "Press and hold SPACE BAR",
+        "Press SPACE BAR",
         "Try yourself",
     };
 
@@ -81,7 +80,7 @@ public class TutorialPoint : MonoBehaviour
         player = GameObject.Find("PlayerCapsule");
         freezeLikeImg = clickImg = GameObject.Find("UI").transform.Find("DetailedTutorial").transform.Find("ScreenFreeze").gameObject;
         clickImg = GameObject.Find("UI").transform.Find("DetailedTutorial").transform.Find("Left_Click").gameObject;
-        luanchBar = GameObject.Find("UI").transform.Find("DetailedTutorial").transform.Find("LaunchBar").gameObject;
+        //luanchBar = GameObject.Find("UI").transform.Find("DetailedTutorial").transform.Find("LaunchBar").gameObject; Do not require anymore
         //clickImg.SetActive(false);
     }
 
@@ -138,7 +137,6 @@ public class TutorialPoint : MonoBehaviour
         {
             jumpCheckDone = false;
             freezeLikeImg.SetActive(true);
-            slider = luanchBar.GetComponent<Slider>();
 
             player.gameObject.GetComponent<PlayerMovement>().movePlayer = false;    //stop player move;
 
@@ -208,14 +206,14 @@ public class TutorialPoint : MonoBehaviour
     {
         if (Manager.Instance.canStart)
         {
-            if (welcomIndex <= 1)
+            if (welcomIndex <= 2)
             {
                 instruction.text = welcomeMsgs[welcomIndex];
                 clickImg.SetActive(true);
                 freezeLikeImg.SetActive(true);
             }
 
-            if (welcomIndex == 2)
+            if (welcomIndex == 3)
             {
                 player.gameObject.GetComponent<PlayerMovement>().movePlayer = true;
                 startPosition = player.GetComponent<Transform>().position;
@@ -288,32 +286,23 @@ public class TutorialPoint : MonoBehaviour
 
             instruction.text = jumpMsgs[jumpIndex];
             clickImg.SetActive(true);
-            slider.value = player.gameObject.GetComponent<PlayerMovement>().launchHoldTimer;
         }
 
         else if (jumpIndex == 3)
         {
-            if (slider.value < 1.0)
-            {
-                instruction.text = jumpMsgs[jumpIndex];
-            }
-            else
-            {
-                instruction.text = "Release SPACE BAR";
-                jumpIndex++;
-            }
-
-            player.gameObject.GetComponent<PlayerMovement>().movePlayer = true;    //allow player move;
+            DontJumpOut();
+            instruction.text = jumpMsgs[jumpIndex];
+            jumpIndex++;
 
             freezeLikeImg.SetActive(false);
             clickImg.SetActive(false);
-            luanchBar.SetActive(true);
-            slider.value = player.gameObject.GetComponent<PlayerMovement>().launchHoldTimer;
         }
 
         if (jumpIndex == 4)
         {
-            luanchBar.SetActive(false);
+            player.gameObject.GetComponent<PlayerMovement>().movePlayer = true;    //allow player move;
+            DontJumpOut();
+
             jumpCheckDone = true;
         }
 
@@ -337,8 +326,8 @@ public class TutorialPoint : MonoBehaviour
         {
             instruction.text = swingMsgs[swingIndex];
 
-            DontJumpOut();
             player.gameObject.GetComponent<PlayerMovement>().movePlayer = true;    //allow player move;
+            DontJumpOut();
 
             freezeLikeImg.SetActive(false);
             clickImg.SetActive(false);
