@@ -22,7 +22,14 @@ public class PlayerCamera : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         canLook = true;
-        cameraFollowTarget = GameObject.Find("PlayerCapsule").transform.Find("PlayerCameraRoot");
+        if(!cameraFollowTarget)
+        {
+            cameraFollowTarget = GameObject.Find("PlayerCapsule").transform.Find("PlayerCameraRoot");
+        }
+        if(!orientation)
+        {
+            orientation = GameObject.Find("PlayerCapsule").transform.Find("Orientation");
+        }
     }
 
     // Update is called once per frame

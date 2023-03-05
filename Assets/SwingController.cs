@@ -42,7 +42,8 @@ public class SwingController : MonoBehaviour
     public bool isMovingGrapple;
     public Transform movingGrappleTransform;
     private Transform pullPointTransform;
-    private Color lrSwingColor;
+    [SerializeField] private Color lrSwingColor = Color.gray;
+    [SerializeField] private Color lrPullColor = Color.yellow;
 
     private Stopwatch firstSwingStopwatch;
     public static long timeTakenForFirstSwing;
@@ -68,6 +69,7 @@ public class SwingController : MonoBehaviour
         }
         canBoost = true;
         firstSwingStopwatch = Stopwatch.StartNew();
+        lr.material.color = lrSwingColor;
     }
 
     // Update is called once per frame
@@ -169,8 +171,7 @@ public class SwingController : MonoBehaviour
                 isPulling = true;
                 pullPointTransform = pull.transform;
                 lr.positionCount = 2;
-                lrSwingColor = lr.material.color;
-                lr.material.color = Color.yellow;
+                lr.material.color = lrPullColor;
                 pull.StartPulling(this);
                 return;
             }
