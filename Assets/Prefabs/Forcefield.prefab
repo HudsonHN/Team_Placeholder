@@ -4928,6 +4928,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cba7bfc9a768b174e90237a06a450792, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slowFactor: 0.1
+  slowFactor: 0.2
   slowDuration: 5
   fixedDeltaTime: 0.02
