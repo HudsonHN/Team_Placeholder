@@ -5134,7 +5134,7 @@ MonoBehaviour:
   spherePrefab: {fileID: 0}
   throwForce: 10
   destroyTime: 5
-  playerCamera: {fileID: 0}
+  playerCamera: {fileID: 1192765124}
 --- !u!1 &1604480244
 GameObject:
   m_ObjectHideFlags: 0
