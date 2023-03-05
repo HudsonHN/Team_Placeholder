@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class spherecoll : MonoBehaviour
+public class SphereCollider : MonoBehaviour
 {
     public float slowFactor = 0.1f; // factor by which to slow down time
     public float slowDuration = 5f; // duration of the time slowdown
