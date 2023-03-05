@@ -15,6 +15,14 @@ public class GrapplePoint : MonoBehaviour
     {
         _renderer = GetComponent<Renderer>();
         originalMat = _renderer.material;
+
+        {
+            PullPoint pullPoint;
+            if (!gameObject.TryGetComponent<PullPoint>(out pullPoint))
+            {
+                gameObject.AddComponent<PullPoint>();
+            }
+        }
     }
 
     // Update is called once per frame

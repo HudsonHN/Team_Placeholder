@@ -116,6 +116,14 @@ public class SwingController : MonoBehaviour
                 StopSwing();
                 isMovingGrapple = false;
             }
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                StartPull();
+            }
+            if (Input.GetKeyUp(KeyCode.Mouse1))
+            {
+                StopPull();
+            }
             if (Input.GetKeyDown(KeyCode.Space) && !isSwinging && !pm.grounded)
             {
                 GrappleLaunch();
@@ -155,19 +163,6 @@ public class SwingController : MonoBehaviour
                 Manager.Instance.hasGrappledAPoint = true;
                 Manager.Instance.grapplePointNames = "";
                 Manager.Instance.grapplePointValues = "";
-            }
-
-            // Check for pull point (same input, different behavior)
-            PullPoint pull;
-            if (hit.collider.gameObject.TryGetComponent<PullPoint>(out pull))
-            {
-                isPulling = true;
-                pullPointTransform = pull.transform;
-                lr.positionCount = 2;
-                lrSwingColor = lr.material.color;
-                lr.material.color = Color.yellow;
-                pull.StartPulling(this);
-                return;
             }
 
             isSwinging = true;
@@ -237,17 +232,35 @@ public class SwingController : MonoBehaviour
 
     void StopSwing()
     {
-        if (isPulling)
-        {
-            isPulling = false;
-            lr.positionCount = 0;
-            lr.material.color = lrSwingColor;
-            return;
-        }
         isSwinging = false;
         lr.positionCount = 0;
         selectedGrapple = null;
         Destroy(joint);
+    }
+
+    void StartPull()
+    {
+        if (canGrapple && !isPulling && !IsSwinging)
+        {
+            PullPoint pull;
+            if (hit.collider.gameObject.TryGetComponent<PullPoint>(out pull))
+            {
+                isPulling = true;
+                pullPointTransform = pull.transform;
+                lr.positionCount = 2;
+                lrSwingColor = lr.material.color;
+                lr.material.color = Color.yellow;
+                pull.StartPulling(this);
+            }
+        }
+    }
+
+    void StopPull()
+    {
+        if (!isPulling) return;
+        isPulling = false;
+        lr.positionCount = 0;
+        lr.material.color = lrSwingColor;
     }
 
     void DrawRope()
