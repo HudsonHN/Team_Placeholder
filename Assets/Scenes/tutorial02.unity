@@ -1139,7 +1139,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2069154606, guid: 761158c71ca3d2b4d90f8a8d5d0f5ec7, type: 3}
       propertyPath: speed
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2069154606, guid: 761158c71ca3d2b4d90f8a8d5d0f5ec7, type: 3}
       propertyPath: isAround
@@ -1236,8 +1236,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: GrapplePoint (5)
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1478336676, guid: 761158c71ca3d2b4d90f8a8d5d0f5ec7, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 761158c71ca3d2b4d90f8a8d5d0f5ec7, type: 3}
 --- !u!4 &576492544 stripped
 Transform:
