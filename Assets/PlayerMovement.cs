@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask whatIsGround;
-    bool grounded;
+    [HideInInspector] public bool grounded;
 
     public Transform orientation;
 
@@ -32,10 +32,10 @@ public class PlayerMovement : MonoBehaviour
 
     Rigidbody rb;
 
-    public bool hasLaunched;
     public float launchHoldTimer;
     public float launchHoldLimit = 2.0f;
 
+    [SerializeField] private Collider _collider;
     private GameObject _mainCamera;
     private Manager _manager;
 
@@ -54,7 +54,6 @@ public class PlayerMovement : MonoBehaviour
         rb.freezeRotation = true;
 
         readyToJump = true;
-        hasLaunched = false;
         launchHoldTimer = 0.0f;
         _manager = GameObject.Find("Game Manager").GetComponent<Manager>();
     }
@@ -63,6 +62,15 @@ public class PlayerMovement : MonoBehaviour
     {
         // ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
+
+        if(!grounded)
+        {
+            _collider.material.dynamicFriction = 10.0f;
+        }
+        else
+        {
+            _collider.material.dynamicFriction = 0.1f;
+        }
 
         MyInput();
         SpeedControl();
@@ -85,7 +93,8 @@ public class PlayerMovement : MonoBehaviour
         {
             horizontalInput = Input.GetAxisRaw("Horizontal");
             verticalInput = Input.GetAxisRaw("Vertical");
-            if (!hasLaunched)
+
+            /*if (!hasLaunched)
             {
                 if (Input.GetKey(KeyCode.Space))
                 {
@@ -104,7 +113,7 @@ public class PlayerMovement : MonoBehaviour
                     hasLaunched = true;
                     Manager.Instance.instructionText.text = "Left Click: Swing\r\nRight Click: Boost";
                 }
-            }
+            }*/
 
             /*if(hasLaunched)
             {
@@ -116,14 +125,14 @@ public class PlayerMovement : MonoBehaviour
             }*/
 
             // when to jump
-            /*if (Input.GetKey(jumpKey) && readyToJump && grounded)
+            if (Input.GetKey(jumpKey) && readyToJump && grounded)
             {
                 readyToJump = false;
 
                 Jump();
 
                 Invoke(nameof(ResetJump), jumpCooldown);
-            }*/
+            }
         }
     }
 
@@ -154,5 +163,15 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
         }
     }
+    private void Jump()
+    {
+        // reset y velocity
+        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
+        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+    }
+    private void ResetJump()
+    {
+        readyToJump = true;
+    }
 }
