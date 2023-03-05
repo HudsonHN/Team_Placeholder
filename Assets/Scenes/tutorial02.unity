@@ -5131,7 +5131,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2320e77fde8dbd540a27dc94530cf79e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spherePrefab: {fileID: 0}
+  spherePrefab: {fileID: 6987580182900727108, guid: 12131948428edea47b97137390484ffa,
+    type: 3}
   throwForce: 10
   destroyTime: 5
   playerCamera: {fileID: 1192765124}
