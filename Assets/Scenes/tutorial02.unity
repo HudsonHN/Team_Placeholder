@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 8900000, guid: 619e305f5165a9946b7f72464e44ca4a, type: 3}
   m_Sun: {fileID: 2114283754330233425}
-  m_IndirectSpecularColor: {r: 0.029152213, g: 0.064445764, b: 0.12695098, a: 1}
+  m_IndirectSpecularColor: {r: 0.029152188, g: 0.064445704, b: 0.12695079, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4160,9 +4160,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5faee38222e9ff4418fb543fa1ae5492, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsTriggered: 0
-  IsSlowed: 0
-  tutorialObject: {fileID: 1400922508}
 --- !u!65 &1481972049
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4537,6 +4534,23 @@ MonoBehaviour:
   hint2: {fileID: 0}
   hint3: {fileID: 0}
   hint4: {fileID: 0}
+--- !u!114 &1553243913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553243907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2320e77fde8dbd540a27dc94530cf79e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spherePrefab: {fileID: 6987580182900727108, guid: 12131948428edea47b97137390484ffa,
+    type: 3}
+  throwForce: 10
+  destroyTime: 5
+  playerCamera: {fileID: 1192765124}
 --- !u!1 &1604480244
 GameObject:
   m_ObjectHideFlags: 0
@@ -4582,9 +4596,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5faee38222e9ff4418fb543fa1ae5492, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsTriggered: 0
-  IsSlowed: 0
-  tutorialObject: {fileID: 567605309}
 --- !u!65 &1604480247
 BoxCollider:
   m_ObjectHideFlags: 0
