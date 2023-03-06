@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class MathPickup : MonoBehaviour
 {
+    public int numToTutorial; //I just created to access number from Tutorial
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,9 +27,12 @@ public class MathPickup : MonoBehaviour
         {
             string myText = gameObject.transform.Find("3D Text Prefab").GetComponent<TextScript>().EnterTextHere;
             int num;
+            Debug.Log("num");
+
             if (int.TryParse(myText, out num))
             {
                 MathManager.instance.doMath(num);
+                numToTutorial = num;
             }
             else
             {
