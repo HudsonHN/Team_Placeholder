@@ -12,6 +12,7 @@ public class AI_Boss : MonoBehaviour
     [SerializeField] LayerMask whatIsTargeted;
     [SerializeField] Color laserColor = Color.cyan;
     [SerializeField] Color detectedLaserColor = Color.red;
+    [SerializeField] float knockbackForce = 10.0f;
     private Transform playerTransform;
     private float fireTimer;
     private LineRenderer lr;
@@ -47,6 +48,11 @@ public class AI_Boss : MonoBehaviour
                 fireTimer += Time.deltaTime;
             }
         }   
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        collision.rigidbody.AddForce((collision.transform.position - transform.position).normalized * knockbackForce, ForceMode.Impulse);
     }
 
     private IEnumerator StopMoving(float delay)
