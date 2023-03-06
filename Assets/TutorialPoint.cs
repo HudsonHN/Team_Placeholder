@@ -63,15 +63,16 @@ public class TutorialPoint : MonoBehaviour
         "Try yourself",
     };
 
-    //coin get check
+    //it is number and calculate number
     private bool coinCheckDone = true;
     private int coinIndex = 0;
     string[] coinMsgs =
     {
         "Final mission of Tutorial 1",
-        "Collect all COINs to clear",
+        "Make the largest number than BOSS number",
+        "By picking up numbers you want",
         "Be careful the LASER WALL!",
-        "Go and get all COINs!",
+        "Go and get numbers!",
     };
 
     // Start is called before the first frame update
@@ -80,6 +81,7 @@ public class TutorialPoint : MonoBehaviour
         player = GameObject.Find("PlayerCapsule");
         freezeLikeImg = clickImg = GameObject.Find("UI").transform.Find("DetailedTutorial").transform.Find("ScreenFreeze").gameObject;
         clickImg = GameObject.Find("UI").transform.Find("DetailedTutorial").transform.Find("Left_Click").gameObject;
+        player.gameObject.GetComponent<PlayerMovement>().movePlayer = false;
         //luanchBar = GameObject.Find("UI").transform.Find("DetailedTutorial").transform.Find("LaunchBar").gameObject; Do not require anymore
         //clickImg.SetActive(false);
     }
@@ -202,6 +204,11 @@ public class TutorialPoint : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+    }
+
     void WelcomMsg()
     {
         if (Manager.Instance.canStart)
@@ -252,13 +259,13 @@ public class TutorialPoint : MonoBehaviour
 
     void MouseMoveChecker()
     {
-        instruction.text = "Look Around with your mouse for 5 second";
+        instruction.text = "Look Around with your mouse for 3 second";
 
         float currentTime = Time.time;
         float slapsedTime = currentTime - startTime;
         player.gameObject.GetComponent<Transform>().position = currPosition;
 
-        if (slapsedTime > 5.0)
+        if (slapsedTime > 3.0)
         {
             // User has moved their mouse
             Debug.Log("User has moved their mouse");
@@ -274,23 +281,18 @@ public class TutorialPoint : MonoBehaviour
         if (jumpIndex <= 1)
         {
             player.gameObject.GetComponent<Transform>().position = currPosition;
-
             instruction.text = jumpMsgs[jumpIndex];
             clickImg.SetActive(true);
         }
 
         else if (jumpIndex == 2)
         {
-            player.gameObject.GetComponent<Transform>().position = currPosition;
-            DontJumpOut();
-
             instruction.text = jumpMsgs[jumpIndex];
             clickImg.SetActive(true);
         }
 
         else if (jumpIndex == 3)
         {
-            DontJumpOut();
             instruction.text = jumpMsgs[jumpIndex];
             jumpIndex++;
 
@@ -300,10 +302,13 @@ public class TutorialPoint : MonoBehaviour
 
         if (jumpIndex == 4)
         {
+            jumpCheckDone = true;
+        }
+
+        if (jumpIndex <= 5)
+        {
             player.gameObject.GetComponent<PlayerMovement>().movePlayer = true;    //allow player move;
             DontJumpOut();
-
-            jumpCheckDone = true;
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
