@@ -235,7 +235,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 979aef027a1c86c42a15ce35fce366fa, type: 2}
+  - {fileID: 2100000, guid: de897f657c5df11498a0e2b82b00af35, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -359,12 +359,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lr: {fileID: 135756641613574986}
-  gunTip: {fileID: 0}
+  gunTip: {fileID: 4135013735270702856}
   cam: {fileID: 0}
   player: {fileID: 8997996947095583982}
   whatIsGrappleable:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   grappleForce: 15
   element: 
   isPulling: 0
