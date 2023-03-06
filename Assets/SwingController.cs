@@ -16,6 +16,7 @@ public class SwingController : MonoBehaviour
     private Vector3 swingPoint;
     private SpringJoint joint;
     private Rigidbody rb;
+    public float swingRopeDistance = 15.0f;
 
     [SerializeField] private float grappleForce = 15.0f;
 
@@ -117,6 +118,18 @@ public class SwingController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {   
                 StartSwing();
+            }
+            if(Input.GetKey(KeyCode.Mouse0) && isSwinging)
+            {
+                Vector3 directionToPoint = swingPoint - transform.position;
+                float distanceFromPoint = Vector3.Distance(swingPoint, transform.position);
+                if(distanceFromPoint > swingRopeDistance)
+                {
+                    Debug.Log("DistanceFromPoint: " + distanceFromPoint);
+                    rb.AddForce(directionToPoint.normalized * 1500.0f * Time.deltaTime);
+                    joint.maxDistance = distanceFromPoint * 0.8f;
+                    joint.minDistance = distanceFromPoint * 0.25f;
+                }
             }
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
