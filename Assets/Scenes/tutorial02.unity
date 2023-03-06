@@ -4548,7 +4548,7 @@ MonoBehaviour:
   spherePrefab: {fileID: 6987580182900727108, guid: 12131948428edea47b97137390484ffa,
     type: 3}
   throwForce: 10
-  destroyTime: 5
+  destroyTime: 10
   playerCamera: {fileID: 1192765124}
 --- !u!1 &1604480244
 GameObject:
@@ -6179,7 +6179,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainCamera
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -3977264480753533042, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
 --- !u!1 &2114283753834967212
 GameObject:
