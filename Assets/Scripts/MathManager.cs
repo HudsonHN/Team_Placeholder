@@ -31,6 +31,10 @@ public class MathManager : MonoBehaviour
     [HideInInspector]
     // result of operation
     public int currNumber = Int32.MinValue;
+
+    public string lhsString;
+    public string rhsString;
+    public string operatorString;
     
     private void Awake()
     {
@@ -53,12 +57,14 @@ public class MathManager : MonoBehaviour
         if (rand % 2 == 0)
         {
             currOperation = operation.add;
+            operatorString = "+";
         }
         else
         {
             currOperation = operation.multiply;
+            operatorString = "*";
         }
-        UIManager.instance.randNumText.text = "Current Operation: " + currOperation;
+        UIManager.instance.randNumText.text = $"__ {operatorString} __";
     }
 
     public void doMath(int rhs)
@@ -70,19 +76,24 @@ public class MathManager : MonoBehaviour
         {
             case operation.add:
                 result = currNumber + rhs;
+                operatorString = "+";
                 break;
             case operation.subtract:
                 result = currNumber - rhs;
+                operatorString = "-";
                 break;
             case operation.multiply:
                 result = currNumber * rhs;
+                operatorString = "*";
                 break;
             case operation.divide:
                 result = currNumber / rhs;
+                operatorString = "/";
                 break;
             default:
                 //Debug.LogError("invalid math operation!");
                 currNumber = rhs;
+                lhsString = rhs.ToString();
                 newNum = true;
                 break;
         }
@@ -115,9 +126,11 @@ public class MathManager : MonoBehaviour
         {
             case 0:
                 currOperation = operation.add;
+                operatorString = "+";
                 break;
             case 1:
                 currOperation = operation.multiply;
+                operatorString = "*";
                 break;
             /*case 2:
                 currOperation = operation.subtract;
@@ -126,6 +139,6 @@ public class MathManager : MonoBehaviour
                 currOperation = operation.divide;
                 break;*/
         }
-        UIManager.instance.randNumText.text = "Current Operator: " + currOperation;
+        UIManager.instance.randNumText.text = $"__ {operatorString} __";
     }
 }

@@ -37,9 +37,13 @@ public class MathPickup : MonoBehaviour
                 if (MathManager.instance.currNumber == Int32.MinValue)
                 {
                     MathManager.instance.currNumber = num;
+                    MathManager.instance.lhsString = myText;
+                    UIManager.instance.randNumText.text = $"{myText} {MathManager.instance.operatorString} __";
                 }
                 else
                 {
+                    MathManager.instance.rhsString = myText;
+                    UIManager.instance.randNumText.text = $"{MathManager.instance.lhsString} {MathManager.instance.operatorString} {MathManager.instance.rhsString}";
                     MathManager.instance.doMath(num);
                     MathManager.instance.currNumber = Int32.MinValue;
                 }
