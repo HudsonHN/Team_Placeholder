@@ -7,17 +7,10 @@ using UnityEngine;
 
 public class MathPickup : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int randomMin = -5;
+    public int randomMax = 10;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public float respawnTime = 10.0f;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -27,7 +20,15 @@ public class MathPickup : MonoBehaviour
             int num;
             if (int.TryParse(myText, out num))
             {
-                MathManager.instance.doMath(num);
+                if (MathManager.instance.currNumber == Int32.MinValue)
+                {
+                    MathManager.instance.currNumber = num;
+                }
+                else
+                {
+                    MathManager.instance.doMath(num);
+                    MathManager.instance.currNumber = Int32.MinValue;
+                }
             }
             else
             {

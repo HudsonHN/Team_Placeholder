@@ -25,11 +25,12 @@ public class MathManager : MonoBehaviour
 
     [HideInInspector]
     // randomly generated number
-    public int randNumber = 0;
+    public int randNumber = Int32.MinValue;
     //public int gainedNumber = 0;
-    
+
+    [HideInInspector]
     // result of operation
-    private int currNumber = 0;
+    public int currNumber = Int32.MinValue;
     
     private void Awake()
     {
@@ -47,8 +48,17 @@ public class MathManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        randNumber = UnityEngine.Random.Range(randomMin, randomMax);
-        UIManager.instance.randNumText.text = "Current Random Number: " + randNumber;
+        int rand = UnityEngine.Random.Range(0, 10);
+        //UIManager.instance.randNumText.text = "Current Random Number: " + randNumber;
+        if (rand % 2 == 0)
+        {
+            currOperation = operation.add;
+        }
+        else
+        {
+            currOperation = operation.multiply;
+        }
+        UIManager.instance.randNumText.text = "Current Operation: " + currOperation;
     }
 
     public void doMath(int rhs)
@@ -59,38 +69,62 @@ public class MathManager : MonoBehaviour
         switch (currOperation)
         {
             case operation.add:
-                result = randNumber + rhs;
+                result = currNumber + rhs;
                 break;
             case operation.subtract:
-                result = randNumber - rhs;
+                result = currNumber - rhs;
                 break;
             case operation.multiply:
-                result = randNumber * rhs;
+                result = currNumber * rhs;
                 break;
             case operation.divide:
-                result = randNumber / rhs;
+                result = currNumber / rhs;
                 break;
             default:
                 //Debug.LogError("invalid math operation!");
-                randNumber = rhs;
+                currNumber = rhs;
                 newNum = true;
                 break;
         }
 
         if (result != Int32.MinValue)
         {
-            currNumber = result;
-            //Debug.Log("got number: " + currNumber);
+            //currNumber = result;
+            Debug.Log("got number: " + result);
             UIManager.instance.DisplayResult(result);
+            GenerateRamdomOperator();
         }
 
         if (!newNum)
         {
-            randNumber = UnityEngine.Random.Range(randomMin, randomMax);
+            currNumber = Int32.MinValue;
+            //randNumber = UnityEngine.Random.Range(randomMin, randomMax);
         }
 
-        currOperation = operation.none;
-        UIManager.instance.randNumText.text = "Current Random Number: " + randNumber;
+        //currOperation = operation.none;
+        //UIManager.instance.randNumText.text = "Current Random Number: " + randNumber;
 
+    }
+
+    void GenerateRamdomOperator()
+    {
+        int rand = UnityEngine.Random.Range(0, 100);
+        int index = rand % 4;
+        switch (index)
+        {
+            case 0:
+                currOperation = operation.add;
+                break;
+            case 1:
+                currOperation = operation.multiply;
+                break;
+            case 2:
+                currOperation = operation.subtract;
+                break;
+            case 3:
+                currOperation = operation.divide;
+                break;
+        }
+        UIManager.instance.randNumText.text = "Current Operator: " + currOperation;
     }
 }
