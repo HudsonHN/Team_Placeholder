@@ -282,6 +282,7 @@ public class SwingController : MonoBehaviour
     void DrawPullLine()
     {
         if (!isPulling) return;
+        if (lr.positionCount < 2) return;
 
         lr.SetPosition(0, gunTip.position);
         lr.SetPosition(1, pullPointTransform.position);
