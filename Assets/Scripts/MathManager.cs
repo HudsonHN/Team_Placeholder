@@ -90,9 +90,10 @@ public class MathManager : MonoBehaviour
         if (result != Int32.MinValue)
         {
             //currNumber = result;
+            Debug.Log($"Math operation: {currNumber} & {rhs}");
             Debug.Log("got number: " + result);
             UIManager.instance.DisplayResult(result);
-            GenerateRamdomOperator();
+            GenerateRandomOperator();
         }
 
         if (!newNum)
@@ -106,10 +107,10 @@ public class MathManager : MonoBehaviour
 
     }
 
-    void GenerateRamdomOperator()
+    void GenerateRandomOperator()
     {
         int rand = UnityEngine.Random.Range(0, 100);
-        int index = rand % 4;
+        int index = /*rand % 4*/ rand % 2;
         switch (index)
         {
             case 0:
@@ -118,12 +119,12 @@ public class MathManager : MonoBehaviour
             case 1:
                 currOperation = operation.multiply;
                 break;
-            case 2:
+            /*case 2:
                 currOperation = operation.subtract;
                 break;
             case 3:
                 currOperation = operation.divide;
-                break;
+                break;*/
         }
         UIManager.instance.randNumText.text = "Current Operator: " + currOperation;
     }

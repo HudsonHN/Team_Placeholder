@@ -4,19 +4,33 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MathPickup : MonoBehaviour
 {
     public int randomMin = -5;
     public int randomMax = 10;
 
-    public float respawnTime = 10.0f;
+    [SerializeField] private float respawnDelay = 30.0f;
+
+    private GameObject textObj;
+    private TextScript textScript;
+    private Collider textCollider;
+    private bool canPickup;
+
+    private void Start()
+    {
+        textScript = gameObject.transform.GetComponentInChildren<TextScript>();
+        textObj = textScript.gameObject;
+        textCollider = GetComponent<Collider>();
+        canPickup = true;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.parent.CompareTag("Player"))
+        if (canPickup && other.transform.parent.CompareTag("Player"))
         {
-            string myText = gameObject.transform.Find("3D Text Prefab").GetComponent<TextScript>().EnterTextHere;
+            string myText = textScript.EnterTextHere;
             int num;
             if (int.TryParse(myText, out num))
             {
@@ -51,6 +65,31 @@ public class MathPickup : MonoBehaviour
                         break;
                 }
             }
+            StartCoroutine(RandomizeNumValue(respawnDelay));
         }
+    }
+
+    int GenerateRandomValue()
+    {
+        int value = UnityEngine.Random.Range(randomMin, randomMax);
+        while(value == 0)
+        {
+            value = UnityEngine.Random.Range(randomMin, randomMax);
+        }
+        return value;
+    }
+
+    private IEnumerator RandomizeNumValue(float delay)
+    {
+        textScript.ShowText(false);
+        textCollider.enabled = false;
+        canPickup = false;
+        textScript.ChangeText(GenerateRandomValue().ToString());
+        Debug.Log("Picked up, waiting");
+        yield return new WaitForSeconds(delay);
+        Debug.Log("Waiting over");
+        textScript.ShowText(true);
+        textCollider.enabled = true;
+        canPickup = true;
     }
 }

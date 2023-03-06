@@ -2777,40 +2777,6 @@ ReflectionProbe:
   m_UseOcclusionCulling: 1
   m_Importance: 1
   m_CustomBakedTexture: {fileID: 0}
---- !u!1 &573321809 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3937353327802806946, guid: f6f647e1dec244f48ba1f8347ee44720,
-    type: 3}
-  m_PrefabInstance: {fileID: 2073620382163427123}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &573321811
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 573321809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1252ad66df4bab4a9bd66a463052c8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomMin: -5
-  randomMax: 10
-  respawnTime: 10
---- !u!65 &573321812
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 573321809}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &604711361 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5549920765329677206, guid: 761158c71ca3d2b4d90f8a8d5d0f5ec7,
@@ -5799,7 +5765,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   randomMin: -5
   randomMax: 10
-  respawnTime: 10
+  respawnDelay: 5
 --- !u!65 &1298874125
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6026,7 +5992,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   randomMin: -5
   randomMax: 10
-  respawnTime: 10
+  respawnDelay: 5
 --- !u!65 &1413663993
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8074,7 +8040,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   randomMin: -5
   randomMax: 10
-  respawnTime: 10
+  respawnDelay: 5
 --- !u!65 &1999071683
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8969,11 +8935,6 @@ PrefabInstance:
         type: 3}
       propertyPath: EnterTextHere
       value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1752183963003309998, guid: f6f647e1dec244f48ba1f8347ee44720,
-        type: 3}
-      propertyPath: GapBetweenCharacters
-      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3937353327802806946, guid: f6f647e1dec244f48ba1f8347ee44720,
         type: 3}
