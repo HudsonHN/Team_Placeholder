@@ -57,6 +57,7 @@ public class AI_Boss : MonoBehaviour
         startPoint = transform.Find("Capsule");
         lr = GetComponent<LineRenderer>();
         lr.material.color = laserColor;
+        rotationRate = UnityEngine.Random.Range(3.0f, 17.0f);
 
         hpText = GameObject.Find("UI")?.transform.Find("Boss HP Text")?.GetComponent<TextMeshProUGUI>();
         hpWorldText = transform.Find("HP")?.GetComponent<TextMeshPro>();

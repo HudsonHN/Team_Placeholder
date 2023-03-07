@@ -4988,6 +4988,11 @@ PrefabInstance:
       propertyPath: nextScene
       value: Playground_level2
       objectReference: {fileID: 0}
+    - target: {fileID: 1152717815340109168, guid: 279a86e327613904d8bef9a83a0223ef,
+        type: 3}
+      propertyPath: rotationRate
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 1152717815340109170, guid: 279a86e327613904d8bef9a83a0223ef,
         type: 3}
       propertyPath: m_Name
