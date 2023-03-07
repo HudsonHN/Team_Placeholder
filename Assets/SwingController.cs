@@ -119,7 +119,7 @@ public class SwingController : MonoBehaviour
             {   
                 StartSwing();
             }
-            if(Input.GetKey(KeyCode.Mouse0) && isSwinging)
+            if(Input.GetKey(KeyCode.Mouse0) && isSwinging && !isMovingGrapple)
             {
                 Vector3 directionToPoint = swingPoint - transform.position;
                 float distanceFromPoint = Vector3.Distance(swingPoint, transform.position);
