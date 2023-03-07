@@ -15,7 +15,7 @@ public class TutorialPoint : MonoBehaviour
 
     public TextMeshProUGUI instruction;
 
-    private float startTime;
+    private static float startTime = 0f;
 
     //common var for freezing screen
     private GameObject freezeLikeImg;
@@ -28,27 +28,34 @@ public class TutorialPoint : MonoBehaviour
     private Vector3 startPosition;  //to Check how further they made move;
     private int welcomIndex = 0;
     string[] welcomeMsgs =
-    {
+    {   "", //error prevention
         "Welcome to Swinging Game!",
-        "Let's learn how to move!",
-        "Use WASD to move",
+        "Mission1: Move with WASD",
         "Try yourself!",
     };
 
     //Mouse move checker
     private bool mouseCheckDone = true;
     private Vector3 currPosition;   //to make player cant move on mouse section;
-
+    [SerializeField] private GameObject targetObject;
+    public float pointerTimeThreshold = 5f;
+    private float pointerTime;
+    private bool isPointing;
+    private int mouseIndex = 0;
+    string[] mouseMsgs =
+    {
+        "Mission2 :FIND an object and POINT it for 3 seconds",
+        "Try yourself!",
+    };
 
     //jump checker
     private bool jumpCheckDone = true;
     private int jumpIndex = 0;
     string[] jumpMsgs =
     {
-        "Let's learn how to Jump",
+        "Mission 3: Lean how to JUMP",
         "Look higher than where you want to jump",
         "Press SPACE BAR",
-        "Try yourself",
     };
 
 
@@ -57,12 +64,18 @@ public class TutorialPoint : MonoBehaviour
     private int swingIndex = 0;
     string[] swingMsgs =
     {
-        "Let's learn how to SWING",
-        "Aim your point to SHPERE",
-        "Click and hold the left click",
-        "Then swing with WASD Key",
-        "Release after you made enough momentum ",
-        "Try yourself",
+        "Mission 4: lean how to SWING",
+        "POINT to SHPERE and HOLD the left click",
+        "Release it after you made enough momentum ",
+    };
+
+    private bool pullCheckerDone = true;
+    private int pullIndex = 0;
+    string[] pullMsgs =
+    {
+        "Mission 5: lean how to PULL",
+        "POINT to SHPERE and HOLD the Right click",
+        "Release anytime you want",
     };
 
     //it is number and calculate number
@@ -70,14 +83,13 @@ public class TutorialPoint : MonoBehaviour
     private int bossNumber = 13;
     private bool coinCheckDone = true;
     private int coinIndex = 0;
+    [SerializeField] GameObject underBar;
     private GameObject bossNumberText;
     string[] coinMsgs =
     {
-        "Final mission of Tutorial 1",
-        "Make the larger number than BOSSnumber",
-        "Pick up number you want",
-        "Be careful the LASER WALL!",
-        "Go and get numbers!",
+        "Mission 6: Make GREATER than Target number",
+        "Check Operator and FIND two numbers",
+        "Try yourself but Watch out the LASER!",
     };
 
 
@@ -87,7 +99,7 @@ public class TutorialPoint : MonoBehaviour
         player = GameObject.Find("PlayerCapsule");
         player.gameObject.GetComponent<PlayerMovement>().movePlayer = false;
         mathManager = GameObject.Find("MathManager").gameObject;
-
+        
         freezeLikeImg = clickImg = GameObject.Find("UI").transform.Find("DetailedTutorial").transform.Find("ScreenFreeze").gameObject;
         clickImg = GameObject.Find("UI").transform.Find("DetailedTutorial").transform.Find("Left_Click").gameObject;
         bossNumberText = GameObject.Find("UI").transform.Find("DetailedTutorial").transform.Find("BossNumber").gameObject;
@@ -118,6 +130,12 @@ public class TutorialPoint : MonoBehaviour
             SwingChecker();
         }
 
+        if (!pullCheckerDone)
+        {
+            //SwingChecker();
+            PullChecker();
+        }
+
         if (!coinCheckDone)
         {
             CoinChecker();
@@ -130,17 +148,13 @@ public class TutorialPoint : MonoBehaviour
         if (gameObject.name == "MouseTutorial")
         {
             //Debug.Log("trigger mouse");
-
             mouseCheckDone = false;   //triger mouseCheck function;
 
             //freezing screen
             freezeLikeImg.SetActive(true);
-
             player.gameObject.GetComponent<PlayerMovement>().movePlayer = false;    //stop player move;
             currPosition = player.gameObject.GetComponent<Transform>().position;    //stop player at the current position
             DontJumpOut();
-
-            startTime = Time.time;
         }
 
         if (gameObject.name == "JumpTutorial")
@@ -165,6 +179,16 @@ public class TutorialPoint : MonoBehaviour
             DontJumpOut();
         }
 
+        if (gameObject.name == "PullTutorial")
+        {
+            pullCheckerDone = false;
+            freezeLikeImg.SetActive(true);
+
+            player.gameObject.GetComponent<PlayerMovement>().movePlayer = false;    //stop player move;
+            currPosition = player.gameObject.GetComponent<Transform>().position;    //stop player at the current position
+            DontJumpOut();
+        }
+
         if (gameObject.name == "CoinTutorial")
         {
             coinCheckDone = false;
@@ -175,12 +199,6 @@ public class TutorialPoint : MonoBehaviour
             DontJumpOut();
         }
 
-        if (gameObject.name == "ModularText")
-        {
-            int num = int.Parse(gameObject.transform.Find("3D Text Prefab").GetComponent<TextScript>().EnterTextHere);
-            DoMath(num);
-
-        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -208,6 +226,12 @@ public class TutorialPoint : MonoBehaviour
             GetComponent<BoxCollider>().enabled = false;
         }
 
+        if (gameObject.name == "PullTutorial")
+        {
+            StartCoroutine(SuccessMsg());
+            GetComponent<BoxCollider>().enabled = false;
+        }
+
         if (gameObject.name == "CoinTutorial")
         {
             GetComponent<BoxCollider>().enabled = false;
@@ -218,27 +242,35 @@ public class TutorialPoint : MonoBehaviour
     {
         if (Manager.Instance.canStart)
         {
-            if (welcomIndex <= 2)
+            if (welcomIndex == 0)
             {
                 instruction.text = welcomeMsgs[welcomIndex];
                 clickImg.SetActive(true);
                 freezeLikeImg.SetActive(true);
             }
 
-            if (welcomIndex == 3)
+            else if (welcomIndex == 1)
             {
+                instruction.text = welcomeMsgs[welcomIndex];
+            }
+
+            else if (welcomIndex == 2)
+            {
+                instruction.text = welcomeMsgs[welcomIndex];
+
+            }
+            else if (welcomIndex == 3)
+            {
+                instruction.text = welcomeMsgs[welcomIndex];
                 player.gameObject.GetComponent<PlayerMovement>().movePlayer = true;
                 startPosition = player.GetComponent<Transform>().position;
                 clickImg.SetActive(false);
                 freezeLikeImg.SetActive(false);
-
                 wasdCheck = true;
-
-                instruction.text = welcomeMsgs[welcomIndex];
                 welcomIndex++;
             }
 
-            else if(wasdCheck)
+             if (wasdCheck)
             {
                 WasdMoveChecker();
             }
@@ -247,6 +279,7 @@ public class TutorialPoint : MonoBehaviour
             {
                 welcomIndex++;
             }
+
         }
     }
 
@@ -264,20 +297,54 @@ public class TutorialPoint : MonoBehaviour
 
     void MouseMoveChecker()
     {
-        instruction.text = "Look Around with your mouse for 3 second";
-
-        float currentTime = Time.time;
-        float slapsedTime = currentTime - startTime;
-        player.gameObject.GetComponent<Transform>().position = currPosition;
-
-        if (slapsedTime > 3.0)
+        if (mouseIndex == 0)
         {
-            // User has moved their mouse
-            Debug.Log("User has moved their mouse");
-            mouseCheckDone = true;
+            instruction.text = mouseMsgs[mouseIndex];
+            DontJumpOut();
+            freezeLikeImg.SetActive(true);
+            clickImg.SetActive(true);
+            player.gameObject.GetComponent<PlayerMovement>().movePlayer = false;
+
+        }
+        if (mouseIndex == 1)
+        {
+            instruction.text = mouseMsgs[mouseIndex];
+            clickImg.SetActive(false);
             freezeLikeImg.SetActive(false);
-            player.gameObject.GetComponent<PlayerMovement>().movePlayer = true;
-            StartCoroutine(SuccessMsg());
+
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            // Cast a ray from the mouse position into the world
+            // Check if the ray intersects with the target object
+            if (Physics.Raycast(ray, out hit) && hit.collider.gameObject == targetObject)
+            {
+                // Do something if the target object is being pointed to
+                //Debug.Log("Pointer is pointing to the target object!");
+                startTime += Time.deltaTime;
+                Manager.Instance.crosshair.color = Color.green;
+
+                instruction.text = ((int)startTime).ToString();
+
+                if (startTime > pointerTimeThreshold)
+                {
+                    // User has moved their mouse
+                    Debug.Log("User has moved their mouse");
+                    mouseCheckDone = true;
+                    player.gameObject.GetComponent<PlayerMovement>().movePlayer = true;
+                    StartCoroutine(SuccessMsg());
+                }
+            }
+            else
+            {
+                isPointing = false;
+                startTime = 0f;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            mouseIndex++;
         }
     }
 
@@ -293,24 +360,19 @@ public class TutorialPoint : MonoBehaviour
         {
             instruction.text = jumpMsgs[jumpIndex];
             clickImg.SetActive(true);
-        }
-
-        else if (jumpIndex == 3)
-        {
-            instruction.text = jumpMsgs[jumpIndex];
-            jumpIndex++;
-
             freezeLikeImg.SetActive(false);
             clickImg.SetActive(false);
+            jumpIndex++;
+
         }
 
-        if (jumpIndex == 4)
+        if (jumpIndex == 3)
         {
             player.gameObject.GetComponent<PlayerMovement>().movePlayer = true;    //allow player move;
             jumpCheckDone = true;
         }
 
-        if (jumpIndex <= 5)
+        if (jumpIndex <= 3)
         {
             DontJumpOut();
         }
@@ -323,24 +385,23 @@ public class TutorialPoint : MonoBehaviour
 
     void SwingChecker()
     {
-        if (swingIndex <= 4)
+        if (swingIndex <= 1)
         {
             instruction.text = swingMsgs[swingIndex];
             clickImg.SetActive(true);
         }
 
-        else if (swingIndex == 5)
+        else if (swingIndex == 2)
         {
             instruction.text = swingMsgs[swingIndex];
 
             player.gameObject.GetComponent<PlayerMovement>().movePlayer = true;    //allow player move;
-
             freezeLikeImg.SetActive(false);
             clickImg.SetActive(false);
             swingIndex++;
         }
 
-        if (swingIndex <= 5)
+        if (swingIndex <= 3)
         {
             DontJumpOut();
         }
@@ -351,36 +412,58 @@ public class TutorialPoint : MonoBehaviour
         }
     }
 
+    void PullChecker()
+    {
+        if (pullIndex <= 1)
+        {
+            instruction.text = pullMsgs[pullIndex];
+            clickImg.SetActive(true);
+        }
+
+        else if (pullIndex == 2)
+        {
+            instruction.text = pullMsgs[pullIndex];
+
+            player.gameObject.GetComponent<PlayerMovement>().movePlayer = true;    //allow player move;
+            freezeLikeImg.SetActive(false);
+            clickImg.SetActive(false);
+            pullIndex++;
+        }
+
+        if (pullIndex <= 2)
+        {
+            DontJumpOut();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            pullIndex++;
+        }
+    }
+
     void CoinChecker()
     {
         ClearGameCheck();
 
-        if (coinIndex <= 2)
+        if (coinIndex <= 1)
         {
             instruction.text = coinMsgs[coinIndex];
             clickImg.SetActive(true);
-        }
-
-        else if (coinIndex == 3)
-        {
             bossNumberText.SetActive(true);
-            instruction.text = coinMsgs[coinIndex];
+            underBar.SetActive(true);
         }
 
-        else if (coinIndex >= 4)
+        else if (coinIndex == 2)
         {
+            instruction.text = coinMsgs[coinIndex];
             player.gameObject.GetComponent<PlayerMovement>().movePlayer = true;    //allow player move;
             freezeLikeImg.SetActive(false);
             clickImg.SetActive(false);
-
-            if (coinIndex <= 5)
-            {
-                coinIndex++;
-            }
-
+            underBar.SetActive(false);
+            coinIndex++;
         }
 
-        if (coinIndex <= 4)
+        if (coinIndex <= 2)
         {
             DontJumpOut();
 
@@ -399,12 +482,6 @@ public class TutorialPoint : MonoBehaviour
         player.gameObject.GetComponent<Transform>().position = currPosition;
         player.gameObject.GetComponent<PlayerMovement>().horizontalInput = 0;   //set input value 0 
         player.gameObject.GetComponent<PlayerMovement>().verticalInput = 0;
-    }
-
-    void DoMath(int num)
-    {
-        player.gameObject.GetComponent<Tutorial_math>().sum += num;
-        player.gameObject.GetComponent<Tutorial_math>().mathCount--;
     }
 
     void ClearGameCheck()
