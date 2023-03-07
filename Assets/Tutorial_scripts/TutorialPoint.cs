@@ -66,7 +66,7 @@ public class TutorialPoint : MonoBehaviour
     {
         "Mission 4: lean how to SWING",
         "POINT to SHPERE and HOLD the left click",
-        "Release after you made enough momentum ",
+        "Release it after you made enough momentum ",
     };
 
     private bool pullCheckerDone = true;
@@ -302,19 +302,18 @@ public class TutorialPoint : MonoBehaviour
             instruction.text = mouseMsgs[mouseIndex];
             DontJumpOut();
             freezeLikeImg.SetActive(true);
+            clickImg.SetActive(true);
             player.gameObject.GetComponent<PlayerMovement>().movePlayer = false;
 
         }
         if (mouseIndex == 1)
         {
             instruction.text = mouseMsgs[mouseIndex];
+            clickImg.SetActive(false);
+            freezeLikeImg.SetActive(false);
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-
-
-
-            freezeLikeImg.SetActive(false);
 
             // Cast a ray from the mouse position into the world
             // Check if the ray intersects with the target object
