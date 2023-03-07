@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 8900000, guid: 619e305f5165a9946b7f72464e44ca4a, type: 3}
   m_Sun: {fileID: 2114283754330233425}
-  m_IndirectSpecularColor: {r: 0.029152188, g: 0.064445704, b: 0.12695079, a: 1}
+  m_IndirectSpecularColor: {r: 0.029152213, g: 0.064445764, b: 0.12695098, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4078,12 +4078,12 @@ PrefabInstance:
     - target: {fileID: 5549920765329677206, guid: 761158c71ca3d2b4d90f8a8d5d0f5ec7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 42
+      value: 41.82
       objectReference: {fileID: 0}
     - target: {fileID: 5549920765329677206, guid: 761158c71ca3d2b4d90f8a8d5d0f5ec7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 53.4
+      value: 47.14
       objectReference: {fileID: 0}
     - target: {fileID: 5549920765329677206, guid: 761158c71ca3d2b4d90f8a8d5d0f5ec7,
         type: 3}
@@ -4797,7 +4797,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1481972047}
   - component: {fileID: 1481972049}
-  - component: {fileID: 1481972048}
+  - component: {fileID: 1481972050}
   m_Layer: 0
   m_Name: SlowdownTrigger (1)
   m_TagString: Untagged
@@ -4820,18 +4820,6 @@ Transform:
   m_Father: {fileID: 1141708596}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1481972048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1481972046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5faee38222e9ff4418fb543fa1ae5492, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &1481972049
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4845,6 +4833,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 40, y: 40, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1481972050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481972046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac6e881ee4e110447ae8f1bff8f7f47b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsTriggered: 0
+  IsSlowed: 0
+  tutorialObject: {fileID: 1400922508}
 --- !u!1001 &1484621695
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5413,7 +5416,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1604480245}
   - component: {fileID: 1604480247}
-  - component: {fileID: 1604480246}
+  - component: {fileID: 1604480248}
   m_Layer: 0
   m_Name: SlowdownTrigger
   m_TagString: Untagged
@@ -5436,18 +5439,6 @@ Transform:
   m_Father: {fileID: 1141708596}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1604480246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1604480244}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5faee38222e9ff4418fb543fa1ae5492, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &1604480247
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5461,6 +5452,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 40, y: 40, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1604480248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604480244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac6e881ee4e110447ae8f1bff8f7f47b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsTriggered: 0
+  IsSlowed: 0
+  tutorialObject: {fileID: 567605309}
 --- !u!1 &1630667123
 GameObject:
   m_ObjectHideFlags: 0
