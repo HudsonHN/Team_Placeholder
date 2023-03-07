@@ -64,14 +64,20 @@ public class AnalyticsObj : MonoBehaviour
 
         //# 5
         hintString = Checkpoint.hintString;
+
+        //# 6
+        AI_Boss_Hits_String_Count = Projectile.AI_Boss_Hits_String_Count;
+        AI_Boss_Hits_String_Rotation_Speed_Values = Projectile.AI_Boss_Hits_String_Rotation_Speed_Values;
+
+
         
-        Debug.Log("Analytics TIme taken for first swing : "+FirstSwingTimeTaken);
+        //Debug.Log("Analytics TIme taken for first swing : "+FirstSwingTimeTaken);
         // Debug.Log("Analytics TIme taken for first swing : "+checkpointTimes);
         // Debug.Log("Analytics TIme taken for first swing : "+Manager.Instance.checkpointTimes);
-        Debug.Log("Analytics checkpoint names : "+Checkpoint.checkpointname);
-        Debug.Log("3 TIme taken for first swing : "+Checkpoint.checkpointTimer);
+        //Debug.Log("Analytics checkpoint names : "+Checkpoint.checkpointname);
+        //Debug.Log("3 TIme taken for first swing : "+Checkpoint.checkpointTimer);
 
-        Debug.Log("Analytics coin names : "+Pickupable.coinName);
-        Debug.Log("Analytics swing count : "+Pickupable.swingCount);
+        //Debug.Log("Analytics coin names : "+Pickupable.coinName);
+        //Debug.Log("Analytics swing count : "+Pickupable.swingCount);
     }
 }
