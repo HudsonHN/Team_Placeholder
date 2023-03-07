@@ -183,20 +183,13 @@ public class Manager : MonoBehaviour
         }
 
 
-        goalObject = GameObject.Find("Level").transform.Find("EndPoint").gameObject;
+        goalObject = GameObject.Find("Level")?.transform.Find("EndPoint")?.gameObject;
         playerCamera = GameObject.Find("CameraHolder").transform.Find("MainCamera").GetComponent<PlayerCamera>();
         coinsLeftText = UICanvas.transform.Find("Coins Left Text").GetComponent<TextMeshProUGUI>();
         coinsLeftText.text = $"Gold Coins Left: {coinsInLevel}";
         firstSwing = false;
 
-        /*lasers = GameObject.Find("Level").transform.Find("Lasers").transform;
-        int i = 0;
-        foreach(Transform laser in Manager.Instance.lasers)
-        {
-            laserNames += laser.name + " ";
-            string test = "wtf is happening";
-            allLasers[test] = 0;
-        }*/
+        if (coinsInLevel < 1) coinsLeftText.text = "";
     }
 
     void ResetScene()
@@ -315,11 +308,12 @@ public class Manager : MonoBehaviour
 
     public void UpdateCoin()
     {
+        if (coinsInLevel < 1) return;
         coinsInLevel--;
         coinsLeftText.text = $"Gold Coins Left: {coinsInLevel}";
         if(coinsInLevel <= 0)
         {
-            goalObject.SetActive(true);
+            goalObject?.SetActive(true);
             coinsLeftText.text = "Exit ready!";
         }
     }

@@ -16,6 +16,7 @@ public class SwingController : MonoBehaviour
     private Vector3 swingPoint;
     private SpringJoint joint;
     private Rigidbody rb;
+    public float swingRopeDistance = 15.0f;
 
     [SerializeField] private float grappleForce = 15.0f;
 
@@ -118,10 +119,30 @@ public class SwingController : MonoBehaviour
             {   
                 StartSwing();
             }
+            if(Input.GetKey(KeyCode.Mouse0) && isSwinging && !isMovingGrapple)
+            {
+                Vector3 directionToPoint = swingPoint - transform.position;
+                float distanceFromPoint = Vector3.Distance(swingPoint, transform.position);
+                if(distanceFromPoint > swingRopeDistance)
+                {
+                    Debug.Log("DistanceFromPoint: " + distanceFromPoint);
+                    rb.AddForce(directionToPoint.normalized * 1500.0f * Time.deltaTime);
+                    joint.maxDistance = distanceFromPoint * 0.8f;
+                    joint.minDistance = distanceFromPoint * 0.25f;
+                }
+            }
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
                 StopSwing();
                 isMovingGrapple = false;
+            }
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                StartPull();
+            }
+            if (Input.GetKeyUp(KeyCode.Mouse1))
+            {
+                StopPull();
             }
             if (Input.GetKeyDown(KeyCode.Space) && !isSwinging && !pm.grounded)
             {
@@ -162,18 +183,6 @@ public class SwingController : MonoBehaviour
                 Manager.Instance.hasGrappledAPoint = true;
                 Manager.Instance.grapplePointNames = "";
                 Manager.Instance.grapplePointValues = "";
-            }
-
-            // Check for pull point (same input, different behavior)
-            PullPoint pull;
-            if (hit.collider.gameObject.TryGetComponent<PullPoint>(out pull))
-            {
-                isPulling = true;
-                pullPointTransform = pull.transform;
-                lr.positionCount = 2;
-                lr.material.color = lrPullColor;
-                pull.StartPulling(this);
-                return;
             }
 
             isSwinging = true;
@@ -243,17 +252,35 @@ public class SwingController : MonoBehaviour
 
     void StopSwing()
     {
-        if (isPulling)
-        {
-            isPulling = false;
-            lr.positionCount = 0;
-            lr.material.color = lrSwingColor;
-            return;
-        }
         isSwinging = false;
         lr.positionCount = 0;
         selectedGrapple = null;
         Destroy(joint);
+    }
+
+    void StartPull()
+    {
+        if (canGrapple && !isPulling && !IsSwinging)
+        {
+            PullPoint pull;
+            if (hit.collider.gameObject.TryGetComponent<PullPoint>(out pull))
+            {
+                isPulling = true;
+                pullPointTransform = pull.transform;
+                lr.positionCount = 2;
+                lrSwingColor = lr.material.color;
+                lr.material.color = Color.yellow;
+                pull.StartPulling(this);
+            }
+        }
+    }
+
+    void StopPull()
+    {
+        if (!isPulling) return;
+        isPulling = false;
+        lr.positionCount = 0;
+        lr.material.color = lrSwingColor;
     }
 
     void DrawRope()
@@ -268,6 +295,8 @@ public class SwingController : MonoBehaviour
     void DrawPullLine()
     {
         if (!isPulling) return;
+        if (lr.positionCount < 2) return;
+        if (!gunTip || !pullPointTransform) return;
 
         lr.SetPosition(0, gunTip.position);
         lr.SetPosition(1, pullPointTransform.position);

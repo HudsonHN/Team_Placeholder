@@ -6,6 +6,7 @@ public class Projectile : MonoBehaviour
 {
     public float moveSpeed = 10.0f;
     public float lifeTime = 5.0f;
+    public AI_Boss boss;
 
     // Start is called before the first frame update
     void Start()
@@ -26,11 +27,11 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject == Manager.Instance.player)
+        if (other.gameObject.CompareTag("Player"))
         {
             // Do stuff here to penalize player
+            boss?.UpdateHP(20);
+            Destroy(gameObject);
         }
-
-        Destroy(gameObject);
     }
 }

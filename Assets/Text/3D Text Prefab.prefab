@@ -44,11 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4718a0d36f4b61a46935f2e688c7481c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TextList: {fileID: 0}
   EnterTextHere: Drag and drop 3D Text Prefab in Hierarchy to create Text. I hope
     you like it :)
   TextAppearingPosRot: {fileID: 0}
-  GapBetweenCharacters: 0.5
+  GapBetweenCharacters: 1.8
   RotationInX: 0
   RotationInY: 0
   RotationInZ: 0

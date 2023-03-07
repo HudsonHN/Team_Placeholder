@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class AI_Boss : MonoBehaviour
 {
@@ -12,6 +14,7 @@ public class AI_Boss : MonoBehaviour
     [SerializeField] LayerMask whatIsTargeted;
     [SerializeField] Color laserColor = Color.cyan;
     [SerializeField] Color detectedLaserColor = Color.red;
+    [SerializeField] float knockbackForce = 10.0f;
     private Transform playerTransform;
     private float fireTimer;
     private LineRenderer lr;
@@ -20,6 +23,33 @@ public class AI_Boss : MonoBehaviour
     private Coroutine stopMoving;
     private Transform startPoint;
 
+    private int bossHP = 100;
+    private TextMeshProUGUI hpText;
+    public TextMeshPro hpWorldText;
+    public string nextScene = "";
+
+    public void UpdateHP(int amount)
+    {
+        if (bossHP == 0) return;
+        bossHP += amount;
+        bossHP = Mathf.Max(bossHP, 0);
+        hpText.text = "Boss HP: " + bossHP;
+        hpWorldText.text = bossHP.ToString();
+        if (bossHP == 0) HandleLevelComplete();
+    }
+    void HandleLevelComplete()
+    {
+        Debug.Log("Boss Beaten");
+        hpText.text = "Boss Defeated!";
+        hpWorldText.text = "Defeated";
+        StartCoroutine(LoadSceneDelayed());
+    }
+    IEnumerator LoadSceneDelayed()
+    {
+        yield return new WaitForSeconds(2f);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(nextScene);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +57,10 @@ public class AI_Boss : MonoBehaviour
         startPoint = transform.Find("Capsule");
         lr = GetComponent<LineRenderer>();
         lr.material.color = laserColor;
+        rotationRate = UnityEngine.Random.Range(3.0f, 17.0f);
+
+        hpText = GameObject.Find("UI")?.transform.Find("Boss HP Text")?.GetComponent<TextMeshProUGUI>();
+        hpWorldText = transform.Find("HP")?.GetComponent<TextMeshPro>();
     }
 
     // Update is called once per frame
@@ -47,6 +81,11 @@ public class AI_Boss : MonoBehaviour
                 fireTimer += Time.deltaTime;
             }
         }   
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        collision.rigidbody.AddForce((collision.transform.position - transform.position).normalized * knockbackForce, ForceMode.Impulse);
     }
 
     private IEnumerator StopMoving(float delay)
@@ -71,6 +110,7 @@ public class AI_Boss : MonoBehaviour
             GameObject projectile = Instantiate(projectilePrefab);
             projectile.transform.position = startPoint.position;
             projectile.transform.rotation = transform.rotation;
+            projectile.GetComponent<Projectile>().boss = this;
         }
     }
 }
