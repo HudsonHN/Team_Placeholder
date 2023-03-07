@@ -11,7 +11,7 @@ TagManager:
   - BluePickup
   - RedPickup
   - hintt
-  - Sphere
+  - ModularText
   layers:
   - Default
   - TransparentFX

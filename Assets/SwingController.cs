@@ -42,7 +42,8 @@ public class SwingController : MonoBehaviour
     public bool isMovingGrapple;
     public Transform movingGrappleTransform;
     private Transform pullPointTransform;
-    private Color lrSwingColor;
+    [SerializeField] private Color lrSwingColor = Color.gray;
+    [SerializeField] private Color lrPullColor = Color.yellow;
 
     private Stopwatch firstSwingStopwatch;
     public static long timeTakenForFirstSwing;
@@ -61,8 +62,14 @@ public class SwingController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         pm = GetComponent<PlayerMovement>();
+        if(!cam)
+        {
+            Debug.Log("Camera not manually assigned, auto-assigning...");
+            cam = GameObject.Find("CameraHolder").transform.Find("MainCamera");
+        }
         canBoost = true;
         firstSwingStopwatch = Stopwatch.StartNew();
+        lr.material.color = lrSwingColor;
     }
 
     // Update is called once per frame
@@ -164,8 +171,7 @@ public class SwingController : MonoBehaviour
                 isPulling = true;
                 pullPointTransform = pull.transform;
                 lr.positionCount = 2;
-                lrSwingColor = lr.material.color;
-                lr.material.color = Color.yellow;
+                lr.material.color = lrPullColor;
                 pull.StartPulling(this);
                 return;
             }
