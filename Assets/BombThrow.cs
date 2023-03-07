@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Throwers : MonoBehaviour
+public class BombThrow : MonoBehaviour
 {
     public GameObject spherePrefab; // the sphere prefab to be thrown
     public float throwForce = 10f; // the force at which the sphere is thrown

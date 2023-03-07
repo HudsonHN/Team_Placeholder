@@ -134,6 +134,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 816914002}
     m_Modifications:
     - target: {fileID: 2069154606, guid: 761158c71ca3d2b4d90f8a8d5d0f5ec7, type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069154606, guid: 761158c71ca3d2b4d90f8a8d5d0f5ec7, type: 3}
       propertyPath: isAround
       value: 0
       objectReference: {fileID: 0}
@@ -4547,8 +4551,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spherePrefab: {fileID: 6987580182900727108, guid: 12131948428edea47b97137390484ffa,
     type: 3}
-  throwForce: 10
-  destroyTime: 10
+  throwForce: 20
+  destroyTime: 15
   playerCamera: {fileID: 1192765124}
 --- !u!1 &1604480244
 GameObject:
