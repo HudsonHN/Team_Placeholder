@@ -329,7 +329,7 @@ MonoBehaviour:
   moveSpeed: 7
   movePlayer: 1
   groundDrag: 5
-  jumpForce: 6
+  jumpForce: 12
   jumpCooldown: 0.25
   airMultiplier: 0.4
   walkSpeed: 0

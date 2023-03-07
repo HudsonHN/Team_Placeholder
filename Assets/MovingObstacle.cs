@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MovingObstacle : MonoBehaviour
 {
-    [SerializeField] bool isAround = false;
-    [SerializeField] bool isHorizontal = false;
-    [SerializeField] bool isVertical = false;
+    public bool isAround = false;
+    public bool isHorizontal = false;
+    public bool isVertical = false;
     [SerializeField] float maxMoveRange = 3f; //for move Horizontal, vertical
     [SerializeField] float speed = 1f; //for move Horizontal, vertical
     float radius; //for move Horizontal, vertical

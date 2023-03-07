@@ -194,10 +194,19 @@ public class SwingController : MonoBehaviour
 
             selectedGrapple = hit.transform.GetComponent<GrapplePoint>();
 
-            if (hit.transform.GetComponent<MovingObstacle>() != null)
+            MovingObstacle movingObstacle = hit.transform.GetComponent<MovingObstacle>();
+
+            if (movingObstacle != null)
             {
-                isMovingGrapple = true;
-                movingGrappleTransform = hit.transform;
+                if(!movingObstacle.isAround && !movingObstacle.isHorizontal && !movingObstacle.isVertical)
+                {
+                    isMovingGrapple = false;
+                }
+                else
+                {
+                    isMovingGrapple = true;
+                    movingGrappleTransform = hit.transform;
+                }
             }
             else
             {

@@ -44,8 +44,7 @@ public class TutorialPoint : MonoBehaviour
     private int mouseIndex = 0;
     string[] mouseMsgs =
     {
-        "Mission2 :FIND an object and POINT it for 3 seconds",
-        "Try yourself!",
+        "Mission2: FIND an object and AIM it for 3 seconds.",
     };
 
     //jump checker
@@ -53,9 +52,8 @@ public class TutorialPoint : MonoBehaviour
     private int jumpIndex = 0;
     string[] jumpMsgs =
     {
-        "Mission 3: Lean how to JUMP",
-        "Look higher than where you want to jump",
-        "Press SPACE BAR",
+        "Mission 3: Learn how to JUMP!",
+        "Press SPACE BAR.",
     };
 
 
@@ -64,18 +62,18 @@ public class TutorialPoint : MonoBehaviour
     private int swingIndex = 0;
     string[] swingMsgs =
     {
-        "Mission 4: lean how to SWING",
-        "POINT to SHPERE and HOLD the left click",
-        "Release it after you made enough momentum ",
+        "Mission 4: Learn how to SWING!",
+        "AIM at a SPHERE and HOLD left click.",
+        "Release it after you gain enough momentum.",
     };
 
     private bool pullCheckerDone = true;
     private int pullIndex = 0;
     string[] pullMsgs =
     {
-        "Mission 5: lean how to PULL",
-        "POINT to SHPERE and HOLD the Right click",
-        "Release anytime you want",
+        "Mission 5: Learn how to GRAPPLE!",
+        "AIM at a SPHERE and HOLD right click.",
+        "Release it anytime you want.",
     };
 
     //it is number and calculate number
