@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 
 public class MathPickup : MonoBehaviour
 {
-    public int randomMin = -5;
+    public int randomMin = 1;
     public int randomMax = 10;
 
     [SerializeField] private float respawnDelay = 30.0f;

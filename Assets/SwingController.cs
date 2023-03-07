@@ -296,6 +296,7 @@ public class SwingController : MonoBehaviour
     {
         if (!isPulling) return;
         if (lr.positionCount < 2) return;
+        if (!gunTip || !pullPointTransform) return;
 
         lr.SetPosition(0, gunTip.position);
         lr.SetPosition(1, pullPointTransform.position);

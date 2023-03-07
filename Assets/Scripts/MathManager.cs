@@ -35,6 +35,8 @@ public class MathManager : MonoBehaviour
     public string lhsString;
     public string rhsString;
     public string operatorString;
+
+    public AI_Boss boss;
     
     private void Awake()
     {
@@ -65,6 +67,9 @@ public class MathManager : MonoBehaviour
             operatorString = "*";
         }
         UIManager.instance.randNumText.text = $"__ {operatorString} __";
+
+        boss = GameObject.Find("Level").transform.Find("BossParent")?
+            .Find("TempBoss")?.GetComponent<AI_Boss>();
     }
 
     public void doMath(int rhs)
@@ -105,6 +110,8 @@ public class MathManager : MonoBehaviour
             Debug.Log("got number: " + result);
             UIManager.instance.DisplayResult(result);
             GenerateRandomOperator();
+
+            boss?.UpdateHP(-result);
         }
 
         if (!newNum)
