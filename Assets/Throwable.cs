@@ -8,7 +8,7 @@ public class Throwable : MonoBehaviour
     public GameObject spherePrefab;
     public float spawnDistance = 20f;
     public float despawnTime = 5.0f;
-    public int placeablePointLimit;
+    public int placeablePointLimit = 5;
     public bool placingPoint;
 
     private void Start()
@@ -25,6 +25,9 @@ public class Throwable : MonoBehaviour
             // Spawn the sphere spawnDistance units away from the mouse pointer
             Vector3 spawnPos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + Camera.main.transform.forward * spawnDistance;
             GameObject newSphere = Instantiate(newspherePrefab, spawnPos, Quaternion.identity);
+
+            Manager.Instance.spawnedGrapplePoints++;
+            UnityEngine.Debug.Log("number of grapple points: " + Manager.Instance.spawnedGrapplePoints);
 
             DecreasePlaceableCount();
 

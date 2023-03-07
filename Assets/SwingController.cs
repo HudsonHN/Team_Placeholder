@@ -58,6 +58,20 @@ public class SwingController : MonoBehaviour
 
     public static int numSwings = 0;
 
+    public float grappleStartTime;
+
+    public float currentTime;
+
+    public string grappleName;
+
+    public static string grappleItemTimes;
+
+    public static string grappleItemNames;
+
+    public static string grappleItemIndex;
+
+    public static string grappleItemLocations;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -71,6 +85,7 @@ public class SwingController : MonoBehaviour
         canBoost = true;
         firstSwingStopwatch = Stopwatch.StartNew();
         lr.material.color = lrSwingColor;
+        grappleStartTime = Time.time;
     }
 
     // Update is called once per frame
@@ -250,6 +265,28 @@ public class SwingController : MonoBehaviour
             {
                 numSwings++;
                 Debug.Log("Swing " + numSwings);
+
+                currentTime = Time.time - grappleStartTime;
+                grappleName = hit.collider.name;
+                Debug.Log("Grapple Name: " + grappleName);
+                // print grapple point location
+                Debug.Log("Grapple Point Location: " + hit.collider.transform.position);
+
+                grappleItemIndex = grappleItemIndex + "," + numSwings.ToString();
+                grappleItemNames = grappleItemNames + "," + grappleName;
+                grappleItemTimes = grappleItemTimes + "," + currentTime.ToString();
+                grappleItemLocations = grappleItemLocations + hit.collider.transform.position.ToString();
+                
+
+                Debug.Log("Grapple Item Counter: " + grappleItemIndex);
+                Debug.Log("Grapple Item Names: " + grappleItemNames);
+                Debug.Log("Grapple Item Times: " + grappleItemTimes);
+                Debug.Log("Grapple Item Locations: " + grappleItemLocations);
+                
+
+
+                
+
             }
         }
     }

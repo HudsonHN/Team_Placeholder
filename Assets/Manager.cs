@@ -51,6 +51,10 @@ public class Manager : MonoBehaviour
 
     public Dictionary<string, int> grapplePointsAndCounts;
     public Dictionary<string, float> allCoins;
+    public Dictionary<string, int> allLasers;
+
+    public Transform lasers;
+    public Transform levelGameObjs;
 
     public string grapplePointNames;
     public string grapplePointValues;
@@ -58,10 +62,13 @@ public class Manager : MonoBehaviour
     public string coinNames;
     public string coinValues;
 
+    public string laserNames;
+    public string laserValues;
+
     public bool hasGrappledAPoint = false;
     public bool hasGrabbedCoin = false;
 
-
+    public int spawnedGrapplePoints;
 
     private void Awake()
     {
@@ -79,10 +86,18 @@ public class Manager : MonoBehaviour
         GameObject[] allBlueGrapplePoints = GameObject.FindGameObjectsWithTag("BluePoint");
 
         Object[] allPickupables = Object.FindObjectsOfType(typeof(Pickupable));
+        GameObject[] allUntaggedObjects = GameObject.FindGameObjectsWithTag("Untagged");
 
+        UnityEngine.Debug.Log("length of all untagged objects array: " + allUntaggedObjects.Length);
+
+        /*for (int i = 0; i < allUntaggedObjects.Length; i++)
+        {
+            Debug.Log("")
+        }*/
 
         grapplePointsAndCounts = new Dictionary<string, int>();
         allCoins = new Dictionary<string, float>();
+        allLasers = new Dictionary<string, int>();
 
         for (int i = 0; i < allNormalGrapplePoints.Length; i++)
         {
@@ -113,6 +128,33 @@ public class Manager : MonoBehaviour
             if (allPickupables[i].name.Contains("Coin"))
                 allCoins.Add(allPickupables[i].name, 0);
         }
+        
+        UnityEngine.Debug.Log("before the if statement");
+        if (GameObject.Find("Level").transform.Find("Lasers"))
+        {
+            /*UnityEngine.Debug.Log("in the if statement");
+            levelGameObjs = GameObject.Find("Level").transform;
+
+            foreach(Transform gameObj in levelGameObjs)
+            {
+                if (gameObj.name.Contains("LaserWall"))
+                {
+                    string laserName = gameObj.name;
+                    UnityEngine.Debug.Log("aobut to test if the laser is showing up");
+                    laserNames += laserName + " ";
+                    allLasers[laserName] = 0;
+                }
+            }*/
+            lasers = GameObject.Find("Level").transform.Find("Lasers").transform;
+            foreach(Transform laser in lasers)
+            {
+                UnityEngine.Debug.Log("laser name: " + laser.name);
+                laserNames += laser.name + " ";
+                allLasers[laser.name] = 0;
+            }
+        }
+
+        spawnedGrapplePoints = 0;
     }
 
     // Start is called before the first frame update
@@ -136,7 +178,8 @@ public class Manager : MonoBehaviour
         if(UICanvas.transform.Find("Grapples Left Text") != null)
         {
             placeablePointsLeft = UICanvas.transform.Find("Grapples Left Text").GetComponent<TextMeshProUGUI>();
-            placeablePointsLeft.text = $"Placeable Points Left: {player.GetComponent<Throwable>().placeablePointLimit}";
+            UnityEngine.Debug.Log("placeable limit: " + player.GetComponent<Throwable>().placeablePointLimit);
+            //placeablePointsLeft.text = $"Placeable Points Left: {player.GetComponent<Throwable>().placeablePointLimit}";
         }
 
 
@@ -180,6 +223,14 @@ public class Manager : MonoBehaviour
         SwingController sc = player.GetComponent<SwingController>();
         sc.launchVelocity = Vector3.zero;
         sc.BreakRope();
+
+        laserValues = "";
+        foreach (KeyValuePair<string, int> laserData in allLasers)
+        {
+            laserValues += laserData.Value + " ";
+        }
+
+        UnityEngine.Debug.Log("laser values: " + laserValues);
     }
 
     // Update is called once per frame

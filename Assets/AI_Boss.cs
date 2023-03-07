@@ -15,6 +15,8 @@ public class AI_Boss : MonoBehaviour
     [SerializeField] Color laserColor = Color.cyan;
     [SerializeField] Color detectedLaserColor = Color.red;
     [SerializeField] float knockbackForce = 10.0f;
+
+    public static float rotationRateValue;
     private Transform playerTransform;
     private float fireTimer;
     private LineRenderer lr;
@@ -58,6 +60,9 @@ public class AI_Boss : MonoBehaviour
         lr = GetComponent<LineRenderer>();
         lr.material.color = laserColor;
         rotationRate = UnityEngine.Random.Range(3.0f, 17.0f);
+
+        // copy rotationRate into rotationRateValue 
+        rotationRateValue = rotationRate;
 
         hpText = GameObject.Find("UI")?.transform.Find("Boss HP Text")?.GetComponent<TextMeshProUGUI>();
         hpWorldText = transform.Find("HP")?.GetComponent<TextMeshPro>();
