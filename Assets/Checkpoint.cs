@@ -64,6 +64,7 @@ public class Checkpoint : MonoBehaviour
         t = timeTaken;
         Debug.Log("Timetaken:"+ timeTaken+", Time.time"+Time.time+", starttime"+startTime);
         checkpointTimer = checkpointTimer + "," + timeTaken.ToString();
+        Debug.Log("TIME SCALE:"+ Time.timeScale);
 
         Debug.Log("Time taken to reach checkpoint " + tempcheckpointName + ": " + timeTaken + " seconds");
         Manager.Instance.checkpointTimes[tempcheckpointName] = timeTaken;

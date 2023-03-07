@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 8900000, guid: 619e305f5165a9946b7f72464e44ca4a, type: 3}
   m_Sun: {fileID: 2114283754330233425}
-  m_IndirectSpecularColor: {r: 0.029152213, g: 0.064445764, b: 0.12695098, a: 1}
+  m_IndirectSpecularColor: {r: 0.029152188, g: 0.064445704, b: 0.12695079, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -197,7 +197,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: A goal will spawn once you've collected all gold coins.
+  m_Text: Aim at the spheres in range, and hold LEFT CLICK to swing from them.
 --- !u!222 &2054381
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -606,7 +606,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Collect the gold coins around the map!
+  m_Text: Aim at the spheres in range, and hold LEFT CLICK to swing from them.
 --- !u!222 &288263341
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4478,7 +4478,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Reach the first checkpoint for a hint.
+  m_Text: Time the lasers.
 --- !u!222 &1589339503
 CanvasRenderer:
   m_ObjectHideFlags: 0
