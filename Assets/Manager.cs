@@ -54,6 +54,8 @@ public class Manager : MonoBehaviour
     public Dictionary<string, int> allLasers;
 
     public Transform lasers;
+    public Transform levelGameObjs;
+
     public string grapplePointNames;
     public string grapplePointValues;
 
@@ -127,11 +129,26 @@ public class Manager : MonoBehaviour
                 allCoins.Add(allPickupables[i].name, 0);
         }
         
+        UnityEngine.Debug.Log("before the if statement");
         if (GameObject.Find("Level").transform.Find("Lasers"))
         {
+            /*UnityEngine.Debug.Log("in the if statement");
+            levelGameObjs = GameObject.Find("Level").transform;
+
+            foreach(Transform gameObj in levelGameObjs)
+            {
+                if (gameObj.name.Contains("LaserWall"))
+                {
+                    string laserName = gameObj.name;
+                    UnityEngine.Debug.Log("aobut to test if the laser is showing up");
+                    laserNames += laserName + " ";
+                    allLasers[laserName] = 0;
+                }
+            }*/
             lasers = GameObject.Find("Level").transform.Find("Lasers").transform;
             foreach(Transform laser in lasers)
             {
+                UnityEngine.Debug.Log("laser name: " + laser.name);
                 laserNames += laser.name + " ";
                 allLasers[laser.name] = 0;
             }
