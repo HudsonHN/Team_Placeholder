@@ -1141,6 +1141,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 816914002}
     m_Modifications:
+    - target: {fileID: 1478336676, guid: 761158c71ca3d2b4d90f8a8d5d0f5ec7, type: 3}
+      propertyPath: knockbackForce
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2069154606, guid: 761158c71ca3d2b4d90f8a8d5d0f5ec7, type: 3}
       propertyPath: speed
       value: 5
