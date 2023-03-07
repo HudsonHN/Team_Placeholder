@@ -18,6 +18,9 @@ public class Checkpoint : MonoBehaviour
     private Color c_activated = new Color(0, 183f / 255f, 77f / 255f);
     public static float t = 0.0f;
 
+    private int hintCount = 0;
+    public static string hintString;
+
     void Start()
     { 
         startTime = Time.time;
@@ -63,6 +66,23 @@ public class Checkpoint : MonoBehaviour
         Debug.Log("Time taken to reach checkpoint " + tempcheckpointName + ": " + timeTaken + " seconds");
         Manager.Instance.checkpointTimes[tempcheckpointName] = timeTaken;
     }
+
+        void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            hintCount++;
+            float timeTakenforHint = Time.time - startTime;
+            Vector3 playerPos = transform.position;
+            Debug.Log("Hint requested at " + timeTakenforHint + " seconds at position (" + playerPos.x + ", " + playerPos.y + ", " + playerPos.z + ")");
+            Debug.Log("Hint count: " + hintCount);
+
+
+            hintString = hintString + "," + hintCount.ToString() + "_" + timeTakenforHint.ToString() + "_" + "(" + playerPos.x + ", " + playerPos.y + ", " + playerPos.z + ")";
+            //Debug.Log("Hint String : "+ hintString);
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
 

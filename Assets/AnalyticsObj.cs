@@ -4,49 +4,66 @@ using UnityEngine;
 
 public class AnalyticsObj : MonoBehaviour
 {
-    public int deathCount;
-    public long timeToFinish;
-    public string sceneName;
-    public long FirstSwingTimeTaken;
+    public int unofficial_deathCount;
+    public long unofficial_timeToFinish;
+    public long unofficial_FirstSwingTimeTaken;
+    
+    public string unused_SwingCountcoinNames;
+    public string unused_swingCount;
+    public string unused_coinNames;
+    public string unused_coinValues;
 
+
+    public string sceneName;
+    
     public string checkpointname;
     public string checkpointTimer;
 
     public string grappleNames;
     public string grappleValues;
 
-    public string coinNames;
-    public string coinValues;
-    public string swingCount;
-
     public string laserNames;
     public string laserValues;
 
     public int numSpawnGrapples;
 
+    public string hintString;
+
+    public string AI_Boss_Hits_String_Count;
+    public string AI_Boss_Hits_String_Rotation_Speed_Values;
+
+
     public AnalyticsObj(){
-        deathCount = Manager.Instance.deathCount;
-        timeToFinish = Goal.timeLine;
-        checkpointname = Checkpoint.checkpointname;
-        checkpointTimer = Checkpoint.checkpointTimer;
-        FirstSwingTimeTaken = SwingController.timeTakenForFirstSwing;
+        unofficial_deathCount = Manager.Instance.deathCount;
+        unofficial_timeToFinish = Goal.timeLine;
+        unofficial_FirstSwingTimeTaken = SwingController.timeTakenForFirstSwing;
 
-        coinNames = Pickupable.coinName;
-        
-        swingCount = Pickupable.swingCount;
+        unused_SwingCountcoinNames = Pickupable.coinName;
+        unused_swingCount = Pickupable.swingCount;
 
+        unused_coinNames = Manager.Instance.coinNames;
+        unused_coinValues = Manager.Instance.coinValues;
+
+        //# 0
         sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
 
+        //# 1
+        checkpointname = Checkpoint.checkpointname;
+        checkpointTimer = Checkpoint.checkpointTimer;
+
+        //# 2
         grappleNames = Manager.Instance.grapplePointNames;
         grappleValues = Manager.Instance.grapplePointValues;
 
-        coinNames = Manager.Instance.coinNames;
-        coinValues = Manager.Instance.coinValues;
-
+        //# 3
         laserNames = Manager.Instance.laserNames;
         laserValues = Manager.Instance.laserValues;
 
+        //# 4
         numSpawnGrapples = Manager.Instance.spawnedGrapplePoints;
+
+        //# 5
+        hintString = Checkpoint.hintString;
         
         Debug.Log("Analytics TIme taken for first swing : "+FirstSwingTimeTaken);
         // Debug.Log("Analytics TIme taken for first swing : "+checkpointTimes);
