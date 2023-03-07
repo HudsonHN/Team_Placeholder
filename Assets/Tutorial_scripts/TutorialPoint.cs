@@ -86,6 +86,7 @@ public class TutorialPoint : MonoBehaviour
     {
         player = GameObject.Find("PlayerCapsule");
         player.gameObject.GetComponent<PlayerMovement>().movePlayer = false;
+        mathManager = GameObject.Find("MathManager").gameObject;
 
         freezeLikeImg = clickImg = GameObject.Find("UI").transform.Find("DetailedTutorial").transform.Find("ScreenFreeze").gameObject;
         clickImg = GameObject.Find("UI").transform.Find("DetailedTutorial").transform.Find("Left_Click").gameObject;
@@ -408,21 +409,15 @@ public class TutorialPoint : MonoBehaviour
 
     void ClearGameCheck()
     {
-        int localSum = player.gameObject.GetComponent<Tutorial_math>().sum;
-        int localCount = player.gameObject.GetComponent<Tutorial_math>().mathCount;
-        worldSum = localSum;
-        instruction.text = $"Current sum of your number: {worldSum}";
+        int localSum = mathManager.transform.GetComponent<MathManager>().resultToTutorial;
 
         if (localSum > bossNumber)
         {
             coinCheckDone = true;
             Manager.Instance.goalObject.SetActive(true);
-        }
+            bossNumberText.SetActive(false);
+            SuccessMsg();
 
-        if (localCount <= 0 && localSum <= bossNumber)
-        {
-            player.gameObject.GetComponent<Tutorial_math>().sum = 0;
-            player.gameObject.GetComponent<Tutorial_math>().mathCount = 2;
         }
     }
 
