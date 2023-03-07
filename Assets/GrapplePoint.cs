@@ -35,7 +35,7 @@ public class GrapplePoint : MonoBehaviour
     {
         if (_renderer == null)
         {
-            Debug.LogError("NULL RENDERER");
+            Debug.LogWarning("NULL RENDERER");
         }
         else
         {

@@ -15,6 +15,8 @@ public class TutorialPoint : MonoBehaviour
 
     public TextMeshProUGUI instruction;
 
+    public LayerMask whatIsTargeted;
+
     private static float startTime = 0f;
 
     //common var for freezing screen
@@ -29,9 +31,9 @@ public class TutorialPoint : MonoBehaviour
     private int welcomIndex = 0;
     string[] welcomeMsgs =
     {   "", //error prevention
-        "Welcome to Swinging Game!",
-        "Mission1: Move with WASD",
-        "Try yourself!",
+        "Welcome to the game!",
+        "Mission 1: Move with keys - W A S D.",
+        "Try it out!",
     };
 
     //Mouse move checker
@@ -41,10 +43,11 @@ public class TutorialPoint : MonoBehaviour
     public float pointerTimeThreshold = 5f;
     private float pointerTime;
     private bool isPointing;
-    private int mouseIndex = 0;
+    public int mouseIndex = 0;
     string[] mouseMsgs =
     {
-        "Mission2: FIND an object and AIM it for 3 seconds.",
+        "Mission2: FIND an object and AIM at it for 3 seconds.",
+        "Try it out by moving the MOUSE!"
     };
 
     //jump checker
@@ -53,7 +56,8 @@ public class TutorialPoint : MonoBehaviour
     string[] jumpMsgs =
     {
         "Mission 3: Learn how to JUMP!",
-        "Press SPACE BAR.",
+        "To leap over gaps, you want to JUMP!",
+        "To JUMP press SPACE BAR.",
     };
 
 
@@ -85,9 +89,9 @@ public class TutorialPoint : MonoBehaviour
     private GameObject bossNumberText;
     string[] coinMsgs =
     {
-        "Mission 6: Make GREATER than Target number",
-        "Check Operator and FIND two numbers",
-        "Try yourself but Watch out the LASER!",
+        "Mission 6: Make a number GREATER than the target number!",
+        "Given the math operator, PICKUP two numbers!",
+        "Try it out, but watch out for the LASER!",
     };
 
 
@@ -103,6 +107,7 @@ public class TutorialPoint : MonoBehaviour
         bossNumberText = GameObject.Find("UI").transform.Find("DetailedTutorial").transform.Find("BossNumber").gameObject;
         //luanchBar = GameObject.Find("UI").transform.Find("DetailedTutorial").transform.Find("LaunchBar").gameObject; Do not require anymore
         //clickImg.SetActive(false);
+        Manager.Instance.leftClickPrompt?.transform.GetChild(0)?.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -246,12 +251,10 @@ public class TutorialPoint : MonoBehaviour
                 clickImg.SetActive(true);
                 freezeLikeImg.SetActive(true);
             }
-
             else if (welcomIndex == 1)
             {
                 instruction.text = welcomeMsgs[welcomIndex];
             }
-
             else if (welcomIndex == 2)
             {
                 instruction.text = welcomeMsgs[welcomIndex];
@@ -295,54 +298,67 @@ public class TutorialPoint : MonoBehaviour
 
     void MouseMoveChecker()
     {
-        if (mouseIndex == 0)
+        switch(mouseIndex)
         {
-            instruction.text = mouseMsgs[mouseIndex];
-            DontJumpOut();
-            freezeLikeImg.SetActive(true);
-            clickImg.SetActive(true);
-            player.gameObject.GetComponent<PlayerMovement>().movePlayer = false;
-
-        }
-        if (mouseIndex == 1)
-        {
-            instruction.text = mouseMsgs[mouseIndex];
-            clickImg.SetActive(false);
-            freezeLikeImg.SetActive(false);
-
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            // Cast a ray from the mouse position into the world
-            // Check if the ray intersects with the target object
-            if (Physics.Raycast(ray, out hit) && hit.collider.gameObject == targetObject)
+            case 0:
             {
-                // Do something if the target object is being pointed to
-                //Debug.Log("Pointer is pointing to the target object!");
-                startTime += Time.deltaTime;
-                Manager.Instance.crosshair.color = Color.green;
-
-                instruction.text = ((int)startTime).ToString();
-
-                if (startTime > pointerTimeThreshold)
-                {
-                    // User has moved their mouse
-                    Debug.Log("User has moved their mouse");
-                    mouseCheckDone = true;
-                    player.gameObject.GetComponent<PlayerMovement>().movePlayer = true;
-                    StartCoroutine(SuccessMsg());
-                }
+                instruction.text = mouseMsgs[mouseIndex];
+                DontJumpOut();
+                freezeLikeImg.SetActive(true);
+                clickImg.SetActive(true);
+                player.gameObject.GetComponent<PlayerMovement>().movePlayer = false;
+                break;
             }
-            else
+            case 1:
             {
-                isPointing = false;
-                startTime = 0f;
+                instruction.text = mouseMsgs[mouseIndex];
+                clickImg.SetActive(false);
+                freezeLikeImg.SetActive(false);
+
+                //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                    // Cast a ray from the mouse position into the world
+                    // Check if the ray intersects with the target object
+                    Debug.DrawLine(Camera.main.transform.position, Camera.main.transform.position + (Camera.main.transform.forward * 500.0f), Color.blue);
+                if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 500.0f, whatIsTargeted))
+                {
+                    if (hit.collider.gameObject == targetObject)
+                    {
+                        // Do something if the target object is being pointed to
+                        //Debug.Log("Pointer is pointing to the target object!");
+                        startTime += Time.deltaTime;
+                        Manager.Instance.crosshair.color = Color.green;
+
+                        instruction.text = ((int)startTime + 1).ToString();
+
+                        if (startTime > pointerTimeThreshold)
+                        {
+                            // User has moved their mouse
+                            Debug.Log("User has moved their mouse");
+                            mouseCheckDone = true;
+                            player.gameObject.GetComponent<PlayerMovement>().movePlayer = true;
+                            StartCoroutine(SuccessMsg());
+                        }
+                    }
+                }
+                else
+                {
+                    Debug.Log("MISSING");
+                    isPointing = false;
+                    startTime = 0f;
+                }
+                break;
             }
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             mouseIndex++;
+            if(mouseIndex > 1)
+            {
+                mouseIndex = 1;
+            }
         }
     }
 
@@ -399,7 +415,7 @@ public class TutorialPoint : MonoBehaviour
             swingIndex++;
         }
 
-        if (swingIndex <= 3)
+        if (swingIndex <= 2)
         {
             DontJumpOut();
         }
@@ -414,6 +430,7 @@ public class TutorialPoint : MonoBehaviour
     {
         if (pullIndex <= 1)
         {
+            Manager.Instance.leftClickPrompt?.transform.GetChild(0)?.gameObject.SetActive(true);
             instruction.text = pullMsgs[pullIndex];
             clickImg.SetActive(true);
         }
