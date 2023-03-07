@@ -10,6 +10,8 @@ public class TutorialPoint : MonoBehaviour
     private EventSystem eventSystem; // Reference to the EventSystem component
     private GameObject controlsUI;
     private GameObject player;
+    private GameObject mathInfo;
+    private GameObject mathManager;
 
     public TextMeshProUGUI instruction;
 
@@ -43,8 +45,8 @@ public class TutorialPoint : MonoBehaviour
     private int jumpIndex = 0;
     string[] jumpMsgs =
     {
-        "Let's learn how to LAUNCH",
-        "Look where you want to jump",
+        "Let's learn how to Jump",
+        "Look higher than where you want to jump",
         "Press SPACE BAR",
         "Try yourself",
     };
@@ -58,28 +60,37 @@ public class TutorialPoint : MonoBehaviour
         "Let's learn how to SWING",
         "Aim your point to SHPERE",
         "Click and hold the left click",
+        "Then swing with WASD Key",
         "Release after you made enough momentum ",
-        "Jump further with W Key",
         "Try yourself",
     };
 
-    //coin get check
+    //it is number and calculate number
+    public int worldSum = 0;
+    private int bossNumber = 13;
     private bool coinCheckDone = true;
     private int coinIndex = 0;
+    private GameObject bossNumberText;
     string[] coinMsgs =
     {
         "Final mission of Tutorial 1",
-        "Collect all COINs to clear",
+        "Make the larger number than BOSSnumber",
+        "Pick up number you want",
         "Be careful the LASER WALL!",
-        "Go and get all COINs!",
+        "Go and get numbers!",
     };
+
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("PlayerCapsule");
+        player.gameObject.GetComponent<PlayerMovement>().movePlayer = false;
+        mathManager = GameObject.Find("MathManager").gameObject;
+
         freezeLikeImg = clickImg = GameObject.Find("UI").transform.Find("DetailedTutorial").transform.Find("ScreenFreeze").gameObject;
         clickImg = GameObject.Find("UI").transform.Find("DetailedTutorial").transform.Find("Left_Click").gameObject;
+        bossNumberText = GameObject.Find("UI").transform.Find("DetailedTutorial").transform.Find("BossNumber").gameObject;
         //luanchBar = GameObject.Find("UI").transform.Find("DetailedTutorial").transform.Find("LaunchBar").gameObject; Do not require anymore
         //clickImg.SetActive(false);
     }
@@ -126,7 +137,6 @@ public class TutorialPoint : MonoBehaviour
             freezeLikeImg.SetActive(true);
 
             player.gameObject.GetComponent<PlayerMovement>().movePlayer = false;    //stop player move;
-
             currPosition = player.gameObject.GetComponent<Transform>().position;    //stop player at the current position
             DontJumpOut();
 
@@ -141,7 +151,6 @@ public class TutorialPoint : MonoBehaviour
             player.gameObject.GetComponent<PlayerMovement>().movePlayer = false;    //stop player move;
 
             currPosition = player.gameObject.GetComponent<Transform>().position;    //stop player at the current position
-            player.gameObject.GetComponent<Transform>().position = currPosition;
             DontJumpOut();
             
         }
@@ -153,8 +162,6 @@ public class TutorialPoint : MonoBehaviour
 
             player.gameObject.GetComponent<PlayerMovement>().movePlayer = false;    //stop player move;
             currPosition = player.gameObject.GetComponent<Transform>().position;    //stop player at the current position
-            player.gameObject.GetComponent<Transform>().position = currPosition;
-
             DontJumpOut();
         }
 
@@ -165,9 +172,14 @@ public class TutorialPoint : MonoBehaviour
 
             player.gameObject.GetComponent<PlayerMovement>().movePlayer = false;    //stop player move;
             currPosition = player.gameObject.GetComponent<Transform>().position;    //stop player at the current position
-            player.gameObject.GetComponent<Transform>().position = currPosition;
-
             DontJumpOut();
+        }
+
+        if (gameObject.name == "ModularText")
+        {
+            int num = int.Parse(gameObject.transform.Find("3D Text Prefab").GetComponent<TextScript>().EnterTextHere);
+            DoMath(num);
+
         }
     }
 
@@ -252,13 +264,13 @@ public class TutorialPoint : MonoBehaviour
 
     void MouseMoveChecker()
     {
-        instruction.text = "Look Around with your mouse for 5 second";
+        instruction.text = "Look Around with your mouse for 3 second";
 
         float currentTime = Time.time;
         float slapsedTime = currentTime - startTime;
         player.gameObject.GetComponent<Transform>().position = currPosition;
 
-        if (slapsedTime > 5.0)
+        if (slapsedTime > 3.0)
         {
             // User has moved their mouse
             Debug.Log("User has moved their mouse");
@@ -273,24 +285,18 @@ public class TutorialPoint : MonoBehaviour
     {
         if (jumpIndex <= 1)
         {
-            player.gameObject.GetComponent<Transform>().position = currPosition;
-
             instruction.text = jumpMsgs[jumpIndex];
             clickImg.SetActive(true);
         }
 
         else if (jumpIndex == 2)
         {
-            player.gameObject.GetComponent<Transform>().position = currPosition;
-            DontJumpOut();
-
             instruction.text = jumpMsgs[jumpIndex];
             clickImg.SetActive(true);
         }
 
         else if (jumpIndex == 3)
         {
-            DontJumpOut();
             instruction.text = jumpMsgs[jumpIndex];
             jumpIndex++;
 
@@ -301,9 +307,12 @@ public class TutorialPoint : MonoBehaviour
         if (jumpIndex == 4)
         {
             player.gameObject.GetComponent<PlayerMovement>().movePlayer = true;    //allow player move;
-            DontJumpOut();
-
             jumpCheckDone = true;
+        }
+
+        if (jumpIndex <= 5)
+        {
+            DontJumpOut();
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -316,8 +325,6 @@ public class TutorialPoint : MonoBehaviour
     {
         if (swingIndex <= 4)
         {
-            player.gameObject.GetComponent<Transform>().position = currPosition;
-
             instruction.text = swingMsgs[swingIndex];
             clickImg.SetActive(true);
         }
@@ -327,11 +334,15 @@ public class TutorialPoint : MonoBehaviour
             instruction.text = swingMsgs[swingIndex];
 
             player.gameObject.GetComponent<PlayerMovement>().movePlayer = true;    //allow player move;
-            DontJumpOut();
 
             freezeLikeImg.SetActive(false);
             clickImg.SetActive(false);
             swingIndex++;
+        }
+
+        if (swingIndex <= 5)
+        {
+            DontJumpOut();
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -342,50 +353,74 @@ public class TutorialPoint : MonoBehaviour
 
     void CoinChecker()
     {
+        ClearGameCheck();
+
         if (coinIndex <= 2)
         {
-            player.gameObject.GetComponent<Transform>().position = currPosition;
-
             instruction.text = coinMsgs[coinIndex];
             clickImg.SetActive(true);
         }
 
         else if (coinIndex == 3)
         {
-            DontJumpOut();
+            bossNumberText.SetActive(true);
             instruction.text = coinMsgs[coinIndex];
-
-            swingIndex++;
         }
 
         else if (coinIndex >= 4)
         {
             player.gameObject.GetComponent<PlayerMovement>().movePlayer = true;    //allow player move;
-
             freezeLikeImg.SetActive(false);
             clickImg.SetActive(false);
 
-            instruction.text = $"Left coins: {Manager.Instance.coinsInLevel}";
+            if (coinIndex <= 5)
+            {
+                coinIndex++;
+            }
+
         }
 
-        if (Manager.Instance.coinsInLevel <= 0)
+        if (coinIndex <= 4)
         {
-            coinCheckDone = true;
-            StartCoroutine(SuccessMsg());
+            DontJumpOut();
+
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             coinIndex++;
         }
+
     }
 
     //Prevent a player jump out right after unfreezen
     void DontJumpOut()
     {
+        player.gameObject.GetComponent<Transform>().position = currPosition;
         player.gameObject.GetComponent<PlayerMovement>().horizontalInput = 0;   //set input value 0 
         player.gameObject.GetComponent<PlayerMovement>().verticalInput = 0;
     }
+
+    void DoMath(int num)
+    {
+        player.gameObject.GetComponent<Tutorial_math>().sum += num;
+        player.gameObject.GetComponent<Tutorial_math>().mathCount--;
+    }
+
+    void ClearGameCheck()
+    {
+        int localSum = mathManager.transform.GetComponent<MathManager>().resultToTutorial;
+
+        if (localSum > bossNumber)
+        {
+            coinCheckDone = true;
+            Manager.Instance.goalObject.SetActive(true);
+            bossNumberText.SetActive(false);
+            SuccessMsg();
+
+        }
+    }
+
     IEnumerator SuccessMsg()
     {
         instruction.text = "Great Job!";

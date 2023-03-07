@@ -95,6 +95,7 @@ public class SwingController : MonoBehaviour
             canGrapple = true;
             Manager.Instance.crosshair.color = Color.green;
             Manager.Instance.leftClickPrompt.SetActive(true);
+
             if (hoveredGrapple != null)
             {
                 hoveredGrapple.UnhoveredGrapple();
