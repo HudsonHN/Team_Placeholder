@@ -31,9 +31,16 @@ public class AnalyticsObj : MonoBehaviour
 
     public string AI_Boss_Hits_String_Count;
     public string AI_Boss_Hits_String_Rotation_Speed_Values;
+    
+    public string grappleItemIndex;
+    public string grappleItemNames;
+    public string grappleItemTimes;
+    public string grappleItemLocations;
+    
 
 
-    public AnalyticsObj(){
+    public AnalyticsObj()
+    {
         unofficial_deathCount = Manager.Instance.deathCount;
         unofficial_timeToFinish = Goal.timeLine;
         unofficial_FirstSwingTimeTaken = SwingController.timeTakenForFirstSwing;
@@ -68,6 +75,15 @@ public class AnalyticsObj : MonoBehaviour
         //# 6
         AI_Boss_Hits_String_Count = Projectile.AI_Boss_Hits_String_Count;
         AI_Boss_Hits_String_Rotation_Speed_Values = Projectile.AI_Boss_Hits_String_Rotation_Speed_Values;
+
+        //# 7
+        grappleItemIndex = SwingController.grappleItemIndex;
+        grappleItemNames = SwingController.grappleItemNames;
+        grappleItemTimes = SwingController.grappleItemTimes;
+        grappleItemLocations = SwingController.grappleItemLocations;
+
+
+
 
 
         
