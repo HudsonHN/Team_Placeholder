@@ -1363,7 +1363,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 666347565}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
@@ -5403,23 +5403,6 @@ MonoBehaviour:
   hint2: {fileID: 0}
   hint3: {fileID: 0}
   hint4: {fileID: 0}
---- !u!114 &1553243913
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1553243907}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2320e77fde8dbd540a27dc94530cf79e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spherePrefab: {fileID: 6987580182900727108, guid: 12131948428edea47b97137390484ffa,
-    type: 3}
-  throwForce: 20
-  destroyTime: 15
-  playerCamera: {fileID: 1192765124}
 --- !u!1 &1604480244
 GameObject:
   m_ObjectHideFlags: 0
@@ -5549,7 +5532,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Mind the gap.
+  m_Text: Aim at the spheres in range, and hold LEFT CLICK to swing from them.
 --- !u!222 &1630667126
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5966,7 +5949,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: HOLD mouse button on the point when prompted!
+  m_Text: time the swing.
 --- !u!222 &1898684258
 CanvasRenderer:
   m_ObjectHideFlags: 0
