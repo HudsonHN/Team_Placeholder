@@ -46,7 +46,7 @@ public class TutorialPoint : MonoBehaviour
     public int mouseIndex = 0;
     string[] mouseMsgs =
     {
-        "Mission2: FIND an object and AIM at it for 3 seconds.",
+        "Mission2: AIM at the RED SPHERE for 3 seconds.",
         "Try it out by moving the MOUSE!"
     };
 
@@ -55,9 +55,9 @@ public class TutorialPoint : MonoBehaviour
     private int jumpIndex = 0;
     string[] jumpMsgs =
     {
-        "Mission 3: Learn how to JUMP!",
-        "To leap over gaps, you want to JUMP!",
-        "To JUMP press SPACE BAR.",
+        "Mission 3: Learn how to BOOST!",
+        "To leap over gaps, you want to BOOST!",
+        "To BOOST press SPACE BAR.",
     };
 
 

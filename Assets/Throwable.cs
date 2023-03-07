@@ -77,6 +77,7 @@ public class Throwable : MonoBehaviour
 
     void DecreasePlaceableCount()
     {
+        if (placeablePointLimit < 1) return;
         placeablePointLimit--;
         Manager.Instance.placeablePointsLeft.text = $"Placeable Points Left: {placeablePointLimit}";
     }

@@ -9,6 +9,7 @@ public class Checkpoint : MonoBehaviour
     private bool activated = false;
     public bool Activated { get { return activated; } }
     public GameObject spawnPoint;
+    public Checkpoint prevPoint;
     private MeshRenderer renderer;
     private Transform flagTransform;
     private float startTime;
@@ -39,6 +40,7 @@ public class Checkpoint : MonoBehaviour
     public void ActivateCheckpoint()
     {
         if (activated) return;
+        prevPoint?.ActivateCheckpoint();
 
         activated = true;
         if (spawnPoint != null)
