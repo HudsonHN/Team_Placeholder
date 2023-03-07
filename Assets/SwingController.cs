@@ -16,6 +16,7 @@ public class SwingController : MonoBehaviour
     private Vector3 swingPoint;
     private SpringJoint joint;
     private Rigidbody rb;
+    public float swingRopeDistance = 15.0f;
 
     [SerializeField] private float grappleForce = 15.0f;
 
@@ -57,6 +58,20 @@ public class SwingController : MonoBehaviour
 
     public static int numSwings = 0;
 
+    public float grappleStartTime;
+
+    public float currentTime;
+
+    public string grappleName;
+
+    public static string grappleItemTimes;
+
+    public static string grappleItemNames;
+
+    public static string grappleItemIndex;
+
+    public static string grappleItemLocations;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -70,6 +85,7 @@ public class SwingController : MonoBehaviour
         canBoost = true;
         firstSwingStopwatch = Stopwatch.StartNew();
         lr.material.color = lrSwingColor;
+        grappleStartTime = Time.time;
     }
 
     // Update is called once per frame
@@ -94,6 +110,7 @@ public class SwingController : MonoBehaviour
             canGrapple = true;
             Manager.Instance.crosshair.color = Color.green;
             Manager.Instance.leftClickPrompt.SetActive(true);
+
             if (hoveredGrapple != null)
             {
                 hoveredGrapple.UnhoveredGrapple();
@@ -118,10 +135,30 @@ public class SwingController : MonoBehaviour
             {   
                 StartSwing();
             }
+            if(Input.GetKey(KeyCode.Mouse0) && isSwinging && !isMovingGrapple)
+            {
+                Vector3 directionToPoint = swingPoint - transform.position;
+                float distanceFromPoint = Vector3.Distance(swingPoint, transform.position);
+                if(distanceFromPoint > swingRopeDistance)
+                {
+                    Debug.Log("DistanceFromPoint: " + distanceFromPoint);
+                    rb.AddForce(directionToPoint.normalized * 1500.0f * Time.deltaTime);
+                    joint.maxDistance = distanceFromPoint * 0.8f;
+                    joint.minDistance = distanceFromPoint * 0.25f;
+                }
+            }
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
                 StopSwing();
                 isMovingGrapple = false;
+            }
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                StartPull();
+            }
+            if (Input.GetKeyUp(KeyCode.Mouse1))
+            {
+                StopPull();
             }
             if (Input.GetKeyDown(KeyCode.Space) && !isSwinging && !pm.grounded)
             {
@@ -164,18 +201,6 @@ public class SwingController : MonoBehaviour
                 Manager.Instance.grapplePointValues = "";
             }
 
-            // Check for pull point (same input, different behavior)
-            PullPoint pull;
-            if (hit.collider.gameObject.TryGetComponent<PullPoint>(out pull))
-            {
-                isPulling = true;
-                pullPointTransform = pull.transform;
-                lr.positionCount = 2;
-                lr.material.color = lrPullColor;
-                pull.StartPulling(this);
-                return;
-            }
-
             isSwinging = true;
             swingPoint = hit.point;
             joint = player.gameObject.AddComponent<SpringJoint>();
@@ -184,10 +209,19 @@ public class SwingController : MonoBehaviour
 
             selectedGrapple = hit.transform.GetComponent<GrapplePoint>();
 
-            if (hit.transform.GetComponent<MovingObstacle>() != null)
+            MovingObstacle movingObstacle = hit.transform.GetComponent<MovingObstacle>();
+
+            if (movingObstacle != null)
             {
-                isMovingGrapple = true;
-                movingGrappleTransform = hit.transform;
+                if(!movingObstacle.isAround && !movingObstacle.isHorizontal && !movingObstacle.isVertical)
+                {
+                    isMovingGrapple = false;
+                }
+                else
+                {
+                    isMovingGrapple = true;
+                    movingGrappleTransform = hit.transform;
+                }
             }
             else
             {
@@ -231,6 +265,28 @@ public class SwingController : MonoBehaviour
             {
                 numSwings++;
                 Debug.Log("Swing " + numSwings);
+
+                currentTime = Time.time - grappleStartTime;
+                grappleName = hit.collider.name;
+                Debug.Log("Grapple Name: " + grappleName);
+                // print grapple point location
+                Debug.Log("Grapple Point Location: " + hit.collider.transform.position);
+
+                grappleItemIndex = grappleItemIndex + "," + numSwings.ToString();
+                grappleItemNames = grappleItemNames + "," + grappleName;
+                grappleItemTimes = grappleItemTimes + "," + currentTime.ToString();
+                grappleItemLocations = grappleItemLocations + hit.collider.transform.position.ToString();
+                
+
+                Debug.Log("Grapple Item Counter: " + grappleItemIndex);
+                Debug.Log("Grapple Item Names: " + grappleItemNames);
+                Debug.Log("Grapple Item Times: " + grappleItemTimes);
+                Debug.Log("Grapple Item Locations: " + grappleItemLocations);
+                
+
+
+                
+
             }
         }
     }
@@ -243,17 +299,35 @@ public class SwingController : MonoBehaviour
 
     void StopSwing()
     {
-        if (isPulling)
-        {
-            isPulling = false;
-            lr.positionCount = 0;
-            lr.material.color = lrSwingColor;
-            return;
-        }
         isSwinging = false;
         lr.positionCount = 0;
         selectedGrapple = null;
         Destroy(joint);
+    }
+
+    void StartPull()
+    {
+        if (canGrapple && !isPulling && !IsSwinging)
+        {
+            PullPoint pull;
+            if (hit.collider.gameObject.TryGetComponent<PullPoint>(out pull))
+            {
+                isPulling = true;
+                pullPointTransform = pull.transform;
+                lr.positionCount = 2;
+                lrSwingColor = lr.material.color;
+                lr.material.color = Color.yellow;
+                pull.StartPulling(this);
+            }
+        }
+    }
+
+    void StopPull()
+    {
+        if (!isPulling) return;
+        isPulling = false;
+        lr.positionCount = 0;
+        lr.material.color = lrSwingColor;
     }
 
     void DrawRope()
@@ -268,6 +342,8 @@ public class SwingController : MonoBehaviour
     void DrawPullLine()
     {
         if (!isPulling) return;
+        if (lr.positionCount < 2) return;
+        if (!gunTip || !pullPointTransform) return;
 
         lr.SetPosition(0, gunTip.position);
         lr.SetPosition(1, pullPointTransform.position);

@@ -47,4 +47,5 @@ MonoBehaviour:
   currOperation: 0
   randomMin: -5
   randomMax: 10
-  randNumber: 0
+  randNumber: 2147483647
+  currNumber: -2147483648

@@ -3,7 +3,9 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
-    public float moveSpeed;
+    public float moveSpeed; //please keep this as public, it is using on 
+
+    public bool movePlayer; // prevent user from using keyboard during tutorials
 
     public float groundDrag;
 
@@ -25,8 +27,9 @@ public class PlayerMovement : MonoBehaviour
 
     public Transform orientation;
 
-    float horizontalInput;
-    float verticalInput;
+    //Made it public to prevent character from moving out after unfreeze input
+    public float horizontalInput;
+    public float verticalInput;
 
     Vector3 moveDirection;
 
@@ -89,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void MyInput()
     {
-        if(!Manager.Instance.isPaused && Manager.Instance.canStart)
+        if(!Manager.Instance.isPaused && Manager.Instance.canStart && movePlayer)
         {
             horizontalInput = Input.GetAxisRaw("Horizontal");
             verticalInput = Input.GetAxisRaw("Vertical");
@@ -143,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
 
         // on ground
         if (grounded)
-            rb.AddForce(moveDirection.normalized * moveSpeed * 0.5f, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * moveSpeed * 2.15f, ForceMode.Force);
 
         // in air
         else if (!grounded)

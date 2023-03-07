@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5549920765329677205}
   - component: {fileID: 1478336676}
   - component: {fileID: 2069154606}
+  - component: {fileID: 337857556828485458}
   m_Layer: 11
   m_Name: GrapplePoint
   m_TagString: NeutralPoint
@@ -128,6 +129,17 @@ MonoBehaviour:
   isAround: 0
   isHorizontal: 0
   isVertical: 0
-  isFake: 0
   maxMoveRange: 3
   speed: 1
+--- !u!114 &337857556828485458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5549920765329677207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36b3f843a1b10c4429198f30a5f9e2ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
