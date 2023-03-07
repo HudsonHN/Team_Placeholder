@@ -10,11 +10,6 @@ public class MathPickup : MonoBehaviour
 {
     public int numToTutorial; //I just created to access number from Tutorial
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
     public int randomMin = -5;
     public int randomMax = 10;
 
