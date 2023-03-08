@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// using System.Globalization;
 
 public class AnalyticsObj : MonoBehaviour
 {
@@ -36,6 +37,8 @@ public class AnalyticsObj : MonoBehaviour
     public string grappleItemNames;
     public string grappleItemTimes;
     public string grappleItemLocations;
+
+    public string dateTimeInfo;
     
 
 
@@ -81,6 +84,11 @@ public class AnalyticsObj : MonoBehaviour
         grappleItemNames = SwingController.grappleItemNames;
         grappleItemTimes = SwingController.grappleItemTimes;
         grappleItemLocations = SwingController.grappleItemLocations;
+
+        //# 8
+        dateTimeInfo = System.DateTime.Now.ToString();
+
+        Debug.Log("Time Stamp: " + System.DateTime.Now.ToString());
 
 
 
