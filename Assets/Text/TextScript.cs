@@ -761,11 +761,4 @@ public class TextScript : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.G)) 
-        {
-            ChangeText("testing this");
-        }
-    }
 }
