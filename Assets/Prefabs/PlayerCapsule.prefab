@@ -329,7 +329,7 @@ MonoBehaviour:
   moveSpeed: 7
   movePlayer: 1
   groundDrag: 5
-  jumpForce: 6
+  jumpForce: 12
   jumpCooldown: 0.25
   airMultiplier: 0.4
   walkSpeed: 0
@@ -379,6 +379,9 @@ MonoBehaviour:
   lrPullColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   selectedGrapple: {fileID: 0}
   boostTimer: 0.75
+  grappleStartTime: 0
+  currentTime: 0
+  grappleName: 
 --- !u!114 &268106543062708638
 MonoBehaviour:
   m_ObjectHideFlags: 0

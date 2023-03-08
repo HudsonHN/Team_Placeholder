@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class MovingObstacle : MonoBehaviour
 {
-    [SerializeField] bool isAround = false;
-    [SerializeField] bool isHorizontal = false;
-    [SerializeField] bool isVertical = false;
+    public bool isAround = false;
+    public bool isHorizontal = false;
+    public bool isVertical = false;
     [SerializeField] float maxMoveRange = 3f; //for move Horizontal, vertical
-    [SerializeField] float speed = 1f; //for move Horizontal, vertical
+    [SerializeField] public float speed = 1f; //for move Horizontal, vertical
     float radius; //for move Horizontal, vertical
+    public static bool around = false;
+    public static bool hor = false;
+    public static bool ver = false;
+    public static float tspeed = -1f;
 
 
     Vector3 startPos;
@@ -20,6 +24,10 @@ public class MovingObstacle : MonoBehaviour
     {
         startPos = transform.position;
         radius = maxMoveRange;
+        around = isAround;
+        hor = isHorizontal;
+        ver = isVertical;
+
     }
 
     // Update is called once per frame
@@ -37,6 +45,7 @@ public class MovingObstacle : MonoBehaviour
         {
             MovingVertical();
         }
+        
     }
 
     void MovingRound()
@@ -48,6 +57,10 @@ public class MovingObstacle : MonoBehaviour
 
     void MovingHorizontal()
     {
+        if (tspeed!=-1f)
+        {
+        speed = tspeed;
+        }
         float x = startPos.x + maxMoveRange * Mathf.Cos(speed * Time.time);
         transform.position = new Vector3(x, transform.position.y, transform.position.z);
     }

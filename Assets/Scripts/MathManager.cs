@@ -8,7 +8,8 @@ using Random = System.Random;
 public class MathManager : MonoBehaviour
 {
     public static MathManager instance;
-    
+    public int resultToTutorial;
+
     public enum operation
     {
         none,
@@ -105,6 +106,7 @@ public class MathManager : MonoBehaviour
 
         if (result != Int32.MinValue)
         {
+            resultToTutorial = result;
             //currNumber = result;
             Debug.Log($"Math operation: {currNumber} & {rhs}");
             Debug.Log("got number: " + result);

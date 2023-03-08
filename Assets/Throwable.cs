@@ -13,7 +13,20 @@ public class Throwable : MonoBehaviour
 
     private void Start()
     {
-        //Manager.Instance.placeablePointsLeft.text = $"Placeable Points Left: {placeablePointLimit}";
+        if(Manager.Instance.placeablePointsLeft != null)
+        {
+            Manager.Instance.placeablePointsLeft.text = $"Placeable Points Left: {placeablePointLimit}";
+        }
+        StartCoroutine(StartText());
+    }
+
+    IEnumerator StartText()
+    {
+        yield return new WaitForSeconds(1.0f);
+        if (Manager.Instance.placeablePointsLeft != null)
+        {
+            Manager.Instance.placeablePointsLeft.text = $"Placeable Points Left: {placeablePointLimit}";
+        }
     }
 
     void Update()
@@ -64,6 +77,7 @@ public class Throwable : MonoBehaviour
 
     void DecreasePlaceableCount()
     {
+        if (placeablePointLimit < 1) return;
         placeablePointLimit--;
         Manager.Instance.placeablePointsLeft.text = $"Placeable Points Left: {placeablePointLimit}";
     }

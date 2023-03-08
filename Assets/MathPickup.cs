@@ -8,6 +8,8 @@ using UnityEngine.UIElements;
 
 public class MathPickup : MonoBehaviour
 {
+    public int numToTutorial; //I just created to access number from Tutorial
+
     public int randomMin = 1;
     public int randomMax = 10;
 
@@ -32,6 +34,8 @@ public class MathPickup : MonoBehaviour
         {
             string myText = textScript.EnterTextHere;
             int num;
+            Debug.Log("num");
+
             if (int.TryParse(myText, out num))
             {
                 if (MathManager.instance.currNumber == Int32.MinValue)

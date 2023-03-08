@@ -226,17 +226,17 @@ PrefabInstance:
     - target: {fileID: 8997996947095583982, guid: c5efc39a8aaf6e64ea40e9ad573e9b47,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8997996947095583982, guid: c5efc39a8aaf6e64ea40e9ad573e9b47,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 2.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8997996947095583982, guid: c5efc39a8aaf6e64ea40e9ad573e9b47,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8997996947095583982, guid: c5efc39a8aaf6e64ea40e9ad573e9b47,
         type: 3}
@@ -470,6 +470,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 107436883}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &107436885 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -8145806591405126809, guid: b550a39930bbdbe448cba362d0ef4c98,
+    type: 3}
+  m_PrefabInstance: {fileID: 107436883}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42b24a4aaa64ff84abbc6fe36d99a788, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &120259967
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -832,6 +844,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 301744825}
     m_Modifications:
+    - target: {fileID: -8145806591405126809, guid: b550a39930bbdbe448cba362d0ef4c98,
+        type: 3}
+      propertyPath: prevPoint
+      value: 
+      objectReference: {fileID: 107436885}
     - target: {fileID: -8145806591405126809, guid: b550a39930bbdbe448cba362d0ef4c98,
         type: 3}
       propertyPath: spawnPoint
@@ -3194,9 +3211,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Coins left
-
-'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3735,6 +3750,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1178543524}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1178543526 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6713909703875428915, guid: 2d3a85ecde41a8246a79669975912b74,
+    type: 3}
+  m_PrefabInstance: {fileID: 1178543524}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7ff6a86672bde4db9b3744f6435fee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1224202162
 GameObject:
   m_ObjectHideFlags: 0
@@ -3826,7 +3853,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1178543526}
         m_TargetAssemblyTypeName: PlayerCamera, Assembly-CSharp
         m_MethodName: setCamera
         m_Mode: 0
@@ -4257,7 +4284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29b15dfe618b7c542866ceaed67dc8f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextScene: tutorial01
+  nextScene: tutorial02
 --- !u!1 &1442780595
 GameObject:
   m_ObjectHideFlags: 0
@@ -4380,7 +4407,7 @@ GameObject:
   - component: {fileID: 1454883187}
   - component: {fileID: 1454883186}
   - component: {fileID: 1454883185}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5322,6 +5349,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8145806591405126809, guid: b550a39930bbdbe448cba362d0ef4c98,
         type: 3}
+      propertyPath: prevPoint
+      value: 
+      objectReference: {fileID: 107436885}
+    - target: {fileID: -8145806591405126809, guid: b550a39930bbdbe448cba362d0ef4c98,
+        type: 3}
       propertyPath: spawnPoint
       value: 
       objectReference: {fileID: 445778750}
@@ -5908,6 +5940,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Box_100x100x100_Prefab (19)
+      objectReference: {fileID: 0}
+    - target: {fileID: 899428459418414007, guid: e5f4daf24146ee040b5a2d7a73b30aa0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4043535580645081189, guid: e5f4daf24146ee040b5a2d7a73b30aa0,
         type: 3}

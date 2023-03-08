@@ -45,8 +45,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0.15, y: 0.4, z: 0}
+  m_Size: {x: 1.4331766, y: 1.2783487, z: 1}
+  m_Center: {x: 0.091639616, y: 0.4118093, z: 0}
 --- !u!114 &573321811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,9 +59,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1252ad66df4bab4a9bd66a463052c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomMin: -5
+  numToTutorial: 0
+  randomMin: 1
   randomMax: 10
-  respawnDelay: 30
+  respawnDelay: 15
 --- !u!1001 &3737196422141562255
 PrefabInstance:
   m_ObjectHideFlags: 0
